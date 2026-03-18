@@ -8,7 +8,7 @@ import json
 genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 st.write("API KEY VALUE:", os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("models/gemini-2.5-flash")
+model = genai.GenerativeModel("models/gemini-pro")
 
 st.title("Insurance Policy Analyzer")
 
