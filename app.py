@@ -1,11 +1,12 @@
+import os
 import streamlit as st
 import pdfplumber
 import google.generativeai as genai
 import json
 
 # 🔑 Add your Gemini API key
-import os
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
+st.write("API KEY VALUE:", os.getenv("GEMINI_API_KEY"))
 
 model = genai.GenerativeModel("models/gemini-2.5-flash")
 
