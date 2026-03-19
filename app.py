@@ -1,54 +1,49 @@
-import os
-import streamlit as st
-import pdfplumber
 import json
+import pdfplumber
+import gradio as gr
 from google import genai
 
 # ---------------------------
-# CONFIGURE CLIENT
+# CONFIG
 # ---------------------------
-client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
+MODEL_NAME = "gemini-2.0-flash"  # change to 2.5 if your key supports it
 
-MODEL_NAME = "gemini-2.0-flash"   # you can try 2.5 later if enabled
+# IMPORTANT: for local testing, replace with your key
+# For deployment (HF Spaces), we will use environment variables
+import os
+API_KEY = os.getenv("GEMINI_API_KEY")
 
-
-st.title("Insurance Policy Analyzer")
-
-uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
+client = genai.Client(api_key=API_KEY)
 
 
 # ---------------------------
-# Extract text from PDF
+# PDF TEXT EXTRACTION
 # ---------------------------
 def extract_text(file):
     text = ""
-    with pdfplumber.open(file) as pdf:
+    with pdfplumber.open(file.name) as pdf:
         for page in pdf.pages:
             text += page.extract_text() or ""
     return text
 
 
 # ---------------------------
-# Clean Gemini output
+# CLEAN + VALIDATE JSON
 # ---------------------------
 def clean_json(text):
     return text.replace("```json", "").replace("```", "").strip()
 
 
-# ---------------------------
-# Validate JSON
-# ---------------------------
 def validate_json(json_str):
     try:
         json_str = clean_json(json_str)
-        data = json.loads(json_str)
-        return True, data
-    except Exception:
-        return False, None
+        return json.loads(json_str)
+    except:
+        return None
 
 
 # ---------------------------
-# Gemini call wrapper
+# GEMINI CALL
 # ---------------------------
 def call_gemini(prompt):
     response = client.models.generate_content(
@@ -59,33 +54,35 @@ def call_gemini(prompt):
 
 
 # ---------------------------
-# EXTRACTION
+# EXTRACTION PROMPT
 # ---------------------------
 def run_extraction(text):
-    prompt = f"""<PASTE YOUR SAME EXTRACTION PROMPT HERE>
+    prompt = f"""
+You are an insurance policy data extraction engine.
+
+Return ONLY valid JSON.
+
 INPUT:
 {text}
 """
     return call_gemini(prompt)
 
 
-# ---------------------------
-# RETRY
-# ---------------------------
 def extract_with_retry(text):
     for _ in range(2):
         output = run_extraction(text)
-        is_valid, parsed = validate_json(output)
-        if is_valid:
+        parsed = validate_json(output)
+        if parsed:
             return parsed
     return None
 
 
 # ---------------------------
-# ANALYSIS
+# ANALYSIS PROMPT
 # ---------------------------
 def run_analysis(json_data):
-    prompt = f"""<PASTE YOUR SAME ANALYSIS PROMPT HERE>
+    prompt = f"""
+Explain this insurance policy in plain English.
 
 INPUT JSON:
 {json.dumps(json_data)}
@@ -94,39 +91,52 @@ INPUT JSON:
 
 
 # ---------------------------
-# MAIN FLOW
+# MAIN FUNCTION (Gradio)
 # ---------------------------
-if uploaded_file:
-    st.write("Reading PDF...")
-    text = extract_text(uploaded_file)
+def analyze_policy(file):
+    if file is None:
+        return "Please upload a file", None
 
-    st.write("Extracting structured data...")
-    parsed_json = extract_with_retry(text)
+    try:
+        text = extract_text(file)
 
-    if not parsed_json:
-        st.error("Extraction failed after retry")
-    else:
-        st.success("Extraction successful")
+        parsed_json = extract_with_retry(text)
 
-        st.subheader("Extracted Data")
-        st.json(parsed_json)
+        if not parsed_json:
+            return "Extraction failed", None
 
-        st.write("Analyzing policy...")
         report = run_analysis(parsed_json)
 
-        st.subheader("Policy Analysis")
-        st.markdown(report)
+        return report, parsed_json
 
-
-# ---------------------------
-# DEBUG BUTTON
-# ---------------------------
-if st.button("Test Gemini 2.x"):
-    try:
-        res = client.models.generate_content(
-            model=MODEL_NAME,
-            contents="Say hello in one line",
-        )
-        st.success(res.text)
     except Exception as e:
-        st.error(str(e))
+        return f"Error: {str(e)}", None
+
+
+# ---------------------------
+# GRADIO UI
+# ---------------------------
+with gr.Blocks(title="Policy Analyzer") as app:
+
+    gr.Markdown("# 🛡️ Insurance Policy Analyzer")
+
+    with gr.Row():
+        file_input = gr.File(label="Upload Policy PDF")
+
+    analyze_btn = gr.Button("Analyze Policy")
+
+    output_text = gr.Markdown(label="Policy Analysis")
+    output_json = gr.JSON(label="Extracted Data")
+
+    analyze_btn.click(
+        fn=analyze_policy,
+        inputs=file_input,
+        outputs=[output_text, output_json],
+    )
+
+
+# ---------------------------
+# RUN
+# ---------------------------
+if __name__ == "__main__":
+    app.launch()
