@@ -10,7 +10,7 @@ import tempfile
 client = genai.Client(
     api_key=st.secrets["GOOGLE_API_KEY"]
 )
-MODEL_NAME = "gemini-3-flash"
+MODEL_NAME = "gemini-3.1-pro"
 
 
 # ---------------------------
