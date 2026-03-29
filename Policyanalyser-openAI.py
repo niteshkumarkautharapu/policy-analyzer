@@ -421,7 +421,7 @@ Co-Pay: {parsed_json.get('copay')}
 Room Rent: {parsed_json.get('room_rent_limit')}  
 Members: {parsed_json.get('members_count')}
 """)
-                  st.markdown("## 🧠 Quick Understanding")
+                st.markdown("## 🧠 Quick Understanding")
                 st.markdown(summary)
 
                 st.markdown("## ⭐ Key Highlights")
