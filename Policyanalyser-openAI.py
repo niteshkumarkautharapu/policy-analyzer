@@ -386,9 +386,7 @@ INPUT JSON:
 st.title("🛡️ Insurance Policy Analyzer")
 st.info(
 """
-KnowYourPolicy helps interpret insurance documents for informational purposes only.
-This tool does not provide financial, legal, or insurance advice.
-Always verify details with your insurer and refer to your original policy document.
+KnowYourPolicy analyzes your insurance document to highlight coverage details, hidden clauses, limitations, financial risks, and real-world claim impact — so you clearly understand what your policy actually covers before you ever need to use it.
 """
 )
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
@@ -430,14 +428,6 @@ Members: {parsed_json.get('members_count')}
                 st.markdown(summary)
 
                 st.session_state["policy_json"] = parsed_json
-st.markdown("---")
-st.warning(
-"""
-This detailed analysis is AI-generated and intended to simplify policy understanding.
-It should not be treated as financial, legal, or insurance advice.
-Please verify with your insurer before making decisions.
-"""
-)
 
 if "policy_json" in st.session_state:
 
@@ -453,8 +443,6 @@ st.markdown("---")
 
 st.caption(
 """
-KnowYourPolicy provides AI-generated interpretation of uploaded policy documents.
-This tool does not replace your insurer, advisor, or policy document.
-Always refer to original policy wording before making decisions.
+KnowYourPolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
 """
 )
