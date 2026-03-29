@@ -7,7 +7,9 @@ import tempfile
 # ---------------------------
 # CONFIG
 # ---------------------------
-client = genai.Client(api_key="AIzaSyCXmuGVZX92B2hHzk4Gt_02Od03cqMSWOc")
+client = genai.Client(
+    api_key=st.secrets["GOOGLE_API_KEY"]
+)
 MODEL_NAME = "gemini-2.5-flash"
 
 
