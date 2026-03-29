@@ -386,7 +386,7 @@ INPUT JSON:
 st.title("🛡️ Insurance Policy Analyzer")
 st.info(
 """
-KnowYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
+checkyourpolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
 
 """
 )
@@ -444,6 +444,6 @@ st.markdown("---")
 
 st.caption(
 """
-KnowYourPolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
+checkyourpolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
 """
 )
