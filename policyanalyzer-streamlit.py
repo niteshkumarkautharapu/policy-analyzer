@@ -383,7 +383,11 @@ INPUT JSON:
 # ---------------------------
 
 st.title("🛡️ Insurance Policy Analyzer")
-st.info(""KnowYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.")
+st.info(
+"""  
+KnowYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
+
+""")
 
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
 
