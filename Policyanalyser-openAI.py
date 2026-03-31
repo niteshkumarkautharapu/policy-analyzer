@@ -393,6 +393,7 @@ title_col, nav_col = st.columns([3,2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
+    st.caption("Understand your insurance policy coverage, risks and limitations instantly")
 
 with nav_col:
     col1, col2, col3, col4 = st.columns(4)
