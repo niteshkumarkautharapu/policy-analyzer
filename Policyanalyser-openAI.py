@@ -429,17 +429,7 @@ with st.expander("🚧 Upcoming Features"):
 """)
 
 
-with st.expander("⚖️ Disclaimer"):
-    st.caption(
-    "This tool provides AI-generated interpretation for informational purposes only. "
-    "It does not constitute financial, legal, or insurance advice."
-    )
 
-    st.caption(
-    "Users should verify policy details with their insurer before making decisions."
-    )
-
-    st.caption("© 2026 CheckYourPolicy. All Rights Reserved.")
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
 
 if uploaded_file:
@@ -496,3 +486,4 @@ st.caption(
 checkyourpolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
 """
 )
+st.caption("© 2026 CheckYourPolicy. All Rights Reserved.")
