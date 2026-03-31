@@ -390,9 +390,54 @@ st.set_page_config(
 )
 
 st.title("🛡️ Check Your Policy")
+
+col1, col2, col3, col4, col5 = st.columns([3,1,1,1,1])
+
+with col2:
+    vision = st.button("🎯 Vision")
+
+with col3:
+    howto = st.button("ℹ️ How To")
+
+with col4:
+    privacy = st.button("🔒 Privacy")
+
+with col5:
+    upcoming = st.button("🚧 Upcoming")
+
+if vision:
+    st.info(
+    "Insurance policies are complex and often difficult to understand. "
+    "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
+    "coverage, limitations, financial risks, and claim behaviour — before they need to use their policy."
+    )
+
+if howto:
+    st.info("""
+1. Upload your insurance policy (PDF)  
+2. Review quick understanding and highlights  
+3. Generate detailed report (optional)
+""")
+
+if privacy:
+    st.info(
+    "Your uploaded documents are processed securely and are not stored permanently. "
+    "Analysis is generated only for the current session."
+    )
+
+if upcoming:
+    st.info("""
+• Policy comparison across insurers  
+• Claim scenario simulation  
+• Coverage gap detection  
+• Advisor connect  
+• Renewal alerts  
+• Family policy optimization  
+""")
+    
 st.info(
 """
-checkyourpolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
+CheckYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
 
 """
 )
