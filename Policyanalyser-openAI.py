@@ -389,28 +389,32 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🛡️ Check Your Policy")
+title_col, nav_col = st.columns([3,2])
 
-ccol1, col2, col3, col4, col5 = st.columns([3,1,1,1,1])
+with title_col:
+    st.title("🛡️ Check Your Policy")
 
-if "menu" not in st.session_state:
-    st.session_state.menu = None
+with nav_col:
+    col1, col2, col3, col4 = st.columns(4)
 
-with col2:
-    if st.button("🎯 Vision"):
-        st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
+    if "menu" not in st.session_state:
+        st.session_state.menu = None
 
-with col3:
-    if st.button("ℹ️ How To"):
-        st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
+    with col1:
+        if st.button("🎯 Vision"):
+            st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
-with col4:
-    if st.button("🔒 Privacy"):
-        st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
+    with col2:
+        if st.button("ℹ️ How To"):
+            st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
 
-with col5:
-    if st.button("🚧 Upcoming"):
-        st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
+    with col3:
+        if st.button("🔒 Privacy"):
+            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
+
+    with col4:
+        if st.button("🚧 Upcoming"):
+            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 if st.session_state.menu == "vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
