@@ -501,7 +501,7 @@ st.caption(
 CheckYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
 """
 """
-checkyourpolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
+CheckYourPolicy provides AI-generated interpretation of uploaded policy documents.This tool does not replace your insurer, advisor, or policy document.Always refer to original policy wording before making decisions.
 """
 )
 st.caption("© 2026 CheckYourPolicy. All Rights Reserved.")
