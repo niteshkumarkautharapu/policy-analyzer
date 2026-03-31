@@ -5,13 +5,6 @@ import json
 import tempfile
 import os
 
-st.set_page_config(
-    page_title="Check Your Policy",
-    page_icon="🛡️",
-    layout="wide"
-)
-
-st.title("🛡️ Check Your Policy")
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -389,6 +382,12 @@ INPUT JSON:
 # ---------------------------
 # STREAMLIT UI
 # ---------------------------
+
+st.set_page_config(
+    page_title="Check Your Policy",
+    page_icon="🛡️",
+    layout="wide"
+)
 
 st.title("🛡️ Check Your Policy")
 st.info(
