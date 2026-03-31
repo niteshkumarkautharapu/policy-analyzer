@@ -494,7 +494,7 @@ if "policy_json" in st.session_state:
             report = run_analysis(st.session_state["policy_json"])
 
             st.markdown(report)
-
+st.caption("Supports Health, Life, Motor Insurance Policies")
 st.markdown("---")
 st.caption(
     """
