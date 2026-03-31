@@ -390,6 +390,56 @@ checkyourpolicy analyzes your insurance document and highlights coverage details
 
 """
 )
+with st.expander("🎯 Our Vision"):
+    st.markdown(
+    "Insurance policies are complex and often difficult to understand. "
+    "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
+    "coverage, limitations, financial risks, and claim behaviour — before they need to use their policy."
+    )
+
+
+with st.expander("ℹ️ What This Tool Does & How To Use"):
+    st.markdown(
+    "Upload your insurance policy document to receive a simplified breakdown of coverage, "
+    "hidden clauses, limitations, and financial risks."
+    )
+
+    st.markdown("""
+1. Upload your insurance policy (PDF)  
+2. Review quick understanding and highlights  
+3. Generate detailed report (optional)
+""")
+
+
+with st.expander("🔒 Privacy & Security"):
+    st.caption(
+    "Your uploaded documents are processed securely and are not stored permanently. "
+    "Analysis is generated only for the current session."
+    )
+
+
+with st.expander("🚧 Upcoming Features"):
+    st.markdown("""
+• Policy comparison across insurers  
+• Claim scenario simulation  
+• Coverage gap detection  
+• Advisor connect  
+• Renewal alerts  
+• Family policy optimization  
+""")
+
+
+with st.expander("⚖️ Disclaimer"):
+    st.caption(
+    "This tool provides AI-generated interpretation for informational purposes only. "
+    "It does not constitute financial, legal, or insurance advice."
+    )
+
+    st.caption(
+    "Users should verify policy details with their insurer before making decisions."
+    )
+
+    st.caption("© 2026 CheckYourPolicy. All Rights Reserved.")
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
 
 if uploaded_file:
