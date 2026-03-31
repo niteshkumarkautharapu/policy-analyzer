@@ -446,10 +446,6 @@ elif st.session_state.menu == "upcoming":
 • Family policy optimization  
 """)
   
-
-with st.container():
-    st.markdown("### 📄 Upload Your Policy")
-
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
 
 if uploaded_file:
