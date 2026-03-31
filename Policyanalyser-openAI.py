@@ -391,26 +391,26 @@ st.set_page_config(
 
 st.title("🛡️ Check Your Policy")
 
-col1, col2, col3, col4, col5 = st.columns([3,1,1,1,1])
+ccol1, col2, col3, col4, col5 = st.columns([3,1,1,1,1])
 
 if "menu" not in st.session_state:
     st.session_state.menu = None
 
 with col2:
     if st.button("🎯 Vision"):
-        st.session_state.menu = "vision"
+        st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
 with col3:
     if st.button("ℹ️ How To"):
-        st.session_state.menu = "howto"
+        st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
 
 with col4:
     if st.button("🔒 Privacy"):
-        st.session_state.menu = "privacy"
+        st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
 
 with col5:
     if st.button("🚧 Upcoming"):
-        st.session_state.menu = "upcoming"
+        st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 if st.session_state.menu == "vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
