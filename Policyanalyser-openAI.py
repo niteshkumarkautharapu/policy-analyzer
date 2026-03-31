@@ -393,39 +393,45 @@ st.title("🛡️ Check Your Policy")
 
 col1, col2, col3, col4, col5 = st.columns([3,1,1,1,1])
 
+if "menu" not in st.session_state:
+    st.session_state.menu = None
+
 with col2:
-    vision = st.button("🎯 Vision")
+    if st.button("🎯 Vision"):
+        st.session_state.menu = "vision"
 
 with col3:
-    howto = st.button("ℹ️ How To")
+    if st.button("ℹ️ How To"):
+        st.session_state.menu = "howto"
 
 with col4:
-    privacy = st.button("🔒 Privacy")
+    if st.button("🔒 Privacy"):
+        st.session_state.menu = "privacy"
 
 with col5:
-    upcoming = st.button("🚧 Upcoming")
-
-if vision:
+    if st.button("🚧 Upcoming"):
+        st.session_state.menu = "upcoming"
+if st.session_state.menu == "vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
     "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
     "coverage, limitations, financial risks, and claim behaviour — before they need to use their policy."
     )
 
-if howto:
+elif st.session_state.menu == "howto":
     st.info("""
 1. Upload your insurance policy (PDF)  
 2. Review quick understanding and highlights  
 3. Generate detailed report (optional)
 """)
 
-if privacy:
+elif st.session_state.menu == "privacy":
     st.info(
     "Your uploaded documents are processed securely and are not stored permanently. "
     "Analysis is generated only for the current session."
     )
 
-if upcoming:
+elif st.session_state.menu == "upcoming":
     st.info("""
 • Policy comparison across insurers  
 • Claim scenario simulation  
