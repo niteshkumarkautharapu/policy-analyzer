@@ -445,7 +445,7 @@ elif st.session_state.menu == "upcoming":
 • Renewal alerts  
 • Family policy optimization  
 """)
-  st.markdown("<br>", unsafe_allow_html=True)
+ 
 st.markdown("---")
 uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
 
