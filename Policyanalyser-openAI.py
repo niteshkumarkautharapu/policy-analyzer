@@ -445,11 +445,20 @@ elif st.session_state.menu == "upcoming":
 • Renewal alerts  
 • Family policy optimization  
 """)
+
+with st.container():
+    st.markdown("### 📄 Upload Your Policy")
+
+    uploaded_file = st.file_uploader(
+        "Upload your insurance policy document (PDF)",
+        type=["pdf"]
+    )
+
+    st.caption("Supports Health, Life, Motor Insurance Policies")
     
 st.info(
 """
 CheckYourPolicy analyzes your insurance document and highlights coverage details, hidden clauses, limitations, financial risks, and real-world claim impact for your understanding.
-
 """
 )
 
