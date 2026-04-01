@@ -469,7 +469,7 @@ with menu_placeholder:
 
         st.caption("""
 • Motor and Life Insurance Category  
-• Report download
+• Report download 
 • Multi-policy analysis
 """)
 
