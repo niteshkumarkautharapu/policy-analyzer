@@ -511,6 +511,44 @@ st.markdown(
 <div style="text-align:right; font-size:12px; color:gray;">
 © 2026 CheckYourPolicy. All Rights Reserved.
 </div>
+
+st.markdown("---")
+
+footer_col1, footer_col2, footer_col3 = st.columns([1,1,5])
+
+with footer_col1:
+    if st.button("Privacy"):
+        st.session_state.footer = "privacy"
+
+with footer_col2:
+    if st.button("Terms"):
+        st.session_state.footer = "terms"
+
+        if "footer" not in st.session_state:
+    st.session_state.footer = None
+
+if st.session_state.footer == "privacy":
+    st.markdown("### Privacy")
+    st.caption(
+    "Uploaded documents are processed securely and not stored permanently. "
+    "No personal data is shared with third parties."
+    )
+
+elif st.session_state.footer == "terms":
+    st.markdown("### Terms of Use")
+    st.caption(
+    "CheckYourPolicy provides AI-generated analysis for informational purposes only. "
+    "Users should verify policy details before making decisions."
+    )
+""",
+unsafe_allow_html=True
+)
+
+st.markdown(
+"""
+<div style="text-align:right; font-size:12px; color:gray;">
+© 2026 CheckYourPolicy. All Rights Reserved.
+</div>
 """,
 unsafe_allow_html=True
 )
