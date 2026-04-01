@@ -575,13 +575,57 @@ with footer_col2:
     unsafe_allow_html=True
     )
 
-
-if st.session_state.footer == "privacy":
+ if st.session_state.footer == "privacy":
     st.markdown("---")
-    st.info(
-    "Privacy: Uploaded documents are processed securely and not stored permanently. "
-    "No personal data is shared with third parties."
-    )
+    st.info("""
+Privacy Policy
+
+1. Document Security  
+Uploaded insurance documents are processed securely using encrypted connections.  
+We do not permanently store uploaded policy documents.
+
+2. Data Usage  
+Uploaded documents are used only for:
+
+• Policy extraction  
+• Analysis generation  
+• Report creation  
+
+Documents are not used for training models.
+
+3. No Third-Party Sharing  
+We do not sell, share, or distribute user documents or personal data to third parties.
+
+4. Temporary Processing  
+Documents may be temporarily processed in secure systems to generate reports and are discarded afterward.
+
+5. Personal Information  
+We do not require:
+
+• Name  
+• Phone number  
+• Email  
+• Identity information  
+
+Unless voluntarily provided by users.
+
+6. Payment Information (Premium Reports)  
+Payments are handled by secure payment providers.  
+We do not store card or banking details.
+
+7. Data Retention  
+Generated reports may be temporarily cached for performance but not permanently stored.
+
+8. User Responsibility  
+Users should avoid uploading documents containing unrelated sensitive personal information.
+
+9. Policy Updates  
+Privacy policy may be updated periodically to improve transparency and compliance.
+
+10. Contact  
+For privacy concerns, contact: support@checkyourpolicy.com
+""")
+    
 
 if st.session_state.footer == "terms":
     st.markdown("---")
