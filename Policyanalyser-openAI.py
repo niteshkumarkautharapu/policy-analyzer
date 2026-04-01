@@ -419,6 +419,7 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
 if st.session_state.menu == "vision":
+    st.markdown("### 🎯 Vision")
     st.info(
     "Insurance policies are complex and often difficult to understand. "
     "CheckYourPolicy simplifies policies and helps users understand coverage, risks, "
@@ -426,6 +427,7 @@ if st.session_state.menu == "vision":
     )
 
 elif st.session_state.menu == "howto":
+    st.markdown("### ℹ️ How To")
     st.info("""
 1. Upload your insurance policy or policy draft (PDF)  
 2. Review quick understanding and highlights  
@@ -433,11 +435,13 @@ elif st.session_state.menu == "howto":
 """)
 
 elif st.session_state.menu == "privacy":
+    st.markdown("### 🔒 Privacy")
     st.info(
     "Your uploaded documents are processed securely and are not stored permanently."
     )
 
 elif st.session_state.menu == "upcoming":
+    st.markdown("### 🚧 Upcoming Features")
     st.info("""
 • Policy comparison across insurers  
 • Claim scenario simulation  
