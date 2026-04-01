@@ -393,7 +393,7 @@ title_col, nav_col = st.columns([3,2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
-    st.caption("Understand your insurance policy coverage, risks and limitations instantly.Covers Health, Motor,Life Insurance.")
+    st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
 
 with nav_col:
 
@@ -468,8 +468,9 @@ with menu_placeholder:
         st.markdown("### 🚀 More Features")
 
         st.caption("""
-• Multi-policy analysis  
-• Report download  
+• Motor and Life Insurance Category  
+• Report download
+• Multi-policy analysis
 """)
 
 st.markdown("---")
