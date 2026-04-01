@@ -440,7 +440,6 @@ elif st.session_state.menu == "About":
 
 elif st.session_state.menu == "upcoming":
    st.markdown("### Current Free Analysis")
-
     st.caption("""
     • Coverage summary  
     • Key highlights & limitations  
@@ -450,7 +449,6 @@ elif st.session_state.menu == "upcoming":
     """)
 
     st.markdown("### Premium Detailed Report (Planned)")
-
     st.caption("""
     • Clause-by-clause breakdown  
     • Hidden conditions detection  
@@ -462,7 +460,6 @@ elif st.session_state.menu == "upcoming":
     """)
 
     st.markdown("### Next Phase Roadmap")
-
     st.caption("""
     • Policy comparison across insurers  
     • Multi-policy analysis  
@@ -472,7 +469,6 @@ elif st.session_state.menu == "upcoming":
     """)
 
 st.markdown("### How To Use")
-
 st.info(
 "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
 )
