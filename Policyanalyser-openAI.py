@@ -583,9 +583,56 @@ if st.session_state.footer == "privacy":
     "No personal data is shared with third parties."
     )
 
-elif st.session_state.footer == "terms":
+    elif st.session_state.footer == "terms":
     st.markdown("---")
-    st.info(
-    "Terms: CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
-    "Users should verify policy details before making decisions."
-    )
+    st.info("""
+Terms & Conditions
+
+1. Informational Purpose Only  
+CheckYourPolicy provides AI-generated analysis of insurance policy documents for informational purposes only.  
+This does not constitute financial, legal, or insurance advice.
+
+2. No Guarantee of Accuracy  
+While we strive for accuracy, AI-generated insights may contain errors or omissions.  
+Users must verify policy details directly with insurers or advisors.
+
+3. No Liability  
+CheckYourPolicy shall not be liable for:
+
+• Claim rejection  
+• Financial loss  
+• Coverage misunderstanding  
+• Policy purchase decisions  
+
+Users are solely responsible for decisions made using this report.
+
+4. Document Handling  
+Uploaded documents are processed securely and not permanently stored.  
+We do not share user documents with third parties.
+
+5. Premium Reports  
+Premium reports provide deeper analysis but do not guarantee:
+
+• Claim approval  
+• Coverage suitability  
+• Financial outcome  
+
+Premium reports remain informational.
+
+6. Service Availability  
+We reserve the right to:
+
+• Modify features  
+• Change pricing  
+• Limit access  
+• Suspend service  
+
+Without prior notice.
+
+7. Intellectual Property  
+Reports generated are for personal use only.  
+Commercial redistribution is not permitted.
+
+8. Acceptance of Terms  
+By using CheckYourPolicy, users agree to these Terms & Conditions.
+""")
