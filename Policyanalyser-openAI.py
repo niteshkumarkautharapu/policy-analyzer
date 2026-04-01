@@ -583,7 +583,7 @@ if st.session_state.footer == "privacy":
     "No personal data is shared with third parties."
     )
 
-    elif st.session_state.footer == "terms":
+if st.session_state.footer == "terms":
     st.markdown("---")
     st.info("""
 Terms & Conditions
