@@ -502,13 +502,8 @@ if "policy_json" in st.session_state:
             st.markdown(report)
 st.caption("Supports Health, Life, Motor Insurance Policies")
 st.markdown("---")
-
 st.caption(
-"CheckYourPolicy analyzes insurance policies to highlight coverage, limitations, and financial risks."
-)
-
-st.caption(
-"This tool does not replace your insurer or advisor. Always refer to original policy wording."
+"CheckYourPolicy provides AI-generated insurance policy analysis to highlight coverage, limitations, and financial risks. This tool does not replace your insurer, advisor, or policy document — always refer to original policy wording before making decisions."
 )
 
 st.markdown(
