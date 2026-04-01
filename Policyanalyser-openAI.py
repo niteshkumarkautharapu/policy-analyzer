@@ -395,58 +395,32 @@ with title_col:
     st.title("🛡️ Check Your Policy")
     st.caption("Understand your insurance policy coverage, risks and limitations instantly")
 
-with nav_col:
-    st.markdown(
-"""
-<span style="float:right">
-<a href="#" style="margin-right:10px">🎯 Vision</a> |
-<a href="#" style="margin-left:10px; margin-right:10px">ℹ️ How To</a> |
-<a href="#" style="margin-left:10px; margin-right:10px">🔒 Privacy</a> |
-<a href="#" style="margin-left:10px">🚧 Upcoming</a>
-</span>
-""",
-unsafe_allow_html=True
+nav = st.radio(
+"",
+["🎯 Vision", "ℹ️ How To", "🔒 Privacy", "🚧 Upcoming"],
+horizontal=True
 )
-
-    if "menu" not in st.session_state:
-        st.session_state.menu = None
-
-    with col1:
-        if st.button("🎯 Vision"):
-            st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
-
-    with col2:
-        if st.button("ℹ️ How To"):
-            st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
-
-    with col3:
-        if st.button("🔒 Privacy"):
-            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
-
-    with col4:
-        if st.button("🚧 Upcoming"):
-            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
-if st.session_state.menu == "vision":
+    if nav == "🎯 Vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
     "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
     "coverage, limitations, financial risks, and claim behaviour — before they need to use their policy."
     )
 
-elif st.session_state.menu == "howto":
+elif nav == "ℹ️ How To":
     st.info("""
 1. Upload your insurance policy or policy draft (PDF)  
 2. Review quick understanding and highlights  
 3. Generate detailed report (optional)
 """)
 
-elif st.session_state.menu == "privacy":
+elif nav == "🔒 Privacy":
     st.info(
     "Your uploaded documents are processed securely and are not stored permanently. "
     "Analysis is generated only for the current session."
     )
 
-elif st.session_state.menu == "upcoming":
+elif nav == "🚧 Upcoming":
     st.info("""
 • Policy comparison across insurers  
 • Claim scenario simulation  
