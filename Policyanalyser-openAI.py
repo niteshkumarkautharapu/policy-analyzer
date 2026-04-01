@@ -521,10 +521,10 @@ if "footer" not in st.session_state:
     st.session_state.footer = None
 
 
-col1, col2 = st.columns([8,2])
+footer_col1, footer_col2 = st.columns([6,4])
 
-with col2:
-    btn1, btn2, btn3 = st.columns([1,1,2])
+with footer_col1:
+    btn1, btn2 = st.columns([1,1])
 
     with btn1:
         if st.button("Privacy", key="privacy_footer"):
@@ -534,15 +534,16 @@ with col2:
         if st.button("Terms", key="terms_footer"):
             st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
 
-    with btn3:
-        st.markdown(
-        """
-        <div style="text-align:right; font-size:11px; color:#999;">
-        © 2026 CheckYourPolicy
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
+
+with footer_col2:
+    st.markdown(
+    """
+    <div style="text-align:right; font-size:11px; color:#999;">
+    © 2026 CheckYourPolicy
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
 
 
 if st.session_state.footer == "privacy":
