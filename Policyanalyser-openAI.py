@@ -453,6 +453,7 @@ with menu_placeholder:
 
     elif st.session_state.menu == "upcoming":
 
+    
     st.markdown("### 🔒 Premium Detailed Report")
 
     st.caption("""
