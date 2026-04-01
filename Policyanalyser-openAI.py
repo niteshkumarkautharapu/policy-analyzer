@@ -453,21 +453,24 @@ with menu_placeholder:
 
     elif st.session_state.menu == "upcoming":
 
-        st.markdown("### 🔒 Premium Detailed Report")
+    st.markdown("### 🔒 Premium Detailed Report")
 
-        st.caption("""
+    st.caption("""
 • Clause-by-clause breakdown  
 • Hidden conditions detection  
 • Claim rejection risk analysis  
 • Coverage gap identification  
-• Personalized insights  
+• Sum insured adequacy analysis  
+• Personalized risk insights  
+• Financial risk explanation  
 """)
+
 
     st.markdown("### 🚀 More Features")
 
     st.caption("""
 • Multi-policy analysis  
-• Report Download
+• Report download  
 """)
 
 st.markdown("---")
