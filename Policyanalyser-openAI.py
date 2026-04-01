@@ -447,7 +447,7 @@ elif st.session_state.menu == "upcoming":
 """)
  
 st.markdown("---")
-uploaded_file = st.file_uploader("Upload Policy PDF", type="pdf")
+uploaded_file = st.file_uploader("Upload Policy PDF to start analysis", type="pdf")
 
 if uploaded_file:
 
