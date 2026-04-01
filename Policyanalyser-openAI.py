@@ -501,14 +501,43 @@ if "policy_json" in st.session_state:
 
             st.markdown(report)
 st.caption("Supports Health, Life, Motor Insurance Policies")
-st.markdown("---")
-st.caption(
-"CheckYourPolicy provides AI-generated insurance policy analysis to highlight coverage, limitations, and financial risks. This tool does not replace your insurer, advisor, or policy document — always refer to original policy wording before making decisions."
-)
 
-st.markdown(
-"""
-<div style="text-align:right; font-size:12px; color:gray;">
-© 2026 CheckYourPolicy. All Rights Reserved.
-</div>
-""")
+st.markdown("---")
+
+footer_col1, footer_col2, footer_col3 = st.columns([2,2,6])
+
+if "footer" not in st.session_state:
+    st.session_state.footer = None
+
+with footer_col1:
+    if st.button("Privacy"):
+        st.session_state.footer = None if st.session_state.footer == "privacy" else "privacy"
+
+with footer_col2:
+    if st.button("Terms"):
+        st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
+
+with footer_col3:
+    st.markdown(
+    """
+    <div style="text-align:right; font-size:12px; color:gray;">
+    © 2026 CheckYourPolicy. All Rights Reserved.
+    </div>
+    """,
+    unsafe_allow_html=True
+    )
+
+
+if st.session_state.footer == "privacy":
+    st.markdown("### Privacy")
+    st.caption(
+    "Uploaded documents are processed securely and not stored permanently. "
+    "No personal data is shared with third parties."
+    )
+
+elif st.session_state.footer == "terms":
+    st.markdown("### Terms of Use")
+    st.caption(
+    "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
+    "Users should verify policy details before making decisions."
+    )
