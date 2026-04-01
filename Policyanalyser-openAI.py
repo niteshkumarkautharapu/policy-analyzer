@@ -509,21 +509,20 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
+col1, col2 = st.columns([8,2])
 
-footer_col1, footer_col2 = st.columns([8,2])
+with col2:
+    link1, link2, link3 = st.columns([1,1,2])
 
-with footer_col2:
-    col1, col2, col3 = st.columns([1,1,2])
-
-    with col1:
-        if st.button("Privacy", key="privacy_footer"):
+    with link1:
+        if st.button("Privacy", key="privacy_link", type="secondary"):
             st.session_state.footer_section = None if st.session_state.footer_section == "privacy" else "privacy"
 
-    with col2:
-        if st.button("Terms", key="terms_footer"):
+    with link2:
+        if st.button("Terms", key="terms_link", type="secondary"):
             st.session_state.footer_section = None if st.session_state.footer_section == "terms" else "terms"
 
-    with col3:
+    with link3:
         st.markdown(
         """
         <div style="text-align:right; font-size:11px; color:#999;">
