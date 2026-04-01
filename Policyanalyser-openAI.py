@@ -397,7 +397,7 @@ with title_col:
 
 with nav_col:
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     if "menu" not in st.session_state:
         st.session_state.menu = None
@@ -411,10 +411,6 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
 
     with col3:
-        if st.button("🔒 Privacy"):
-            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
-
-    with col4:
         if st.button("🚧 Upcoming"):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
@@ -433,12 +429,6 @@ elif st.session_state.menu == "howto":
 2. Review quick understanding and highlights  
 3. Generate detailed report (optional)
 """)
-
-elif st.session_state.menu == "privacy":
-    st.markdown("### 🔒 Privacy")
-    st.info(
-    "Your uploaded documents are processed securely and are not stored permanently."
-    )
 
 elif st.session_state.menu == "upcoming":
     st.markdown("### 🚧 Upcoming Features")
