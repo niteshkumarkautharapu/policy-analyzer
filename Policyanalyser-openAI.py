@@ -393,7 +393,7 @@ title_col, nav_col = st.columns([3,2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
-    st.caption("Understand your insurance policy coverage, risks and limitations instantly.Covers Health, Motor,Life Insurance")
+    st.caption("Understand your insurance policy coverage, risks and limitations instantly.Covers Health, Motor,Life Insurance.")
 
 with nav_col:
 
@@ -453,16 +453,6 @@ with menu_placeholder:
 
     elif st.session_state.menu == "upcoming":
 
-        st.markdown("### 🟢 Free Policy Analysis")
-
-        st.caption("""
-• Coverage summary  
-• Key highlights  
-• Major exclusions  
-• Financial risk indicators  
-""")
-
-
         st.markdown("### 🔒 Premium Detailed Report")
 
         st.caption("""
@@ -473,15 +463,11 @@ with menu_placeholder:
 • Personalized insights  
 """)
 
-
-        st.markdown("### 🚀 Next Phase Roadmap")
+  st.markdown("### 🚀 More Features")
 
         st.caption("""
-• Policy comparison across insurers  
 • Multi-policy analysis  
-• Family policy optimization  
-• Renewal insights  
-• Advisor connect  
+• Report Download
 """)
 
 st.markdown("---")
