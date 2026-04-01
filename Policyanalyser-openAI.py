@@ -450,13 +450,11 @@ with menu_placeholder:
 • Avoid claim surprises  
 """)
 
-
     elif st.session_state.menu == "upcoming":
 
-    
-    st.markdown("### 🔒 Premium Detailed Report")
+        st.markdown("### 🔒 Premium Detailed Report")
 
-    st.caption("""
+        st.caption("""
 • Clause-by-clause breakdown  
 • Hidden conditions detection  
 • Claim rejection risk analysis  
@@ -467,9 +465,9 @@ with menu_placeholder:
 """)
 
 
-    st.markdown("### 🚀 More Features")
+        st.markdown("### 🚀 More Features")
 
-    st.caption("""
+        st.caption("""
 • Policy comparison across insurers  
 • Multi-policy analysis  
 • Family policy optimization  
