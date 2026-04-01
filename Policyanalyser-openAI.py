@@ -397,7 +397,7 @@ with title_col:
 
 with nav_col:
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
 
     if "menu" not in st.session_state:
         st.session_state.menu = None
@@ -407,68 +407,104 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
     with col2:
-        if st.button("ℹ️ About"):
-            st.session_state.menu = None if st.session_state.menu == "About" else "About"
+        if st.button("ℹ️ What is CheckYourPolicy"):
+            st.session_state.menu = None if st.session_state.menu == "about" else "about"
 
     with col3:
+        if st.button("🔒 Privacy"):
+            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
+
+    with col4:
         if st.button("🚧 Upcoming"):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
+
+# ---------------------------
+# NAVIGATION CONTENT
+# ---------------------------
+
 if st.session_state.menu == "vision":
+
     st.markdown("### 🎯 Vision")
+
     st.info(
-    "Insurance policies are complex and often difficult to understand. "
-    "CheckYourPolicy simplifies policies and helps users understand coverage, risks, "
-    "and claim behaviour."
+    "Insurance policies are complex and difficult to understand. "
+    "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
+    "limitations, and real-world claim behaviour — helping users make informed decisions."
     )
 
-elif st.session_state.menu == "About":
-    st.markdown("### ℹ️ About")
-    st.info("""
-"CheckYourPolicy analyzes your insurance document to identify coverage details, exclusions, limitations, "
-"financial risks, and real-world claim impact — helping you clearly understand what your policy actually covers."
-""")
+
+elif st.session_state.menu == "about":
+
+    st.markdown("### ℹ️ What is CheckYourPolicy")
+
+    st.info(
+    "CheckYourPolicy analyzes your insurance document to identify coverage details, "
+    "hidden clauses, exclusions, financial risks, and real-world claim impact."
+    )
+
     st.caption("""
-    CheckYourPolicy helps users:
-    
-    • Understand what is covered and what is not  
-    • Identify hidden clauses and exclusions  
-    • Highlight financial risks  
-    • Avoid claim surprises  
-    • Make informed insurance decisions  
-    """)
+• Understand what is covered and what is not  
+• Identify hidden clauses and exclusions  
+• Highlight financial risks  
+• Avoid claim surprises  
+• Make informed insurance decisions  
+""")
+
+
+elif st.session_state.menu == "privacy":
+
+    st.markdown("### 🔒 Privacy")
+
+    st.info(
+    "Uploaded documents are processed securely and not stored permanently. "
+    "No personal data is shared with third parties."
+    )
+
 
 elif st.session_state.menu == "upcoming":
-   st.markdown("### Current Free Analysis")
-    st.caption("""
-    • Coverage summary  
-    • Key highlights & limitations  
-    • Major exclusions  
-    • Financial risk indicators  
-    • Quick policy understanding  
-    """)
 
-    st.markdown("### Premium Detailed Report (Planned)")
-    st.caption("""
-    • Clause-by-clause breakdown  
-    • Hidden conditions detection  
-    • Claim rejection risk analysis  
-    • Coverage gap identification  
-    • Sum insured adequacy check  
-    • Personalized recommendations  
-    • Risk scoring  
-    """)
+    st.markdown("### 🟢 Free Policy Analysis")
 
-    st.markdown("### Next Phase Roadmap")
     st.caption("""
-    • Policy comparison across insurers  
-    • Multi-policy analysis  
-    • Family coverage optimization  
-    • Renewal recommendations  
-    • Advisor connect  
-    """)
+• Coverage summary  
+• Key highlights & limitations  
+• Major exclusions  
+• Financial risk indicators  
+• Quick policy understanding  
+""")
+
+
+    st.markdown("### 🔒 Premium Detailed Report")
+
+    st.caption("""
+• Clause-by-clause breakdown  
+• Hidden conditions detection  
+• Claim rejection risk analysis  
+• Coverage gap identification  
+• Sum insured adequacy analysis  
+• Personalized risk insights  
+• Financial risk explanation  
+""")
+
+
+    st.markdown("### 🚀 Next Phase Roadmap")
+
+    st.caption("""
+• Policy comparison across insurers  
+• Multi-policy analysis  
+• Family policy optimization  
+• Renewal insights  
+• Advisor connect  
+""")
+
+
+# ---------------------------
+# HOW TO USE (Always Visible)
+# ---------------------------
 
 st.markdown("### How To Use")
+
 st.info(
 "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
 )
@@ -477,8 +513,9 @@ st.caption("""
 1. Upload your policy document (PDF)  
 2. AI analyzes coverage, exclusions and risks  
 3. Review key highlights and findings  
-4. Identify potential gaps and limitations  
-""") 
+4. Generate detailed report if needed  
+""")
+
 st.markdown("---")
 uploaded_file = st.file_uploader("Upload Policy PDF to start analysis", type="pdf")
 
