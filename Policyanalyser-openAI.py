@@ -395,33 +395,49 @@ with title_col:
     st.title("🛡️ Check Your Policy")
     st.caption("Understand your insurance policy coverage, risks and limitations instantly")
 
-nav = st.radio(
-"",
-["🎯 Vision", "ℹ️ How To", "🔒 Privacy", "🚧 Upcoming"],
-horizontal=True
-)
+with nav_col:
 
-if nav == "🎯 Vision":
+    col1, col2, col3, col4 = st.columns(4)
+
+    if "menu" not in st.session_state:
+        st.session_state.menu = None
+
+    with col1:
+        if st.button("🎯 Vision"):
+            st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
+
+    with col2:
+        if st.button("ℹ️ How To"):
+            st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
+
+    with col3:
+        if st.button("🔒 Privacy"):
+            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
+
+    with col4:
+        if st.button("🚧 Upcoming"):
+            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
+
+if st.session_state.menu == "vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
-    "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
-    "coverage, limitations, financial risks, and claim behaviour — before they need to use their policy."
+    "CheckYourPolicy simplifies policies and helps users understand coverage, risks, "
+    "and claim behaviour."
     )
 
-elif nav == "ℹ️ How To":
+elif st.session_state.menu == "howto":
     st.info("""
 1. Upload your insurance policy or policy draft (PDF)  
 2. Review quick understanding and highlights  
 3. Generate detailed report (optional)
 """)
 
-elif nav == "🔒 Privacy":
+elif st.session_state.menu == "privacy":
     st.info(
-    "Your uploaded documents are processed securely and are not stored permanently. "
-    "Analysis is generated only for the current session."
+    "Your uploaded documents are processed securely and are not stored permanently."
     )
 
-elif nav == "🚧 Upcoming":
+elif st.session_state.menu == "upcoming":
     st.info("""
 • Policy comparison across insurers  
 • Claim scenario simulation  
