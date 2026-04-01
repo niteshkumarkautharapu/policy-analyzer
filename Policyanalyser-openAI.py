@@ -449,17 +449,6 @@ elif st.session_state.menu == "About":
 
 elif st.session_state.menu == "upcoming":
 
-    st.markdown("### 🟢 Free Policy Analysis")
-
-    st.caption("""
-• Coverage summary  
-• Key highlights & limitations  
-• Major exclusions  
-• Financial risk indicators  
-• Quick policy understanding  
-""")
-
-
     st.markdown("### 🔒 Premium Detailed Report")
 
     st.caption("""
