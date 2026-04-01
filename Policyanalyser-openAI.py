@@ -508,33 +508,25 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
-params = st.query_params
-
 footer_col1, footer_col2 = st.columns([8,2])
 
 with footer_col2:
     st.markdown(
     """
-    <div style="text-align:right; font-size:12px;">
-    <a href="?section=privacy" style="color:#999; text-decoration:none;">Privacy</a> |
-    <a href="?section=terms" style="color:#999; text-decoration:none;">Terms</a> |
-    <span style="color:#999;">© 2026 CheckYourPolicy</span>
+    <div style="text-align:right; font-size:12px; color:#999;">
+    Privacy | Terms | © 2026 CheckYourPolicy
     </div>
     """,
     unsafe_allow_html=True
 )
 
-section = params.get("section")
-
-if section == "privacy":
-    st.markdown("### Privacy")
+with st.expander("Privacy"):
     st.caption(
     "Uploaded documents are processed securely and not stored permanently. "
     "No personal data is shared with third parties."
     )
 
-elif section == "terms":
-    st.markdown("### Terms")
+with st.expander("Terms"):
     st.caption(
     "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
     "Users should verify policy details before making decisions."
