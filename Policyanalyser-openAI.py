@@ -468,10 +468,9 @@ with menu_placeholder:
         st.markdown("### 🚀 More Features")
 
         st.caption("""
-• Clause-by-clause breakdown  
-• Hidden conditions detection  
-• Claim rejection risk analysis  
-• Coverage gap identification
+• Motor and Life Insurance Category  
+• Report Download  
+• Multi Policy Comparision  
 """)
 
 st.markdown("---")
