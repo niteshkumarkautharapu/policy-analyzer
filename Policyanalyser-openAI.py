@@ -469,9 +469,6 @@ with menu_placeholder:
 
         st.caption("""
 • Multi-policy analysis  
-• Family policy optimization  
-• Renewal insights  
-• Advisor connect  
 • Report download  
 """)
 
