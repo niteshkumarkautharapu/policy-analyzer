@@ -469,6 +469,7 @@ with menu_placeholder:
 
         st.caption("""
 • Motor and Life Insurance Category  
+•  Multi-policy analysis
 • Report download 
 • Multi-policy analysis
 """)
