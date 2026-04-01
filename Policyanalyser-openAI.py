@@ -511,4 +511,4 @@ st.markdown(
 <div style="text-align:right; font-size:12px; color:gray;">
 © 2026 CheckYourPolicy. All Rights Reserved.
 </div>
-
+""")
