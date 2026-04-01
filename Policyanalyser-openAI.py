@@ -511,4 +511,11 @@ st.caption(
 "This tool does not replace your insurer or advisor. Always refer to original policy wording."
 )
 
-st.caption("© 2026 CheckYourPolicy. All Rights Reserved.")
+st.markdown(
+"""
+<div style="text-align:right; font-size:12px; color:gray;">
+© 2026 CheckYourPolicy. All Rights Reserved.
+</div>
+""",
+unsafe_allow_html=True
+)
