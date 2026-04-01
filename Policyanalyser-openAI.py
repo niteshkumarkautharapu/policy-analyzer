@@ -524,7 +524,7 @@ if "footer" not in st.session_state:
 footer_col1, footer_col2 = st.columns([1,1])
 
 with footer_col1:
-    btn1, btn2 = st.columns([1,1])
+    btn1, btn2 = st.columns([0,0])
 
     with btn1:
         if st.button("Privacy", key="privacy_footer"):
