@@ -436,7 +436,7 @@ if st.session_state.menu == "vision":
 
 elif st.session_state.menu == "about":
 
-    st.markdown("### ℹ️ What is CheckYourPolicy")
+    st.markdown("### ℹ️ About")
 
     st.info(
     "CheckYourPolicy analyzes your insurance document to identify coverage details, "
@@ -512,8 +512,8 @@ st.info(
 st.caption("""
 1. Upload your policy document (PDF)  
 2. AI analyzes coverage, exclusions and risks  
-3. Review key highlights and findings  
-4. Generate detailed report if needed  
+3. Basic Report : Key highlights and findings  
+4. Generate detailed report (Paid)  
 """)
 
 st.markdown("---")
