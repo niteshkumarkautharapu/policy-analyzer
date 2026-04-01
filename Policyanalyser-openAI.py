@@ -484,24 +484,6 @@ with menu_placeholder:
 • Advisor connect  
 """)
 
-
-# ---------------------------
-# HOW TO USE (Always Visible)
-# ---------------------------
-
-st.markdown("### How To Use")
-
-st.info(
-"Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
-)
-
-st.caption("""
-1. Upload your policy document (PDF)  
-2. AI analyzes coverage, exclusions and risks  
-3. Basic Report : Key highlights and findings  
-4. Generate detailed report (Paid)  
-""")
-
 st.markdown("---")
 uploaded_file = st.file_uploader("Upload Policy PDF to start analysis", type="pdf")
 
@@ -558,6 +540,23 @@ if "footer_section" not in st.session_state:
 st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
+
+# ---------------------------
+# HOW TO USE (Always Visible)
+# ---------------------------
+
+st.markdown("### How To Use")
+
+st.info(
+"Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
+)
+
+st.caption("""
+1. Upload your policy document (PDF)  
+2. AI analyzes coverage, exclusions and risks  
+3. Basic Report : Key highlights and findings  
+4. Generate detailed report (Paid)  
+""")
 
 # Footer state
 if "footer" not in st.session_state:
