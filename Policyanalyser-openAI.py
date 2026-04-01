@@ -518,17 +518,50 @@ unsafe_allow_html=True
 st.markdown("---")
 
 st.markdown('<div id="privacy-section"></div>', unsafe_allow_html=True)
-st.markdown("### Privacy")
+if "footer_section" not in st.session_state:
+    st.session_state.footer_section = None
 
-st.caption(
-"Uploaded documents are processed securely and not stored permanently. "
-"No personal data is shared with third parties."
+
+st.caption("Supports Health, Life, Motor Insurance Policies")
+
+st.markdown("---")
+
+col1, col2 = st.columns([8,2])
+
+with col2:
+    st.markdown(
+    """
+    <div style="text-align:right; font-size:11px;">
+    <a href="#" style="color:#999; text-decoration:none;" onclick="window.location.reload();">Privacy</a> |
+    <a href="#" style="color:#999; text-decoration:none;">Terms</a> |
+    <span style="color:#999;">© 2026 CheckYourPolicy</span>
+    </div>
+    """,
+    unsafe_allow_html=True
 )
 
-st.markdown('<div id="terms-section"></div>', unsafe_allow_html=True)
-st.markdown("### Terms")
 
-st.caption(
-"CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
-"Users should verify policy details before making decisions."
-)
+footer_col1, footer_col2, footer_col3 = st.columns([6,1,1])
+
+with footer_col2:
+    if st.button("Privacy", key="privacy_link"):
+        st.session_state.footer_section = None if st.session_state.footer_section == "privacy" else "privacy"
+
+with footer_col3:
+    if st.button("Terms", key="terms_link"):
+        st.session_state.footer_section = None if st.session_state.footer_section == "terms" else "terms"
+
+
+if st.session_state.footer_section == "privacy":
+    st.markdown("### Privacy")
+    st.caption(
+    "Uploaded documents are processed securely and not stored permanently. "
+    "No personal data is shared with third parties."
+    )
+
+elif st.session_state.footer_section == "terms":
+    st.markdown("### Terms")
+    st.caption(
+    "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
+    "Users should verify policy details before making decisions."
+    )
