@@ -463,9 +463,9 @@ with menu_placeholder:
 • Personalized insights  
 """)
 
-  st.markdown("### 🚀 More Features")
+    st.markdown("### 🚀 More Features")
 
-        st.caption("""
+    st.caption("""
 • Multi-policy analysis  
 • Report Download
 """)
