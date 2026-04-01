@@ -508,25 +508,45 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
+if "footer" not in st.session_state:
+    st.session_state.footer = None
+
+
 footer_col1, footer_col2 = st.columns([8,2])
 
 with footer_col2:
-    st.markdown(
-    """
-    <div style="text-align:right; font-size:12px; color:#999;">
-    Privacy | Terms | © 2026 CheckYourPolicy
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+    col1, col2, col3 = st.columns([1,1,2])
 
-with st.expander("Privacy"):
+    with col1:
+        if st.button("Privacy", type="secondary"):
+            st.session_state.footer = None if st.session_state.footer == "privacy" else "privacy"
+
+    with col2:
+        if st.button("Terms", type="secondary"):
+            st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
+
+    with col3:
+        st.markdown(
+        """
+        <div style="text-align:right; font-size:11px; color:#999;">
+        © 2026 CheckYourPolicy
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+
+
+if st.session_state.footer == "privacy":
+    st.markdown("---")
+    st.markdown("### Privacy")
     st.caption(
     "Uploaded documents are processed securely and not stored permanently. "
     "No personal data is shared with third parties."
     )
 
-with st.expander("Terms"):
+elif st.session_state.footer == "terms":
+    st.markdown("---")
+    st.markdown("### Terms")
     st.caption(
     "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
     "Users should verify policy details before making decisions."
