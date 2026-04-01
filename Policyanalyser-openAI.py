@@ -400,7 +400,8 @@ nav = st.radio(
 ["🎯 Vision", "ℹ️ How To", "🔒 Privacy", "🚧 Upcoming"],
 horizontal=True
 )
-    if nav == "🎯 Vision":
+
+if nav == "🎯 Vision":
     st.info(
     "Insurance policies are complex and often difficult to understand. "
     "CheckYourPolicy aims to simplify insurance documents and help individuals clearly understand "
