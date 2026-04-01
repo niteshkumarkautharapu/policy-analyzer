@@ -408,7 +408,7 @@ with nav_col:
 
     with col2:
         if st.button("ℹ️ What is CheckYourPolicy"):
-            st.session_state.menu = None if st.session_state.menu == "about" else "about"
+            st.session_state.menu = None if st.session_state.menu == "About" else "About"
 
     with col3:
         if st.button("🔒 Privacy"):
@@ -434,7 +434,7 @@ if st.session_state.menu == "vision":
     )
 
 
-elif st.session_state.menu == "about":
+elif st.session_state.menu == "About":
 
     st.markdown("### ℹ️ About")
 
