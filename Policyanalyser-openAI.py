@@ -500,24 +500,7 @@ if "policy_json" in st.session_state:
             report = run_analysis(st.session_state["policy_json"])
 
             st.markdown(report)
-st.caption("Supports Health, Life, Motor Insurance Policies")
-
-st.markdown("---")
-
-st.markdown(
-"""
-<div style="text-align:right; font-size:11px; color:#999;">
-<a href="#privacy-section" style="color:#999; text-decoration:none;">Privacy</a> |
-<a href="#terms-section" style="color:#999; text-decoration:none;">Terms</a> |
-© 2026 CheckYourPolicy
-</div>
-""",
-unsafe_allow_html=True
-)
-
-st.markdown("---")
-
-st.markdown('<div id="privacy-section"></div>', unsafe_allow_html=True)
+# Footer State
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
 
@@ -526,32 +509,32 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
-col1, col2 = st.columns([8,2])
 
-with col2:
-    st.markdown(
-    """
-    <div style="text-align:right; font-size:11px;">
-    <a href="#" style="color:#999; text-decoration:none;" onclick="window.location.reload();">Privacy</a> |
-    <a href="#" style="color:#999; text-decoration:none;">Terms</a> |
-    <span style="color:#999;">© 2026 CheckYourPolicy</span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-
-footer_col1, footer_col2, footer_col3 = st.columns([6,1,1])
+footer_col1, footer_col2 = st.columns([8,2])
 
 with footer_col2:
-    if st.button("Privacy", key="privacy_link"):
-        st.session_state.footer_section = None if st.session_state.footer_section == "privacy" else "privacy"
+    col1, col2, col3 = st.columns([1,1,2])
 
-with footer_col3:
-    if st.button("Terms", key="terms_link"):
-        st.session_state.footer_section = None if st.session_state.footer_section == "terms" else "terms"
+    with col1:
+        if st.button("Privacy", key="privacy_footer"):
+            st.session_state.footer_section = None if st.session_state.footer_section == "privacy" else "privacy"
+
+    with col2:
+        if st.button("Terms", key="terms_footer"):
+            st.session_state.footer_section = None if st.session_state.footer_section == "terms" else "terms"
+
+    with col3:
+        st.markdown(
+        """
+        <div style="text-align:right; font-size:11px; color:#999;">
+        © 2026 CheckYourPolicy
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
 
 
+# Toggle Sections
 if st.session_state.footer_section == "privacy":
     st.markdown("### Privacy")
     st.caption(
