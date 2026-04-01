@@ -469,7 +469,11 @@ with menu_placeholder:
     st.markdown("### 🚀 More Features")
 
     st.caption("""
+• Policy comparison across insurers  
 • Multi-policy analysis  
+• Family policy optimization  
+• Renewal insights  
+• Advisor connect  
 • Report download  
 """)
 
