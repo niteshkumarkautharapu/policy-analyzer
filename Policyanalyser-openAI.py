@@ -397,7 +397,7 @@ with title_col:
 
 with nav_col:
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3 = st.columns(3)
 
     if "menu" not in st.session_state:
         st.session_state.menu = None
@@ -410,11 +410,7 @@ with nav_col:
         if st.button("ℹ️ About"):
             st.session_state.menu = None if st.session_state.menu == "About" else "About"
 
-    with col3:
-        if st.button("🔒 Privacy"):
-            st.session_state.menu = None if st.session_state.menu == "privacy" else "privacy"
-
-    with col4:
+     with col3:
         if st.button("🚧 Upcoming"):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
@@ -450,17 +446,6 @@ elif st.session_state.menu == "About":
 • Avoid claim surprises  
 • Make informed insurance decisions  
 """)
-
-
-elif st.session_state.menu == "privacy":
-
-    st.markdown("### 🔒 Privacy")
-
-    st.info(
-    "Uploaded documents are processed securely and not stored permanently. "
-    "No personal data is shared with third parties."
-    )
-
 
 elif st.session_state.menu == "upcoming":
 
