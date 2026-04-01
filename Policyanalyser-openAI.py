@@ -508,36 +508,38 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
+# Footer state
 if "footer" not in st.session_state:
     st.session_state.footer = None
 
 
+st.caption("Supports Health, Life, Motor Insurance Policies")
+
+st.markdown("---")
+
 footer_col1, footer_col2 = st.columns([8,2])
 
 with footer_col2:
-    col1, col2, col3 = st.columns([1,1,2])
+    privacy = st.link_button("Privacy", "")
+    terms = st.link_button("Terms", "")
 
-    with col1:
-        if st.button("Privacy", type="secondary"):
-            st.session_state.footer = None if st.session_state.footer == "privacy" else "privacy"
+    st.markdown(
+    """
+    <div style="text-align:right; font-size:11px; color:#999;">
+    © 2026 CheckYourPolicy
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-    with col2:
-        if st.button("Terms", type="secondary"):
-            st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
+if privacy:
+    st.session_state.footer = "privacy"
 
-    with col3:
-        st.markdown(
-        """
-        <div style="text-align:right; font-size:11px; color:#999;">
-        © 2026 CheckYourPolicy
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
+if terms:
+    st.session_state.footer = "terms"
 
 
 if st.session_state.footer == "privacy":
-    st.markdown("---")
     st.markdown("### Privacy")
     st.caption(
     "Uploaded documents are processed securely and not stored permanently. "
@@ -545,7 +547,6 @@ if st.session_state.footer == "privacy":
     )
 
 elif st.session_state.footer == "terms":
-    st.markdown("---")
     st.markdown("### Terms")
     st.caption(
     "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
