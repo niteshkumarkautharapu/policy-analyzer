@@ -407,8 +407,8 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
     with col2:
-        if st.button("ℹ️ How To"):
-            st.session_state.menu = None if st.session_state.menu == "howto" else "howto"
+        if st.button("ℹ️ About"):
+            st.session_state.menu = None if st.session_state.menu == "About" else "About"
 
     with col3:
         if st.button("🚧 Upcoming"):
@@ -422,25 +422,67 @@ if st.session_state.menu == "vision":
     "and claim behaviour."
     )
 
-elif st.session_state.menu == "howto":
-    st.markdown("### ℹ️ How To")
+elif st.session_state.menu == "About":
+    st.markdown("### ℹ️ About")
     st.info("""
-1. Upload your insurance policy or policy draft (PDF)  
-2. Review quick understanding and highlights  
-3. Generate detailed report (optional)
+"CheckYourPolicy analyzes your insurance document to identify coverage details, exclusions, limitations, "
+"financial risks, and real-world claim impact — helping you clearly understand what your policy actually covers."
 """)
+    st.caption("""
+    CheckYourPolicy helps users:
+    
+    • Understand what is covered and what is not  
+    • Identify hidden clauses and exclusions  
+    • Highlight financial risks  
+    • Avoid claim surprises  
+    • Make informed insurance decisions  
+    """)
 
 elif st.session_state.menu == "upcoming":
-    st.markdown("### 🚧 Upcoming Features")
-    st.info("""
-• Policy comparison across insurers  
-• Claim scenario simulation  
-• Coverage gap detection  
-• Advisor connect  
-• Renewal alerts  
-• Family policy optimization  
-""")
- 
+   st.markdown("### Current Free Analysis")
+
+    st.caption("""
+    • Coverage summary  
+    • Key highlights & limitations  
+    • Major exclusions  
+    • Financial risk indicators  
+    • Quick policy understanding  
+    """)
+
+    st.markdown("### Premium Detailed Report (Planned)")
+
+    st.caption("""
+    • Clause-by-clause breakdown  
+    • Hidden conditions detection  
+    • Claim rejection risk analysis  
+    • Coverage gap identification  
+    • Sum insured adequacy check  
+    • Personalized recommendations  
+    • Risk scoring  
+    """)
+
+    st.markdown("### Next Phase Roadmap")
+
+    st.caption("""
+    • Policy comparison across insurers  
+    • Multi-policy analysis  
+    • Family coverage optimization  
+    • Renewal recommendations  
+    • Advisor connect  
+    """)
+
+st.markdown("### How To Use")
+
+st.info(
+"Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
+)
+
+st.caption("""
+1. Upload your policy document (PDF)  
+2. AI analyzes coverage, exclusions and risks  
+3. Review key highlights and findings  
+4. Identify potential gaps and limitations  
+""") 
 st.markdown("---")
 uploaded_file = st.file_uploader("Upload Policy PDF to start analysis", type="pdf")
 
