@@ -504,40 +504,29 @@ st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
-footer_col1, footer_col2, footer_col3 = st.columns([2,2,6])
+st.markdown(
+"""
+<div style="text-align:right; font-size:11px; color:#999;">
+<a href="#privacy" style="color:#999; text-decoration:none;">Privacy</a> |
+<a href="#terms" style="color:#999; text-decoration:none;">Terms</a> |
+© 2026 CheckYourPolicy
+</div>
+""",
+unsafe_allow_html=True
+)
 
-if "footer" not in st.session_state:
-    st.session_state.footer = None
+st.markdown("---")
 
-with footer_col1:
-    if st.button("Privacy"):
-        st.session_state.footer = None if st.session_state.footer == "privacy" else "privacy"
+st.markdown("### Privacy")
 
-with footer_col2:
-    if st.button("Terms"):
-        st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
+st.caption(
+"Uploaded documents are processed securely and not stored permanently. "
+"No personal data is shared with third parties."
+)
 
-with footer_col3:
-    st.markdown(
-    """
-    <div style="text-align:right; font-size:12px; color:gray;">
-    © 2026 CheckYourPolicy. All Rights Reserved.
-    </div>
-    """,
-    unsafe_allow_html=True
-    )
+st.markdown("### Terms")
 
-
-if st.session_state.footer == "privacy":
-    st.markdown("### Privacy")
-    st.caption(
-    "Uploaded documents are processed securely and not stored permanently. "
-    "No personal data is shared with third parties."
-    )
-
-elif st.session_state.footer == "terms":
-    st.markdown("### Terms of Use")
-    st.caption(
-    "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
-    "Users should verify policy details before making decisions."
-    )
+st.caption(
+"CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
+"Users should verify policy details before making decisions."
+)
