@@ -407,10 +407,10 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
     with col2:
-        if st.button("ℹ️ About"):
-            st.session_state.menu = None if st.session_state.menu == "About" else "About"
+        if st.button("ℹ️ What is CheckYourPolicy"):
+            st.session_state.menu = None if st.session_state.menu == "about" else "about"
 
-     with col3:
+    with col3:
         if st.button("🚧 Upcoming"):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
