@@ -526,7 +526,7 @@ if "policy_json" in st.session_state:
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
 
-st.caption("Supports Health, Life, Motor Insurance Policies")
+st.caption("Supports Health Insurance Policies")
 
 st.markdown("---")
 
