@@ -504,44 +504,36 @@ if "policy_json" in st.session_state:
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
 
-
 st.caption("Supports Health, Life, Motor Insurance Policies")
 
 st.markdown("---")
 
-col1, col2 = st.columns([8,2])
+params = st.query_params
 
-with col2:
-    link1, link2, link3 = st.columns([1,1,2])
+footer_col1, footer_col2 = st.columns([8,2])
 
-    with link1:
-        if st.button("Privacy", key="privacy_link", type="secondary"):
-            st.session_state.footer_section = None if st.session_state.footer_section == "privacy" else "privacy"
+with footer_col2:
+    st.markdown(
+    """
+    <div style="text-align:right; font-size:12px;">
+    <a href="?section=privacy" style="color:#999; text-decoration:none;">Privacy</a> |
+    <a href="?section=terms" style="color:#999; text-decoration:none;">Terms</a> |
+    <span style="color:#999;">© 2026 CheckYourPolicy</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-    with link2:
-        if st.button("Terms", key="terms_link", type="secondary"):
-            st.session_state.footer_section = None if st.session_state.footer_section == "terms" else "terms"
+section = params.get("section")
 
-    with link3:
-        st.markdown(
-        """
-        <div style="text-align:right; font-size:11px; color:#999;">
-        © 2026 CheckYourPolicy
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
-
-
-# Toggle Sections
-if st.session_state.footer_section == "privacy":
+if section == "privacy":
     st.markdown("### Privacy")
     st.caption(
     "Uploaded documents are processed securely and not stored permanently. "
     "No personal data is shared with third parties."
     )
 
-elif st.session_state.footer_section == "terms":
+elif section == "terms":
     st.markdown("### Terms")
     st.caption(
     "CheckYourPolicy provides AI-generated insurance policy analysis for informational purposes only. "
