@@ -575,7 +575,7 @@ with footer_col2:
     unsafe_allow_html=True
     )
 
- if st.session_state.footer == "privacy":
+if st.session_state.footer == "privacy":
     st.markdown("---")
     st.info("""
 Privacy Policy
@@ -625,7 +625,6 @@ Privacy policy may be updated periodically to improve transparency and complianc
 10. Contact  
 For privacy concerns, contact: support@checkyourpolicy.com
 """)
-    
 
 if st.session_state.footer == "terms":
     st.markdown("---")
