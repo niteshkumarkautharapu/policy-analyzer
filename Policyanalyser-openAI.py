@@ -414,55 +414,69 @@ with nav_col:
         if st.button("🚧 Upcoming"):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
-
+menu_placeholder = st.container()
 # ---------------------------
 # NAVIGATION CONTENT
 # ---------------------------
 
-if st.session_state.menu == "vision":
+menu_placeholder = st.container()
 
-    st.markdown("### 🎯 Vision")
+with menu_placeholder:
 
-    st.info(
-    "Insurance policies are complex and difficult to understand. "
-    "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
-    "limitations, and real-world claim behaviour — helping users make informed decisions."
-    )
+    if st.session_state.menu == "vision":
+
+        st.markdown("### 🎯 Vision")
+
+        st.info(
+        "Insurance policies are complex and difficult to understand. "
+        "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
+        "limitations, and real-world claim behaviour."
+        )
 
 
-elif st.session_state.menu == "About":
+    elif st.session_state.menu == "about":
 
-    st.markdown("### ℹ️ About")
+        st.markdown("### ℹ️ What is CheckYourPolicy")
 
-    st.info(
-    "CheckYourPolicy analyzes your insurance document to identify coverage details, "
-    "hidden clauses, exclusions, financial risks, and real-world claim impact."
-    )
+        st.info(
+        "CheckYourPolicy analyzes your insurance document to identify coverage details, "
+        "hidden clauses, exclusions, financial risks, and real-world claim impact."
+        )
 
-    st.caption("""
+        st.caption("""
 • Understand what is covered and what is not  
-• Identify hidden clauses and exclusions  
+• Identify hidden clauses  
 • Highlight financial risks  
 • Avoid claim surprises  
-• Make informed insurance decisions  
 """)
 
-elif st.session_state.menu == "upcoming":
 
-    st.markdown("### 🔒 Premium Detailed Report")
+    elif st.session_state.menu == "upcoming":
 
-    st.caption("""
+        st.markdown("### 🟢 Free Policy Analysis")
+
+        st.caption("""
+• Coverage summary  
+• Key highlights  
+• Major exclusions  
+• Financial risk indicators  
+""")
+
+
+        st.markdown("### 🔒 Premium Detailed Report")
+
+        st.caption("""
 • Clause-by-clause breakdown  
 • Hidden conditions detection  
 • Claim rejection risk analysis  
 • Coverage gap identification  
-• Sum insured adequacy analysis  
-• Personalized risk insights  
-• Financial risk explanation  
+• Personalized insights  
 """)
 
-st.markdown("### 🚀 Next Phase Roadmap")
-st.caption("""
+
+        st.markdown("### 🚀 Next Phase Roadmap")
+
+        st.caption("""
 • Policy comparison across insurers  
 • Multi-policy analysis  
 • Family policy optimization  
