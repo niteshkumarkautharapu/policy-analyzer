@@ -396,7 +396,17 @@ with title_col:
     st.caption("Understand your insurance policy coverage, risks and limitations instantly")
 
 with nav_col:
-    col1, col2, col3, col4 = st.columns(4)
+    st.markdown(
+"""
+<span style="float:right">
+<a href="#" style="margin-right:10px">🎯 Vision</a> |
+<a href="#" style="margin-left:10px; margin-right:10px">ℹ️ How To</a> |
+<a href="#" style="margin-left:10px; margin-right:10px">🔒 Privacy</a> |
+<a href="#" style="margin-left:10px">🚧 Upcoming</a>
+</span>
+""",
+unsafe_allow_html=True
+)
 
     if "menu" not in st.session_state:
         st.session_state.menu = None
@@ -425,7 +435,7 @@ if st.session_state.menu == "vision":
 
 elif st.session_state.menu == "howto":
     st.info("""
-1. Upload your insurance policy (PDF)  
+1. Upload your insurance policy or policy draft (PDF)  
 2. Review quick understanding and highlights  
 3. Generate detailed report (optional)
 """)
