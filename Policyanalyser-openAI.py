@@ -472,10 +472,8 @@ elif st.session_state.menu == "upcoming":
 • Financial risk explanation  
 """)
 
-
-    st.markdown("### 🚀 Next Phase Roadmap")
-
-    st.caption("""
+st.markdown("### 🚀 Next Phase Roadmap")
+st.caption("""
 • Policy comparison across insurers  
 • Multi-policy analysis  
 • Family policy optimization  
