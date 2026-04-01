@@ -521,7 +521,7 @@ if "footer" not in st.session_state:
     st.session_state.footer = None
 
 
-footer_col1, footer_col2 = st.columns([1,5])
+footer_col1, footer_col2 = st.columns([1,4])
 
 with footer_col1:
     btn1, btn2 = st.columns([1,1])
