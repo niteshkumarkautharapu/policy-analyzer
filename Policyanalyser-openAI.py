@@ -468,10 +468,10 @@ with menu_placeholder:
         st.markdown("### 🚀 More Features")
 
         st.caption("""
-• Motor and Life Insurance Category  
-•  Multi-policy analysis
-• Report download 
-• Multi-policy analysis
+• Clause-by-clause breakdown  
+• Hidden conditions detection  
+• Claim rejection risk analysis  
+• Coverage gap identification
 """)
 
 st.markdown("---")
