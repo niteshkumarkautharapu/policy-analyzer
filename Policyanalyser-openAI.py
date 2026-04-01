@@ -407,7 +407,7 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
 
     with col2:
-        if st.button("ℹ️ What is CheckYourPolicy"):
+        if st.button("ℹ️ About"):
             st.session_state.menu = None if st.session_state.menu == "About" else "About"
 
     with col3:
