@@ -627,9 +627,9 @@ if st.session_state.show_basic and uploaded_file:
 
     parsed_json = st.session_state["policy_json"]
     
-        if not parsed_json:
+            if not parsed_json:
             st.error("Extraction failed")
-        else:
+            else:
 
             highlights = generate_highlights(parsed_json)
             summary = generate_basic_summary(parsed_json)
