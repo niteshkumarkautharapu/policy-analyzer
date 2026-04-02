@@ -252,6 +252,12 @@ INPUT:
 # ---------------------------
 # FULL DETAILED ANALYSIS
 # ---------------------------
+
+def run_analysis(json_data):
+
+    prompt = f"""
+You are an insurance policy behaviour analysis expert.
+
 IMPORTANT RULES:
 
 • Use medium-level English
