@@ -571,13 +571,13 @@ st.markdown("---")
 # ---------------------------
 # HOW TO USE (Always Visible)
 # ---------------------------
-st.markdown("### How To Use")
+with st.expander("📘 How To Use"):
 
-st.info(
-"Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
-)
+    st.info(
+    "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
+    )
 
-st.caption("""
+    st.caption("""
 1. Upload your policy document (PDF)  
 2. AI analyzes coverage, exclusions and risks  
 3. Basic Report : Key highlights and findings  
