@@ -605,6 +605,15 @@ uploaded_file = st.file_uploader("Upload your policy", type=["pdf", "docx"])
 # Detect File Upload
 if uploaded_file is not None:
     st.session_state.file_uploaded = True
+if uploaded_file is not None and "last_uploaded" not in st.session_state:
+    st.session_state.last_uploaded = uploaded_file.name
+
+elif uploaded_file is not None and uploaded_file.name != st.session_state.last_uploaded:
+    st.session_state.show_basic = False
+    st.session_state.show_detailed = False
+    st.session_state.detailed_report = None
+    st.session_state.pop("policy_json", None)
+    st.session_state.last_uploaded = uploaded_file.name
 
 # Detect File Removal
 if uploaded_file is None:
@@ -612,6 +621,7 @@ if uploaded_file is None:
     st.session_state.show_detailed = False
     st.session_state.file_uploaded = False
     st.session_state.detailed_report = None
+    st.session_state.pop("policy_json", None)
 
 if uploaded_file:
 
