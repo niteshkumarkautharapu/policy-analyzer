@@ -15,6 +15,9 @@ if "show_detailed" not in st.session_state:
 if "file_uploaded" not in st.session_state:
     st.session_state.file_uploaded = False
     
+    if "detailed_report" not in st.session_state:
+    st.session_state.detailed_report = None
+    
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -249,45 +252,107 @@ INPUT:
 # ---------------------------
 # FULL DETAILED ANALYSIS
 # ---------------------------
-def run_analysis(json_data):
-
-    prompt = f"""
-You are an insurance policy behaviour analysis expert.
-
-You are given structured insurance policy data in JSON format.
-
-Your job is NOT to:
-
-• Rate the policy  
-• Recommend policy  
-• Judge policy  
-• Compare policy  
-
-Your job is to:
-
-Explain clearly:
-
-• How this policy behaves
-• When it helps
-• When it does not help
-• What financial risks exist
-• What coverage behaviour exists
-
-Translate insurance language into real-life understanding.
-
 IMPORTANT RULES:
 
-• Use simple plain English
+• Use medium-level English
+• Avoid complex or corporate words
 • Avoid technical jargon
-• Use tables wherever applicable
-• Avoid repeating JSON content
+• Keep sentences short
 • Avoid long paragraphs
+• Prefer tables wherever applicable
 • Focus on real-life interpretation
+• Avoid repeating JSON content
+• If any data missing → say "Not specified in policy"
 
-If any data missing → say "Not specified in policy"
+
+INSURANCE DOMAIN RULES:
+
+• Do not assume policy is good or bad
+• Do not use judgement words like strong, weak, good, poor
+• Focus on behaviour, not recommendation
+• Explain financial impact wherever possible
+• Use numbers instead of vague statements
+• Avoid generic insurance statements
+• Use policy-specific interpretation only
+
+
+WAITING PERIOD RULES:
+
+• Initial waiting period applies only if policy is new
+• Pre-existing waiting applies only if not already completed
+• Specified disease waiting applies only if not completed
+• If renewal status not mentioned, state conditionally
+• Avoid absolute statements
+
+
+SECTION DIFFERENTIATION RULES:
+
+Policy Snapshot  
+• Only factual policy data  
+• No interpretation  
+
+What This Policy Really Means  
+• High level interpretation  
+• 2-4 lines only  
+
+Real-Life Claim Behaviour  
+• Scenario-based table  
+• Show financial behaviour  
+• Avoid repeating constraints  
+
+Where This Policy Helps — And Where It Doesn't  
+• Situational comparison only  
+• No repetition  
+
+Your Financial Exposure  
+• Focus only on out-of-pocket risks  
+• Deductible  
+• Copay  
+• Sublimits  
+• Floater risk  
+
+Key Policy Constraints  
+• Waiting periods  
+• Eligibility  
+• Exclusions  
+• Policy rules only  
+
+Understanding Your Coverage  
+• Coverage features explanation  
+• Room rent  
+• Restoration  
+• Day care  
+• Network hospitals  
+• Pre/post hospitalization  
+
+
+REAL-LIFE SCENARIO RULES:
+
+Use realistic Indian hospital costs
+
+Include:
+
+• Minor hospitalization  
+• Medium hospitalization  
+• Major hospitalization  
+• Critical illness  
+
+Show clearly:
+
+• Insurance pays  
+• You pay  
+• Deductible impact  
+
+
+OUTPUT RULES:
+
+• Do not ask questions  
+• Do not include suggestions  
+• Do not include conversational text  
+• Do not repeat sections  
+• End report cleanly  
 
 Return STRICT MARKDOWN FORMAT
-
 ------------------------------------------------
 
 POLICY ANALYSIS REPORT
@@ -531,6 +596,7 @@ if uploaded_file is None:
     st.session_state.show_basic = False
     st.session_state.show_detailed = False
     st.session_state.file_uploaded = False
+    st.session_state.detailed_report = None
 
 if uploaded_file:
 
@@ -582,20 +648,15 @@ if st.session_state.show_basic and "policy_json" in st.session_state:
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
 
-    with st.spinner("Generating detailed report..."):
+    if st.session_state.detailed_report is None:
 
-        report = run_analysis(st.session_state["policy_json"])
+        with st.spinner("Generating detailed report..."):
+            st.session_state.detailed_report = run_analysis(
+                st.session_state["policy_json"]
+            )
 
-        st.markdown(report)
-
-
-if st.session_state.show_detailed and "policy_json" in st.session_state:
-
-    with st.spinner("Generating detailed report..."):
-
-        report = run_analysis(st.session_state["policy_json"])
-
-        st.markdown(report)
+    st.markdown(st.session_state.detailed_report)
+        
 # Footer State
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
