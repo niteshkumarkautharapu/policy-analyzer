@@ -536,10 +536,21 @@ Members: {parsed_json.get('members_count')}
             st.markdown(highlights)
 
             st.session_state["policy_json"] = parsed_json
-            if st.session_state.show_basic and "policy_json" in st.session_state:
+
+
+if st.session_state.show_basic and "policy_json" in st.session_state:
 
     if st.button("🔒 Generate Detailed Report"):
         st.session_state.show_detailed = True
+
+
+if st.session_state.show_detailed and "policy_json" in st.session_state:
+
+    with st.spinner("Generating detailed report..."):
+
+        report = run_analysis(st.session_state["policy_json"])
+
+        st.markdown(report)
 
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
