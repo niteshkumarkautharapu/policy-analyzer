@@ -22,8 +22,9 @@ if "detailed_report" not in st.session_state:
 # CONFIG
 # ---------------------------
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-MODEL_NAME = "gpt-5-mini"
-
+# Models
+EXTRACTION_MODEL = "gpt-4o-mini"
+ANALYSIS_MODEL = "gpt-5-mini"
 
 # ---------------------------
 # Extract text from PDF
@@ -63,10 +64,10 @@ def validate_json(json_str):
 # ---------------------------
 # OpenAI Call
 # ---------------------------
-def call_gpt(prompt):
+def call_gpt(prompt, model):
 
     response = client.responses.create(
-        model=MODEL_NAME,
+        model=model,
         input=prompt,
     )
 
@@ -184,7 +185,7 @@ Return ONLY JSON
 INPUT:
 {text}
 """
-    return call_gpt(prompt)
+    return call_gpt(prompt, EXTRACTION_MODEL)
 
 
 # ---------------------------
@@ -222,7 +223,7 @@ INPUT:
 {json.dumps(json_data)}
 """
 
-    return call_gpt(prompt)
+  return call_gpt(prompt, ANALYSIS_MODEL)
 
 
 # ---------------------------
@@ -243,7 +244,7 @@ INPUT:
 {json.dumps(json_data)}
 """
 
-    return call_gpt(prompt)
+    return call_gpt(prompt, ANALYSIS_MODEL)
 
 
 # ---------------------------
@@ -484,7 +485,7 @@ INPUT JSON:
 {json.dumps(json_data)}
 """
 
-    return call_gpt(prompt)
+   return call_gpt(prompt, ANALYSIS_MODEL)
 
 
 # ---------------------------
@@ -612,12 +613,21 @@ if uploaded_file:
 
 if st.session_state.show_basic and uploaded_file:
 
-    with st.spinner("Analyzing policy..."):
+    if "policy_json" not in st.session_state:
 
-        text = extract_text(uploaded_file)
+        with st.spinner("Analyzing policy..."):
 
-        parsed_json = extract_with_retry(text)
+            text = extract_text(uploaded_file)
 
+            parsed_json = extract_with_retry(text)
+
+            if not parsed_json:
+                st.error("Extraction failed")
+            else:
+                st.session_state["policy_json"] = parsed_json
+
+    parsed_json = st.session_state["policy_json"]
+    
         if not parsed_json:
             st.error("Extraction failed")
         else:
