@@ -634,7 +634,7 @@ else:
     summary = generate_basic_summary(parsed_json)
 
     st.markdown("## 🛡️ Policy Snapshot")
-            st.markdown(f"""
+    st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
 Insurer: {parsed_json.get('insurer')}  
 Policy Type: {parsed_json.get('policy_type')}  
