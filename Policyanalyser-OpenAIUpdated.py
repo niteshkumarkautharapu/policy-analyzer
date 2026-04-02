@@ -92,6 +92,29 @@ Use exact numeric values where possible (no ranges unless given)
 Standardize currency in INR (numbers only, no symbols)
 Keep structure EXACTLY as defined below
 
+WAITING PERIOD INTERPRETATION RULES:
+
+Health insurance waiting periods behave differently for new policies and renewals.
+
+IMPORTANT:
+
+• Initial waiting period (30 days) applies only if policy is new
+• Pre-existing disease waiting period applies only if not already completed
+• Specified disease waiting period applies only if not already completed
+• If renewal status is not specified, treat waiting periods as conditional
+• Do NOT assume policy is new
+• Do NOT state waiting periods as absolute unless explicitly mentioned
+
+Always present waiting periods as conditional:
+
+Example:
+
+"If this is a new policy, 30-day waiting period applies"
+
+"If waiting period already completed, this restriction may not apply"
+
+Avoid definitive statements that may mislead users.
+
 OUTPUT JSON STRUCTURE:
 
 {{
@@ -362,8 +385,8 @@ Constraint | What Policy Says | Impact
 
 Include:
 
-Waiting periods  
-Pre-existing disease rules  
+Waiting periods (mention conditional applicability for renewals)
+Pre-existing disease rules (mention if waiting already completed)  
 Specific disease waiting  
 Coverage restrictions  
 Eligibility conditions  
