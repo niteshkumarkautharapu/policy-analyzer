@@ -281,14 +281,28 @@ INSURANCE DOMAIN RULES:
 • Avoid generic insurance statements
 • Use policy-specific interpretation only
 
-
 WAITING PERIOD RULES:
 
-• Initial waiting period applies only if policy is new
-• Pre-existing waiting applies only if not already completed
-• Specified disease waiting applies only if not completed
-• If renewal status not mentioned, state conditionally
-• Avoid absolute statements
+- Initial waiting period applies mainly if policy is new
+- Pre-existing disease waiting applies only if waiting period not already completed
+- Specified disease waiting applies only if waiting period not completed
+- If renewal status not mentioned, state applicability conditionally
+- Avoid absolute statements like "not covered" or "not applicable"
+
+INLINE NOTE RULES:
+
+- For waiting period related items, add short inline note
+- Mention whether applicable mainly for new policy or renewal
+- Keep note short and simple
+- Avoid long explanations
+
+Examples:
+
+30-day waiting period (mainly for new policies)
+
+Pre-existing disease waiting (may not apply if waiting already completed)
+
+Specified disease waiting (depends on policy duration and renewal history)
 
 
 SECTION DIFFERENTIATION RULES:
