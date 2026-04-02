@@ -571,7 +571,6 @@ st.markdown("---")
 # ---------------------------
 # HOW TO USE (Always Visible)
 # ---------------------------
-
 st.markdown("### How To Use")
 
 st.info(
