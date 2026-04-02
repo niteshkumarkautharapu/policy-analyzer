@@ -487,7 +487,6 @@ INPUT JSON:
 
        return call_gpt(prompt, ANALYSIS_MODEL)
 
-
 # ---------------------------
 # STREAMLIT UI
 # ---------------------------
