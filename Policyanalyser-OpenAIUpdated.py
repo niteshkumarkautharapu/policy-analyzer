@@ -15,7 +15,7 @@ if "show_detailed" not in st.session_state:
 if "file_uploaded" not in st.session_state:
     st.session_state.file_uploaded = False
     
-    if "detailed_report" not in st.session_state:
+if "detailed_report" not in st.session_state:
     st.session_state.detailed_report = None
     
 # ---------------------------
