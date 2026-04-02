@@ -358,6 +358,15 @@ OUTPUT RULES:
 • Do not repeat sections  
 • End report cleanly  
 
+ABBREVIATION RULES:
+
+- Avoid abbreviations like SI, OOP, PED, OPD, IPD
+- Always write full terms
+- If abbreviation must be used, explain once
+- Example:
+  "Sum Insured (total coverage amount)"
+- Prefer full words for clarity and keep abbrevatinos in ()
+
 Return STRICT MARKDOWN FORMAT
 ------------------------------------------------
 
