@@ -223,7 +223,7 @@ INPUT:
 {json.dumps(json_data)}
 """
 
-      return call_gpt(prompt, ANALYSIS_MODEL)
+    return call_gpt(prompt, ANALYSIS_MODEL)
 
 
 # ---------------------------
