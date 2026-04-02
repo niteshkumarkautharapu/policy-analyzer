@@ -581,7 +581,7 @@ with st.expander("📘 How To Use"):
 1. Upload your policy document (PDF)  
 2. AI analyzes coverage, exclusions and risks  
 3. Basic Report : Key highlights and findings  
-4. Generate detailed report (Paid)  
+4. Generate detailed report 
 """)
 
 # Footer state
