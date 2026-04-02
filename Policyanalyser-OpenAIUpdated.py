@@ -610,7 +610,8 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
-  if st.session_state.show_basic and uploaded_file:
+
+if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
 
@@ -648,11 +649,6 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown("## ⭐ Key Highlights")
     st.markdown(highlights)
-
-            st.session_state["policy_json"] = parsed_json
-
-
-if st.session_state.show_basic and "policy_json" in st.session_state:
 
     if st.button("🔒 Generate Detailed Report"):
         st.session_state.show_detailed = True
