@@ -5,6 +5,16 @@ import json
 import tempfile
 import os
 
+# Session State Initialization
+if "show_basic" not in st.session_state:
+    st.session_state.show_basic = False
+
+if "show_detailed" not in st.session_state:
+    st.session_state.show_detailed = False
+
+if "file_uploaded" not in st.session_state:
+    st.session_state.file_uploaded = False
+    
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -439,7 +449,7 @@ with menu_placeholder:
         st.markdown("### ℹ️ What is CheckYourPolicy")
 
         st.info(
-        "CheckYourPolicy analyzes your insurance document to identify coverage details, "
+        "CheckYourPolicy analyzes your insurance document using AI to identify coverage details, "
         "hidden clauses, exclusions, financial risks, and real-world claim impact."
         )
 
@@ -474,28 +484,41 @@ with menu_placeholder:
 """)
 
 st.markdown("---")
-uploaded_file = st.file_uploader("Upload Policy PDF to start analysis", type="pdf")
+uploaded_file = st.file_uploader("Upload your policy", type=["pdf", "docx"])
+
+# Detect File Upload
+if uploaded_file is not None:
+    st.session_state.file_uploaded = True
+
+# Detect File Removal
+if uploaded_file is None:
+    st.session_state.show_basic = False
+    st.session_state.show_detailed = False
+    st.session_state.file_uploaded = False
 
 if uploaded_file:
 
-    if st.button("Get Basic Summary"):
+    if st.button("Basic Summary"):
+        st.session_state.show_basic = True
 
-        with st.spinner("Analyzing policy..."):
+if st.session_state.show_basic and uploaded_file:
 
-            text = extract_text(uploaded_file)
+    with st.spinner("Analyzing policy..."):
 
-            parsed_json = extract_with_retry(text)
+        text = extract_text(uploaded_file)
 
-            if not parsed_json:
-                st.error("Extraction failed")
-            else:
+        parsed_json = extract_with_retry(text)
 
-                highlights = generate_highlights(parsed_json)
-                summary = generate_basic_summary(parsed_json)
+        if not parsed_json:
+            st.error("Extraction failed")
+        else:
 
-                st.markdown("## 🛡️ Policy Snapshot")
+            highlights = generate_highlights(parsed_json)
+            summary = generate_basic_summary(parsed_json)
 
-                st.markdown(f"""
+            st.markdown("## 🛡️ Policy Snapshot")
+
+            st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
 Insurer: {parsed_json.get('insurer')}  
 Policy Type: {parsed_json.get('policy_type')}  
@@ -505,23 +528,27 @@ Co-Pay: {parsed_json.get('copay')}
 Room Rent: {parsed_json.get('room_rent_limit')}  
 Members: {parsed_json.get('members_count')}
 """)
-                st.markdown("## 🧠 Quick Understanding")
-                st.markdown(summary)
 
-                st.markdown("## ⭐ Key Highlights")
-                st.markdown(highlights)
+            st.markdown("## 🧠 Quick Understanding")
+            st.markdown(summary)
 
-                st.session_state["policy_json"] = parsed_json
+            st.markdown("## ⭐ Key Highlights")
+            st.markdown(highlights)
 
-if "policy_json" in st.session_state:
+            st.session_state["policy_json"] = parsed_json
+            if st.session_state.show_basic and "policy_json" in st.session_state:
 
-    if st.button("Generate Detailed Report"):
+    if st.button("🔒 Generate Detailed Report"):
+        st.session_state.show_detailed = True
 
-        with st.spinner("Generating detailed report..."):
 
-            report = run_analysis(st.session_state["policy_json"])
+if st.session_state.show_detailed and "policy_json" in st.session_state:
 
-            st.markdown(report)
+    with st.spinner("Generating detailed report..."):
+
+        report = run_analysis(st.session_state["policy_json"])
+
+        st.markdown(report)
 # Footer State
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
