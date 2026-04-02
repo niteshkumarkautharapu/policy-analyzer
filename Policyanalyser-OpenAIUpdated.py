@@ -610,30 +610,28 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
-if st.session_state.show_basic and uploaded_file:
+  if st.session_state.show_basic and uploaded_file:
 
-   if "policy_json" not in st.session_state:
+    if "policy_json" not in st.session_state:
 
-    with st.spinner("Analyzing policy..."):
+        with st.spinner("Analyzing policy..."):
 
-        text = extract_text(uploaded_file)
+            text = extract_text(uploaded_file)
+            parsed_json = extract_with_retry(text)
 
-        parsed_json = extract_with_retry(text)
+            if not parsed_json:
+                st.error("Extraction failed")
+                st.stop()
 
-        if not parsed_json:
-            st.error("Extraction failed")
-        else:
             st.session_state["policy_json"] = parsed_json
 
-parsed_json = st.session_state.get("policy_json")
+    parsed_json = st.session_state["policy_json"]
 
-if not parsed_json:
-    st.error("Extraction failed")
-else:
     highlights = generate_highlights(parsed_json)
     summary = generate_basic_summary(parsed_json)
 
     st.markdown("## 🛡️ Policy Snapshot")
+
     st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
 Insurer: {parsed_json.get('insurer')}  
@@ -645,11 +643,11 @@ Room Rent: {parsed_json.get('room_rent_limit')}
 Members: {parsed_json.get('members_count')}
 """)
 
-            st.markdown("## 🧠 Quick Understanding")
-            st.markdown(summary)
+    st.markdown("## 🧠 Quick Understanding")
+    st.markdown(summary)
 
-            st.markdown("## ⭐ Key Highlights")
-            st.markdown(highlights)
+    st.markdown("## ⭐ Key Highlights")
+    st.markdown(highlights)
 
             st.session_state["policy_json"] = parsed_json
 
