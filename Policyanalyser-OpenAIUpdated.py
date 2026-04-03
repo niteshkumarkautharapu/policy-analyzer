@@ -24,6 +24,9 @@ if "highlights" not in st.session_state:
 if "summary" not in st.session_state:
     st.session_state.summary = None
     
+if "uploader_key" not in st.session_state:
+    st.session_state.uploader_key = 0
+    
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -599,10 +602,10 @@ btn_col1, btn_col2, spacer = st.columns([1.5,1.2,4])
 
 with btn_col1:
     uploaded_file = st.file_uploader(
-        "",
+        "Upload policy",
         type=["pdf", "docx"],
         label_visibility="collapsed",
-        key="policy_uploader"
+        key=f"policy_uploader_{st.session_state.uploader_key}"
     )
 
 with btn_col2:
@@ -616,8 +619,9 @@ with btn_col2:
         use_container_width=True,
         disabled=clear_disabled
     ):
-        st.session_state["policy_uploader"] = None
-
+        
+        st.session_state.uploader_key += 1
+        
         st.session_state.show_basic = False
         st.session_state.show_detailed = False
         st.session_state.file_uploaded = False
