@@ -593,12 +593,18 @@ st.markdown("---")
 # Upload Section
 # ---------------------------
 
-header_col1, header_col2 = st.columns([6,1])
+st.markdown("### Upload your policy")
 
-with header_col1:
-    st.markdown("### Upload your policy")
+btn_col1, btn_col2, spacer = st.columns([1,1,4])
 
-with header_col2:
+with btn_col1:
+    uploaded_file = st.file_uploader(
+        "",
+        type=["pdf", "docx"],
+        label_visibility="collapsed"
+    )
+
+with btn_col2:
     clear_disabled = (
         "policy_json" not in st.session_state
         and not st.session_state.show_basic
@@ -610,7 +616,6 @@ with header_col2:
         use_container_width=True,
         disabled=clear_disabled
     ):
-
         st.session_state.show_basic = False
         st.session_state.show_detailed = False
         st.session_state.file_uploaded = False
@@ -622,13 +627,6 @@ with header_col2:
         st.session_state.pop("last_uploaded", None)
 
         st.rerun()
-
-uploaded_file = st.file_uploader(
-    "",
-    type=["pdf", "docx"],
-    label_visibility="collapsed",
-    help="Upload your insurance policy document to analyze coverage, risks and limitations"
-)
 
 st.caption("Supports Health Insurance Policies")
 
