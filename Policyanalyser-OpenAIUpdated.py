@@ -633,7 +633,6 @@ with upload_container:
 
             st.rerun()
 
-st.caption("Supports Health Insurance Policies")
 # ---------------------------
 # Detect File Upload
 # ---------------------------
