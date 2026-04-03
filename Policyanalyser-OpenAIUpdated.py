@@ -595,15 +595,15 @@ st.markdown("---")
 
 st.markdown("### Upload your policy")
 
-btn_col1, btn_col2, spacer = st.columns([1,1,4])
+btn_col1, btn_col2, spacer = st.columns([1.5,1.2,4])
 
 with btn_col1:
-   uploaded_file = st.file_uploader(
-    "",
-    type=["pdf", "docx"],
-    label_visibility="collapsed",
-    key="policy_uploader"
-)
+    uploaded_file = st.file_uploader(
+        "",
+        type=["pdf", "docx"],
+        label_visibility="collapsed",
+        key="policy_uploader"
+    )
 
 with btn_col2:
     clear_disabled = (
@@ -617,6 +617,7 @@ with btn_col2:
         disabled=clear_disabled
     ):
         st.session_state["policy_uploader"] = None
+
         st.session_state.show_basic = False
         st.session_state.show_detailed = False
         st.session_state.file_uploaded = False
@@ -626,7 +627,6 @@ with btn_col2:
         st.session_state.pop("highlights", None)
         st.session_state.pop("summary", None)
         st.session_state.pop("last_uploaded", None)
-        
 
         st.rerun()
 # ---------------------------
