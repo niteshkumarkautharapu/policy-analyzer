@@ -593,40 +593,47 @@ st.markdown("---")
 
 st.markdown("### Upload your policy")
 
-uploaded_file = st.file_uploader(
-    "Upload policy",
-    type=["pdf", "docx"],
-    label_visibility="collapsed",
-    key=f"policy_uploader_{st.session_state.uploader_key}"
-)
+upload_container = st.container()
 
-st.markdown('<div class="clear-upload">', unsafe_allow_html=True)
+with upload_container:
 
-clear_disabled = (
-    uploaded_file is None
-    and "policy_json" not in st.session_state
-)
+    col1, col2 = st.columns([8,1])
 
-if st.button(
-    "🔄 Clear",
-    disabled=clear_disabled
-):
+    with col1:
+        uploaded_file = st.file_uploader(
+            "Upload policy",
+            type=["pdf", "docx"],
+            label_visibility="collapsed",
+            key=f"policy_uploader_{st.session_state.uploader_key}"
+        )
 
-    st.session_state.uploader_key += 1
+    with col2:
+        clear_disabled = (
+            uploaded_file is None
+            and "policy_json" not in st.session_state
+        )
 
-    st.session_state.show_basic = False
-    st.session_state.show_detailed = False
-    st.session_state.file_uploaded = False
-    st.session_state.detailed_report = None
+        if st.button(
+            "🔄",
+            help="Clear uploaded policy",
+            disabled=clear_disabled,
+            use_container_width=True
+        ):
+            st.session_state.uploader_key += 1
 
-    st.session_state.pop("policy_json", None)
-    st.session_state.pop("highlights", None)
-    st.session_state.pop("summary", None)
-    st.session_state.pop("last_uploaded", None)
+            st.session_state.show_basic = False
+            st.session_state.show_detailed = False
+            st.session_state.file_uploaded = False
+            st.session_state.detailed_report = None
 
-    st.rerun()
+            st.session_state.pop("policy_json", None)
+            st.session_state.pop("highlights", None)
+            st.session_state.pop("summary", None)
+            st.session_state.pop("last_uploaded", None)
 
-st.markdown('</div>', unsafe_allow_html=True)
+            st.rerun()
+
+st.caption("Supports Health Insurance Policies")
 # ---------------------------
 # Detect File Upload
 # ---------------------------
