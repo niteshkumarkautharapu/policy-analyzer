@@ -614,7 +614,7 @@ with upload_container:
         )
 
         if st.button(
-            "🔄",
+            "Reset",
             help="Clear uploaded policy",
             disabled=clear_disabled,
             use_container_width=True
