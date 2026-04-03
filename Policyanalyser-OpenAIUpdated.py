@@ -14,9 +14,15 @@ if "show_detailed" not in st.session_state:
 
 if "file_uploaded" not in st.session_state:
     st.session_state.file_uploaded = False
-    
+
 if "detailed_report" not in st.session_state:
     st.session_state.detailed_report = None
+
+if "highlights" not in st.session_state:
+    st.session_state.highlights = None
+
+if "summary" not in st.session_state:
+    st.session_state.summary = None
     
 # ---------------------------
 # CONFIG
