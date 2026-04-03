@@ -628,8 +628,6 @@ with btn_col2:
 
         st.rerun()
 
-st.caption("Supports Health Insurance Policies")
-
 # ---------------------------
 # Detect File Upload
 # ---------------------------
