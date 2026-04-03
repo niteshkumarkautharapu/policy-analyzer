@@ -605,11 +605,10 @@ with btn_col1:
     )
 
 with btn_col2:
-    clear_disabled = (
-        "policy_json" not in st.session_state
-        and not st.session_state.show_basic
-        and not st.session_state.show_detailed
-    )
+   clear_disabled = (
+    uploaded_file is None
+    and "policy_json" not in st.session_state
+)
 
     if st.button(
         "🔄 Clear",
