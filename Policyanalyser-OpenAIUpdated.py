@@ -605,10 +605,11 @@ with btn_col1:
     )
 
 with btn_col2:
-   clear_disabled = (
-    uploaded_file is None
-    and "policy_json" not in st.session_state
-)
+    clear_disabled = (
+        uploaded_file is None
+        and "policy_json" not in st.session_state
+    )
+
     if st.button(
         "🔄 Clear",
         use_container_width=True,
@@ -625,7 +626,6 @@ with btn_col2:
         st.session_state.pop("last_uploaded", None)
 
         st.rerun()
-
 # ---------------------------
 # Detect File Upload
 # ---------------------------
