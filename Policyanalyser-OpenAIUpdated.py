@@ -597,7 +597,7 @@ upload_container = st.container()
 
 with upload_container:
 
-    col1, col2, spacer = st.columns([1,1,3])
+    col1, col2, spacer = st.columns([2,1,3])
 
     with col1:
         uploaded_file = st.file_uploader(
