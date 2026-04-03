@@ -707,7 +707,7 @@ if st.session_state.show_basic and uploaded_file:
         text = extract_text(uploaded_file)
         time.sleep(0.2)
 
-        status.info("🔍 Extracting policy details...")
+        status.info("🔍 Extracting policy details, might take few seconds...")
         progress.progress(35)
 
         parsed_json = extract_with_retry(text)
@@ -720,7 +720,7 @@ if st.session_state.show_basic and uploaded_file:
         st.session_state["policy_json"] = parsed_json
         time.sleep(0.2)
 
-        status.info("🧠 Generating policy summary...")
+        status.info("🧠 Generating policy summary, Please wait,This may take few seconds...")
         progress.progress(60)
 
         highlights = generate_highlights(parsed_json)
@@ -798,7 +798,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         progress.progress(70)
         time.sleep(0.3)
 
-        status.info("📄 Generating detailed report...")
+        status.info("📄 Generating detailed report,Please wait, This may take few seconds...")
         progress.progress(85)
 
         detailed = run_analysis(
