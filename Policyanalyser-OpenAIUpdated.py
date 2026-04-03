@@ -588,23 +588,19 @@ with menu_placeholder:
 """)
 
 st.markdown("---")
+
 # ---------------------------
 # Upload Section
 # ---------------------------
 
-upload_col1, upload_col2 = st.columns([4,1])
+header_col1, header_col2 = st.columns([6,1])
 
-with upload_col1:
-    uploaded_file = st.file_uploader(
-        "Upload your policy",
-        type=["pdf", "docx"],
-        help="Upload your insurance policy document to analyze coverage, risks and limitations"
-    )
+with header_col1:
+    st.markdown("### Upload your policy")
 
-with upload_col2:
+with header_col2:
     clear_disabled = (
-        uploaded_file is None
-        and "policy_json" not in st.session_state
+        "policy_json" not in st.session_state
         and not st.session_state.show_basic
         and not st.session_state.show_detailed
     )
@@ -615,22 +611,26 @@ with upload_col2:
         disabled=clear_disabled
     ):
 
-        # Reset Session State
         st.session_state.show_basic = False
         st.session_state.show_detailed = False
         st.session_state.file_uploaded = False
         st.session_state.detailed_report = None
 
-        # Remove cached data
         st.session_state.pop("policy_json", None)
         st.session_state.pop("highlights", None)
         st.session_state.pop("summary", None)
-
-        # Reset upload tracking
         st.session_state.pop("last_uploaded", None)
 
         st.rerun()
 
+uploaded_file = st.file_uploader(
+    "",
+    type=["pdf", "docx"],
+    label_visibility="collapsed",
+    help="Upload your insurance policy document to analyze coverage, risks and limitations"
+)
+
+st.caption("Supports Health Insurance Policies")
 
 # ---------------------------
 # Detect File Upload
