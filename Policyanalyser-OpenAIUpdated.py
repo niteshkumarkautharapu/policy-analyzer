@@ -610,28 +610,36 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
-
 if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
 
-        with st.spinner("Analyzing policy..."):
+        status = st.empty()
 
-            text = extract_text(uploaded_file)
-            parsed_json = extract_with_retry(text)
+        status.info("📄 Reading policy document...")
+        text = extract_text(uploaded_file)
 
-            if not parsed_json:
-                st.error("Extraction failed")
-                st.stop()
+        status.info("🔍 Extracting policy details...")
+        parsed_json = extract_with_retry(text)
 
-            st.session_state["policy_json"] = parsed_json
+        if not parsed_json:
+            status.error("Extraction failed")
+            st.stop()
+
+        st.session_state["policy_json"] = parsed_json
+
+        status.info("🧠 Generating summary...")
+        highlights = generate_highlights(parsed_json)
+        summary = generate_basic_summary(parsed_json)
+
+        st.session_state["highlights"] = highlights
+        st.session_state["summary"] = summary
+
+        status.success("✅ Analysis complete")
 
     parsed_json = st.session_state["policy_json"]
-
-    highlights = generate_highlights(parsed_json)
-    summary = generate_basic_summary(parsed_json)
-
-    st.markdown("## 🛡️ Policy Snapshot")
+    highlights = st.session_state["highlights"]
+    summary = st.session_state["summary"]
 
     st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
