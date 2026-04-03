@@ -620,28 +620,53 @@ if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
 
+        import time
+
+        progress = st.progress(0)
         status = st.empty()
 
         status.info("📄 Reading policy document...")
+        progress.progress(10)
+
         text = extract_text(uploaded_file)
+        time.sleep(0.2)
 
         status.info("🔍 Extracting policy details...")
+        progress.progress(35)
+
         parsed_json = extract_with_retry(text)
 
         if not parsed_json:
             status.error("Extraction failed")
+            progress.empty()
             st.stop()
 
         st.session_state["policy_json"] = parsed_json
+        time.sleep(0.2)
 
-        status.info("🧠 Generating summary...")
+        status.info("🧠 Generating policy summary...")
+        progress.progress(60)
+
         highlights = generate_highlights(parsed_json)
         summary = generate_basic_summary(parsed_json)
 
         st.session_state["highlights"] = highlights
         st.session_state["summary"] = summary
 
-        status.success("✅ Analysis complete")
+        time.sleep(0.2)
+
+        status.info("📊 Preparing report view...")
+        progress.progress(85)
+
+        time.sleep(0.3)
+
+        progress.progress(100)
+        status.success("✅ Basic summary ready")
+
+        time.sleep(0.5)
+
+        progress.empty()
+        status.empty()
 
     parsed_json = st.session_state["policy_json"]
     highlights = st.session_state["highlights"]
@@ -672,10 +697,47 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     if st.session_state.detailed_report is None:
 
-        with st.spinner("Generating detailed report..."):
-            st.session_state.detailed_report = run_analysis(
-                st.session_state["policy_json"]
-            )
+        import time
+
+        progress = st.progress(0)
+        status = st.empty()
+
+        status.info("📊 Building policy snapshot...")
+        progress.progress(10)
+        time.sleep(0.3)
+
+        status.info("🔍 Analyzing coverage behaviour...")
+        progress.progress(25)
+        time.sleep(0.3)
+
+        status.info("⚠️ Identifying financial risks...")
+        progress.progress(40)
+        time.sleep(0.3)
+
+        status.info("🚧 Evaluating policy constraints...")
+        progress.progress(55)
+        time.sleep(0.3)
+
+        status.info("🧠 Interpreting real-life claim behaviour...")
+        progress.progress(70)
+        time.sleep(0.3)
+
+        status.info("📄 Generating detailed report...")
+        progress.progress(85)
+
+        detailed = run_analysis(
+            st.session_state["policy_json"]
+        )
+
+        st.session_state.detailed_report = detailed
+
+        progress.progress(100)
+        status.success("✅ Detailed report ready")
+
+        time.sleep(0.6)
+
+        progress.empty()
+        status.empty()
 
     st.markdown(st.session_state.detailed_report)
         
