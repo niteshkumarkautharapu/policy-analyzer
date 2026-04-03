@@ -501,6 +501,19 @@ INPUT JSON:
 # ---------------------------
 
 st.set_page_config(
+    st.markdown("""
+<style>
+.clear-upload {
+    position: relative;
+}
+
+.clear-upload button {
+    position: absolute;
+    right: 10px;
+    top: -38px;
+}
+</style>
+""", unsafe_allow_html=True)
     page_title="Check Your Policy",
     page_icon="🛡️",
     layout="wide"
@@ -598,41 +611,40 @@ st.markdown("---")
 
 st.markdown("### Upload your policy")
 
-btn_col1, btn_col2, spacer = st.columns([1.5,1.2,4])
+uploaded_file = st.file_uploader(
+    "Upload policy",
+    type=["pdf", "docx"],
+    label_visibility="collapsed",
+    key=f"policy_uploader_{st.session_state.uploader_key}"
+)
 
-with btn_col1:
-    uploaded_file = st.file_uploader(
-        "Upload policy",
-        type=["pdf", "docx"],
-        label_visibility="collapsed",
-        key=f"policy_uploader_{st.session_state.uploader_key}"
-    )
+st.markdown('<div class="clear-upload">', unsafe_allow_html=True)
 
-with btn_col2:
-    clear_disabled = (
-        uploaded_file is None
-        and "policy_json" not in st.session_state
-    )
+clear_disabled = (
+    uploaded_file is None
+    and "policy_json" not in st.session_state
+)
 
-    if st.button(
-        "🔄 Clear",
-        use_container_width=True,
-        disabled=clear_disabled
-    ):
-        
-        st.session_state.uploader_key += 1
-        
-        st.session_state.show_basic = False
-        st.session_state.show_detailed = False
-        st.session_state.file_uploaded = False
-        st.session_state.detailed_report = None
+if st.button(
+    "🔄 Clear",
+    disabled=clear_disabled
+):
 
-        st.session_state.pop("policy_json", None)
-        st.session_state.pop("highlights", None)
-        st.session_state.pop("summary", None)
-        st.session_state.pop("last_uploaded", None)
+    st.session_state.uploader_key += 1
 
-        st.rerun()
+    st.session_state.show_basic = False
+    st.session_state.show_detailed = False
+    st.session_state.file_uploaded = False
+    st.session_state.detailed_report = None
+
+    st.session_state.pop("policy_json", None)
+    st.session_state.pop("highlights", None)
+    st.session_state.pop("summary", None)
+    st.session_state.pop("last_uploaded", None)
+
+    st.rerun()
+
+st.markdown('</div>', unsafe_allow_html=True)
 # ---------------------------
 # Detect File Upload
 # ---------------------------
