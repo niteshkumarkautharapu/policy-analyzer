@@ -609,7 +609,6 @@ with btn_col2:
     uploaded_file is None
     and "policy_json" not in st.session_state
 )
-
     if st.button(
         "🔄 Clear",
         use_container_width=True,
