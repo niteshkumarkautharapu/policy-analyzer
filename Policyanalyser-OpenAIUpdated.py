@@ -501,7 +501,13 @@ INPUT JSON:
 # ---------------------------
 
 st.set_page_config(
-    st.markdown("""
+    page_title="Check Your Policy",
+    page_icon="🛡️",
+    layout="wide"
+)
+
+# CSS for Clear Button inside Upload Bar
+st.markdown("""
 <style>
 .clear-upload {
     position: relative;
@@ -514,37 +520,13 @@ st.set_page_config(
 }
 </style>
 """, unsafe_allow_html=True)
-    page_title="Check Your Policy",
-    page_icon="🛡️",
-    layout="wide"
-)
+
 
 title_col, nav_col = st.columns([3,2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
     st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
-
-with nav_col:
-
-    col1, col2, col3 = st.columns(3)
-
-    if "menu" not in st.session_state:
-        st.session_state.menu = None
-
-    with col1:
-        if st.button("🎯 Vision"):
-            st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
-
-    with col2:
-        if st.button("ℹ️ About"):
-            st.session_state.menu = None if st.session_state.menu == "about" else "about"
-
-    with col3:
-        if st.button("🚧 Upcoming"):
-            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
-
-menu_placeholder = st.container()
 # ---------------------------
 # NAVIGATION CONTENT
 # ---------------------------
