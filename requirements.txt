@@ -2,3 +2,5 @@ streamlit
 pdfplumber
 google-genai
 Openai
+gspread
+google-auth
