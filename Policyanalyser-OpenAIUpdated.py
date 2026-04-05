@@ -1,9 +1,36 @@
+import gspread
+from google.oauth2.service_account import Credentials
+from datetime import datetime
 import streamlit as st
 import pdfplumber
 from openai import OpenAI
 import json
 import tempfile
 import os
+
+def save_feedback(policy_name, report_type, feedback, comment):
+
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
+    credentials = Credentials.from_service_account_info(
+        st.secrets["gcp_service_account"],
+        scopes=scope
+    )
+
+    client = gspread.authorize(credentials)
+
+    sheet = client.open("CheckYourPolicy Feedback").sheet1
+
+    sheet.append_row([
+        datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        policy_name,
+        report_type,
+        feedback,
+        comment
+    ])
 
 # Session State Initialization
 if "show_basic" not in st.session_state:
@@ -916,6 +943,41 @@ Members: {parsed_json.get('members_count')}
     st.markdown("---")
 
     st.markdown(basic_report)
+    st.markdown("---")
+st.markdown("### 💬 Was this summary helpful?")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    if st.button("👍 Helpful", key="basic_helpful"):
+        save_feedback(
+            parsed_json.get("policy_name"),
+            "Basic Summary",
+            "Helpful",
+            ""
+        )
+        st.success("Thanks for your feedback!")
+
+with col2:
+    if st.button("👎 Needs Improvement", key="basic_not_helpful"):
+        save_feedback(
+            parsed_json.get("policy_name"),
+            "Basic Summary",
+            "Not Helpful",
+            ""
+        )
+        st.info("Thanks! We'll improve this.")
+
+comment = st.text_area("Optional: Tell us what can be improved", key="basic_comment")
+
+if st.button("Submit Feedback", key="basic_submit"):
+    save_feedback(
+        parsed_json.get("policy_name"),
+        "Basic Summary",
+        "Comment",
+        comment
+    )
+    st.success("Feedback submitted")
 
     st.markdown("---")
     st.markdown("## 🔎 Want Deeper Analysis?")
