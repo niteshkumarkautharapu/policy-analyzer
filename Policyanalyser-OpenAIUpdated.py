@@ -940,45 +940,13 @@ Room Rent: {parsed_json.get('room_rent_limit')}
 Members: {parsed_json.get('members_count')}
 """)
 
-    st.markdown("---")
+   if st.session_state.show_basic and uploaded_file:
 
+    ...
     st.markdown(basic_report)
     st.markdown("---")
 
-        st.markdown("### 💬 Was this summary helpful?")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    if st.button("👍 Helpful", key="basic_helpful"):
-        save_feedback(
-            parsed_json.get("policy_name"),
-            "Basic Summary",
-            "Helpful",
-            ""
-        )
-        st.success("Thanks for your feedback!")
-
-with col2:
-    if st.button("👎 Needs Improvement", key="basic_not_helpful"):
-        save_feedback(
-            parsed_json.get("policy_name"),
-            "Basic Summary",
-            "Not Helpful",
-            ""
-        )
-        st.info("Thanks! We'll improve this.")
-
-comment = st.text_area("Optional: Tell us what can be improved", key="basic_comment")
-
-if st.button("Submit Feedback", key="basic_submit"):
-    save_feedback(
-        parsed_json.get("policy_name"),
-        "Basic Summary",
-        "Comment",
-        comment
-    )
-    st.success("Feedback submitted")
+    # FEEDBACK BLOCK HERE
 
     st.markdown("---")
     st.markdown("## 🔎 Want Deeper Analysis?")
