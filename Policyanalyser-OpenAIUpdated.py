@@ -925,7 +925,7 @@ else:
 st.markdown("---")
 
 st.markdown("## 🔎 Want Deeper Analysis?")
-    st.markdown("""
+st.markdown("""
 The detailed report provides deeper insights into how your policy behaves in real claim situations.
 
 ### Detailed Report Includes:
@@ -942,8 +942,8 @@ The detailed report provides deeper insights into how your policy behaves in rea
 This helps you understand **where your policy protects you — and where it may not.**
 """)
 
-    if st.button("🔒 Generate Detailed Report"):
-        st.session_state.show_detailed = True
+if st.button("🔒 Generate Detailed Report"):
+    st.session_state.show_detailed = True
 
 # ---------------------------
 # Detailed Report
