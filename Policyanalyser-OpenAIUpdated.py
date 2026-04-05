@@ -266,7 +266,7 @@ Financial impact only
 
 ------------------------------------------------
 
-IMPORTANT RULES:
+IMPORTANT RULES: To be followed strictly
 
 • Use medium-level English
 • Avoid technical jargon
@@ -275,6 +275,9 @@ IMPORTANT RULES:
 • Avoid repeating JSON
 • Avoid long explanations
 • Avoid duplication
+• Prefer short paragraphs instead of only bullet points
+• Avoid listing too many technical coverage features
+• Focus on user understanding instead of policy terminology
 
 Do NOT include:
 
