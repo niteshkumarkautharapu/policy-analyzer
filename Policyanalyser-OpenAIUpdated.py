@@ -692,6 +692,8 @@ if uploaded_file is None:
 
 if uploaded_file:
 
+    st.success("✅ Policy uploaded successfully! Click **Basic Summary** to analyse your policy.")
+
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
