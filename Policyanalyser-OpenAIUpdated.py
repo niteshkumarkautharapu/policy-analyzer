@@ -9,7 +9,7 @@ from openai import OpenAI
 from datetime import datetime
 import requests
 
-def save_feedback(policy_name, report_type, feedback, comment):
+def save_feedback(policy, report, feedback, comment):
 
     url = "https://script.google.com/macros/s/AKfycbwEDqw37ABCIPzDDkGLVXoMVRLwThqRcggxTSjw7mnZX5hmNx6zeeUQHH5jOqkt554e/exec"
 
@@ -1009,7 +1009,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
             if st.button("Submit Feedback", key="detailed_submit"):
                 save_feedback(
-                    st.session_state["policy_json"].get("policy_name", "Unknown"),
+                    st.session_state["policy_json"].get("policy", "Unknown"),
                     "Detailed Report",
                     st.session_state.feedback_value_detailed,
                     st.session_state.feedback_comment_detailed
