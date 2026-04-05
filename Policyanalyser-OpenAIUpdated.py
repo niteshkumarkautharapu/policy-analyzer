@@ -887,41 +887,40 @@ Members: {parsed_json.get('members_count')}
     st.markdown(basic_report)
     st.markdown("---")
 
-    # ---------------------------
-    # FEEDBACK BLOCK — Basic Report
-    # ---------------------------
+   # ---------------------------
+# FEEDBACK BLOCK — Basic Report
+# ---------------------------
 
-    st.markdown("#### Was this summary helpful?")
+st.markdown("#### Was this summary helpful?")
 
-    if not st.session_state.feedback_submitted_basic:
+if not st.session_state.feedback_submitted_basic:
 
-        fb_col1, fb_col2, fb_col3 = st.columns([1, 1, 5])
+    fb_col1, fb_col2, fb_col3 = st.columns([1, 1, 5])
 
-        with fb_col1:
-    if st.button("👍  Yes", key="basic_thumbs_up", use_container_width=True):
-        save_feedback(
-            parsed_json.get("policy_name", "Unknown"),
-            "Basic Report",
-            "Helpful",
-            ""
-        )
-        st.session_state.feedback_submitted_basic = True
-        st.rerun()
+    with fb_col1:
+        if st.button("👍 Yes", key="basic_thumbs_up", use_container_width=True):
+            save_feedback(
+                parsed_json.get("policy_name", "Unknown"),
+                "Basic Report",
+                "Helpful",
+                ""
+            )
+            st.session_state.feedback_submitted_basic = True
+            st.rerun()
 
-with fb_col2:
-    if st.button("👎  No", key="basic_thumbs_down", use_container_width=True):
-        save_feedback(
-            parsed_json.get("policy_name", "Unknown"),
-            "Basic Report",
-            "Not Helpful",
-            ""
-        )
-        st.session_state.feedback_submitted_basic = True
-        st.rerun()
+    with fb_col2:
+        if st.button("👎 No", key="basic_thumbs_down", use_container_width=True):
+            save_feedback(
+                parsed_json.get("policy_name", "Unknown"),
+                "Basic Report",
+                "Not Helpful",
+                ""
+            )
+            st.session_state.feedback_submitted_basic = True
+            st.rerun()
 
-    else:
-        st.success("✅ Thank you for your feedback!")
-
+else:
+    st.success("✅ Thank you for your feedback!")
     st.markdown("---")
     st.markdown("## 🔎 Want Deeper Analysis?")
     st.markdown("""
