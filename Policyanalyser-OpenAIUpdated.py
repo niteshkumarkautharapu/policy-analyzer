@@ -885,9 +885,9 @@ Members: {parsed_json.get('members_count')}
 """)
 
     st.markdown(basic_report)
-    st.markdown("---")
+st.markdown("---")
 
-   # ---------------------------
+# ---------------------------
 # FEEDBACK BLOCK — Basic Report
 # ---------------------------
 
@@ -921,8 +921,10 @@ if not st.session_state.feedback_submitted_basic:
 
 else:
     st.success("✅ Thank you for your feedback!")
-    st.markdown("---")
-    st.markdown("## 🔎 Want Deeper Analysis?")
+
+st.markdown("---")
+
+st.markdown("## 🔎 Want Deeper Analysis?")
     st.markdown("""
 The detailed report provides deeper insights into how your policy behaves in real claim situations.
 
