@@ -7,23 +7,62 @@ import pdfplumber
 import streamlit as st
 from openai import OpenAI
 from datetime import datetime
-import requests
+from notion_client import Client
 
 def save_feedback(policy, report, feedback, comment):
 
-    url = "https://script.google.com/macros/s/AKfycbwEDqw37ABCIPzDDkGLVXoMVRLwThqRcggxTSjw7mnZX5hmNx6zeeUQHH5jOqkt554e/exec"
-
-    data = {
-        "policy": policy,
-        "report": report,
-        "feedback": feedback,
-        "comment": comment
-    }
-
     try:
-        requests.post(url, json=data)
+        notion = Client(auth=st.secrets["NOTION_TOKEN"])
+
+        notion.pages.create(
+            parent={"database_id": st.secrets["NOTION_DATABASE_ID"]},
+            properties={
+                "Title": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": str(policy)
+                            }
+                        }
+                    ]
+                },
+                "Report": {
+                    "rich_text": [
+                        {
+                            "text": {
+                                "content": str(report)
+                            }
+                        }
+                    ]
+                },
+                "Feedback": {
+                    "rich_text": [
+                        {
+                            "text": {
+                                "content": str(feedback)
+                            }
+                        }
+                    ]
+                },
+                "Comment": {
+                    "rich_text": [
+                        {
+                            "text": {
+                                "content": str(comment)
+                            }
+                        }
+                    ]
+                },
+                "Date": {
+                    "date": {
+                        "start": datetime.now().isoformat()
+                    }
+                }
+            }
+        )
+
     except Exception as e:
-        st.warning("Feedback save failed")
+        st.error(f"Notion Error: {e}")
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -888,7 +927,7 @@ Members: {parsed_json.get('members_count')}
         with fb_col1:
             if st.button("👍 Yes", key="basic_thumbs_up", use_container_width=True):
                 save_feedback(
-                    parsed_json.get("policy", "Unknown"),
+                    parsed_json.get("policy_name", "Unknown"),
                     "Basic Report",
                     "Helpful",
                     ""
@@ -899,7 +938,7 @@ Members: {parsed_json.get('members_count')}
         with fb_col2:
             if st.button("👎 No", key="basic_thumbs_down", use_container_width=True):
                 save_feedback(
-                    parsed_json.get("policy", "Unknown"),
+                    parsed_json.get("policy_name", "Unknown"),
                     "Basic Report",
                     "Not Helpful",
                     ""
@@ -1009,7 +1048,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
             if st.button("Submit Feedback", key="detailed_submit"):
                 save_feedback(
-                    st.session_state["policy_json"].get("policy", "Unknown"),
+                    st.session_state["policy_json"].get("policy_name", "Unknown"),
                     "Detailed Report",
                     st.session_state.feedback_value_detailed,
                     st.session_state.feedback_comment_detailed
