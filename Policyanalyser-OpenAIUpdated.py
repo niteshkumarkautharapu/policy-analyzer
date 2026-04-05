@@ -27,22 +27,14 @@ def save_feedback(policy, report, feedback, comment):
                     ]
                 },
                 "Report": {
-                    "rich_text": [
-                        {
-                            "text": {
-                                "content": str(report)
-                            }
-                        }
-                    ]
+                    "select": {
+                        "name": str(report)
+                    }
                 },
                 "Feedback": {
-                    "rich_text": [
-                        {
-                            "text": {
-                                "content": str(feedback)
-                            }
-                        }
-                    ]
+                    "select": {
+                        "name": str(feedback)
+                    }
                 },
                 "Comment": {
                     "rich_text": [
