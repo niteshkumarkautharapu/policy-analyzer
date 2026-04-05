@@ -4,3 +4,4 @@ google-genai
 Openai
 gspread
 google-auth
+notion-client
