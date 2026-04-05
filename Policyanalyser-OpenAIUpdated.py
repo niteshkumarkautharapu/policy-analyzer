@@ -244,13 +244,45 @@ INPUT:
 def generate_basic_summary(json_data):
 
     prompt = f"""
-Write 2-3 lines explaining:
+You are an insurance policy summary expert.
 
-Policy type
-Deductible behaviour
-Coverage nature
+Create a structured Basic Summary using the following sections:
 
-No judgement
+## 🧠 Quick Understanding
+Explain in plain English:
+• What type of policy this is
+• Who it protects
+• What kind of coverage it provides
+
+## 📌 What This Policy Means For You
+Explain:
+• When this policy is useful
+• General behaviour of coverage
+
+## ⚠️ Key Financial Condition
+Explain:
+• Deductible / Copay / Floater behaviour
+• When insurance starts paying
+
+IMPORTANT RULES:
+
+• Use medium-level English
+• Avoid technical jargon
+• Avoid detailed coverage listing
+• Avoid repeating JSON data
+• Avoid financial calculations
+• Keep explanation practical and user-friendly
+• Avoid too-short summary
+• Avoid too detailed explanation
+
+Do NOT include:
+
+• Waiting periods
+• Sublimits
+• Full exclusions list
+• Detailed financial risks
+
+These belong to detailed report.
 
 INPUT:
 {json.dumps(json_data)}
