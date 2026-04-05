@@ -26,6 +26,9 @@ if "summary" not in st.session_state:
     
 if "uploader_key" not in st.session_state:
     st.session_state.uploader_key = 0
+
+if "menu" not in st.session_state:
+    st.session_state.menu = None
     
 # ---------------------------
 # CONFIG
