@@ -1017,7 +1017,14 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         progress.empty()
         status.empty()
 
-    st.markdown(st.session_state.detailed_report)
+    report = st.session_state.detailed_report
+
+sections = report.split("## ")
+
+for section in sections:
+    if section.strip():
+        st.markdown("## " + section)
+        st.markdown("---")
 
     st.markdown("---")
 
