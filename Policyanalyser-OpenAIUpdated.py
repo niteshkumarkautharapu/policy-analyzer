@@ -764,6 +764,30 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown("## ⭐ Key Highlights")
     st.markdown(highlights)
+    
+    st.markdown("---")
+
+st.markdown("## 🔎 Want Deeper Analysis?")
+
+st.markdown("""
+The detailed report provides deeper insights into how your policy behaves in real claim situations.
+
+### Detailed Report Includes:
+
+• Real-life claim rejection scenarios  
+• Hidden clauses that impact claims  
+• Financial risk areas and out-of-pocket exposure  
+• When insurance actually pays vs when it doesn't  
+• Waiting period impact (new vs renewal)  
+• Deductible and sublimit behaviour  
+• Coverage gaps and limitations  
+• Practical interpretation of policy conditions  
+
+This helps you understand **where your policy protects you — and where it may not.**
+""")
+
+if st.button("🔒 Generate Detailed Report"):
+    st.session_state.show_detailed = True
 
     if st.button("🔒 Generate Detailed Report"):
         st.session_state.show_detailed = True
