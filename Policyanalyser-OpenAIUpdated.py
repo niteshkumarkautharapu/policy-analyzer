@@ -723,7 +723,7 @@ if st.session_state.show_basic and uploaded_file:
         st.session_state["policy_json"] = parsed_json
         time.sleep(0.2)
 
-        status.info("🧠 Generating policy summary, Please wait,This may take few seconds...")
+        status.info("🧠 Generating policy summary, Please wait, This may take few seconds...")
         progress.progress(60)
 
         highlights = generate_highlights(parsed_json)
@@ -767,28 +767,28 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown("## ⭐ Key Highlights")
     st.markdown(highlights)
-   st.markdown("## 🔎 Want Deeper Analysis?")
 
-st.markdown("""
+    st.markdown("---")
+    st.markdown("## 🔎 Want Deeper Analysis?")
+    st.markdown("""
 The detailed report provides deeper insights into how your policy behaves in real claim situations.
 
 ### Detailed Report Includes:
 
-• Real-life claim rejection scenarios  
-• Hidden clauses that impact claims  
-• Financial risk areas and out-of-pocket exposure  
-• When insurance actually pays vs when it doesn't  
-• Waiting period impact (new vs renewal)  
-• Deductible and sublimit behaviour  
-• Coverage gaps and limitations  
-• Practical interpretation of policy conditions  
+- Real-life claim rejection scenarios  
+- Hidden clauses that impact claims  
+- Financial risk areas and out-of-pocket exposure  
+- When insurance actually pays vs when it doesn't  
+- Waiting period impact (new vs renewal)  
+- Deductible and sublimit behaviour  
+- Coverage gaps and limitations  
+- Practical interpretation of policy conditions  
 
 This helps you understand **where your policy protects you — and where it may not.**
 """)
 
-if st.button("🔒 Generate Detailed Report"):
-    st.session_state.show_detailed = True 
-    st.markdown("---")
+    if st.button("🔒 Generate Detailed Report"):
+        st.session_state.show_detailed = True
 
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
@@ -820,7 +820,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         progress.progress(70)
         time.sleep(0.3)
 
-        status.info("📄 Generating detailed report,Please wait, This may take few seconds...")
+        status.info("📄 Generating detailed report, Please wait, This may take few seconds...")
         progress.progress(85)
 
         detailed = run_analysis(
@@ -838,7 +838,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         status.empty()
 
     st.markdown(st.session_state.detailed_report)
-        
+    
 # Footer State
 if "footer_section" not in st.session_state:
     st.session_state.footer_section = None
