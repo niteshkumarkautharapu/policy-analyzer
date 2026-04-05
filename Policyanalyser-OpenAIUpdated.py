@@ -22,7 +22,7 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-# FIX: gpt-5-mini does not exist — use gpt-4o-mini for analysis
+# FIX: gpt-5-mini does not exist — use gpt-4o for analysis
 EXTRACTION_MODEL = "gpt-4o-mini"
 ANALYSIS_MODEL = "gpt-4o"
 
@@ -57,6 +57,20 @@ if "uploader_key" not in st.session_state:
 
 if "menu" not in st.session_state:
     st.session_state.menu = None
+
+if "feedback_submitted_basic" not in st.session_state:
+    st.session_state.feedback_submitted_basic = False
+if "feedback_value_basic" not in st.session_state:
+    st.session_state.feedback_value_basic = None
+if "feedback_comment_basic" not in st.session_state:
+    st.session_state.feedback_comment_basic = ""
+
+if "feedback_submitted_detailed" not in st.session_state:
+    st.session_state.feedback_submitted_detailed = False
+if "feedback_value_detailed" not in st.session_state:
+    st.session_state.feedback_value_detailed = None
+if "feedback_comment_detailed" not in st.session_state:
+    st.session_state.feedback_comment_detailed = ""
 
 
 # ---------------------------
@@ -593,6 +607,7 @@ IMPORTANT RULES:
 Return structured tables only
 
 ------------------------------------------------
+
 ## ⚖️ Where This Policy Helps — And Where It Doesn't
 
 Create comparison table:
@@ -755,6 +770,12 @@ with col2:
         st.session_state.file_uploaded = False
         st.session_state.detailed_report = None
         st.session_state.basic_report = None
+        st.session_state.feedback_submitted_basic = False
+        st.session_state.feedback_value_basic = None
+        st.session_state.feedback_comment_basic = ""
+        st.session_state.feedback_submitted_detailed = False
+        st.session_state.feedback_value_detailed = None
+        st.session_state.feedback_comment_detailed = ""
         st.session_state.pop("policy_json", None)
         st.session_state.pop("highlights", None)
         st.session_state.pop("summary", None)
@@ -774,6 +795,12 @@ if uploaded_file is not None:
         st.session_state.show_detailed = False
         st.session_state.detailed_report = None
         st.session_state.basic_report = None
+        st.session_state.feedback_submitted_basic = False
+        st.session_state.feedback_value_basic = None
+        st.session_state.feedback_comment_basic = ""
+        st.session_state.feedback_submitted_detailed = False
+        st.session_state.feedback_value_detailed = None
+        st.session_state.feedback_comment_detailed = ""
         st.session_state.pop("policy_json", None)
         st.session_state.pop("highlights", None)
         st.session_state.pop("summary", None)
@@ -860,7 +887,45 @@ Members: {parsed_json.get('members_count')}
     st.markdown(basic_report)
     st.markdown("---")
 
-    # FEEDBACK BLOCK HERE
+    # ---------------------------
+    # FEEDBACK BLOCK — Basic Report
+    # ---------------------------
+
+    st.markdown("#### Was this summary helpful?")
+
+    if not st.session_state.feedback_submitted_basic:
+
+        fb_col1, fb_col2, fb_col3 = st.columns([1, 1, 5])
+
+        with fb_col1:
+            if st.button("👍  Yes", key="basic_thumbs_up", use_container_width=True):
+                st.session_state.feedback_value_basic = "Helpful"
+
+        with fb_col2:
+            if st.button("👎  No", key="basic_thumbs_down", use_container_width=True):
+                st.session_state.feedback_value_basic = "Not Helpful"
+
+        if st.session_state.feedback_value_basic:
+
+            st.session_state.feedback_comment_basic = st.text_area(
+                "Any comments? (optional)",
+                value=st.session_state.feedback_comment_basic,
+                placeholder="Tell us what was helpful or what could be better...",
+                key="basic_comment_box"
+            )
+
+            if st.button("Submit Feedback", key="basic_submit"):
+                save_feedback(
+                    parsed_json.get("policy_name", "Unknown"),
+                    "Basic Report",
+                    st.session_state.feedback_value_basic,
+                    st.session_state.feedback_comment_basic
+                )
+                st.session_state.feedback_submitted_basic = True
+                st.rerun()
+
+    else:
+        st.success("✅ Thank you for your feedback!")
 
     st.markdown("---")
     st.markdown("## 🔎 Want Deeper Analysis?")
@@ -929,6 +994,48 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         status.empty()
 
     st.markdown(st.session_state.detailed_report)
+
+    st.markdown("---")
+
+    # ---------------------------
+    # FEEDBACK BLOCK — Detailed Report
+    # ---------------------------
+
+    st.markdown("#### Was this detailed report helpful?")
+
+    if not st.session_state.feedback_submitted_detailed:
+
+        fd_col1, fd_col2, fd_col3 = st.columns([1, 1, 5])
+
+        with fd_col1:
+            if st.button("👍  Yes", key="detailed_thumbs_up", use_container_width=True):
+                st.session_state.feedback_value_detailed = "Helpful"
+
+        with fd_col2:
+            if st.button("👎  No", key="detailed_thumbs_down", use_container_width=True):
+                st.session_state.feedback_value_detailed = "Not Helpful"
+
+        if st.session_state.feedback_value_detailed:
+
+            st.session_state.feedback_comment_detailed = st.text_area(
+                "Any comments? (optional)",
+                value=st.session_state.feedback_comment_detailed,
+                placeholder="Tell us what was helpful or what could be better...",
+                key="detailed_comment_box"
+            )
+
+            if st.button("Submit Feedback", key="detailed_submit"):
+                save_feedback(
+                    st.session_state["policy_json"].get("policy_name", "Unknown"),
+                    "Detailed Report",
+                    st.session_state.feedback_value_detailed,
+                    st.session_state.feedback_comment_detailed
+                )
+                st.session_state.feedback_submitted_detailed = True
+                st.rerun()
+
+    else:
+        st.success("✅ Thank you for your feedback!")
 
 # ---------------------------
 # Footer
