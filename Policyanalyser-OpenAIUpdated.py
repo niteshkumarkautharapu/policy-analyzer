@@ -225,11 +225,13 @@ Generate a Basic Policy Summary using the following structure:
 
 ## 🧠 Quick Understanding
 
-Explain:
+Explain in plain English:
 
-• What type of policy this is
-• Who it protects
-• What kind of protection it provides
+• What this policy is  
+• Who it protects  
+• What kind of medical situations it is useful for  
+
+Write in short natural paragraphs (not bullet lists).
 
 ------------------------------------------------
 
@@ -237,53 +239,57 @@ Explain:
 
 Explain:
 
-• When this policy is useful
-• General behaviour of coverage
+• When this policy is most useful  
+• How coverage behaves in real-life  
+
+Focus on practical understanding rather than policy terminology.
 
 ------------------------------------------------
 
 ## ⚠️ Key Financial Condition
 
-Explain:
+Explain clearly:
 
-• Deductible / Copay / Floater behaviour
-• When insurance starts paying
+• Deductible / Copay / Floater behaviour  
+• When insurance starts paying  
+• How this impacts real-world claims  
+
+Keep explanation simple and practical.
 
 ------------------------------------------------
 
 ## ⭐ Key Highlights
 
-Generate:
+Generate 3-4 short bullets only:
 
-• Activation insight
-• Risk insight
-• Coverage insight
-• Hidden cost insight
+• Activation insight  
+• Risk insight  
+• Coverage insight  
+• Hidden cost insight  
 
-Plain English  
-Short bullets  
-Financial impact only  
+Focus only on meaningful insights. Avoid repetition.
 
 ------------------------------------------------
 
-IMPORTANT RULES: To be followed strictly
+IMPORTANT RULES:
 
-• Use medium-level English
-• Avoid technical jargon
-• Avoid judgement words
-• Avoid recommendations
-• Avoid repeating JSON
-• Avoid long explanations
-• Avoid duplication
-• Prefer short paragraphs instead of only bullet points
-• Avoid listing too many technical coverage features
-• Focus on user understanding instead of policy terminology
+• Use medium-level English  
+• Avoid technical jargon  
+• Avoid judgement words  
+• Avoid recommendations  
+• Avoid listing too many coverage features  
+• Prefer short paragraphs instead of long bullet lists  
+• Avoid repeating content across sections  
+• Focus on user understanding  
+• Avoid assumptions  
+• Keep tone neutral and informative  
 
 Do NOT include:
 
-• Waiting periods details
-• Sublimits details
-• Detailed exclusions
+• Waiting period details  
+• Sublimit details  
+• Detailed exclusions  
+• Premium vs value comparisons  
 
 These belong to detailed report.
 
