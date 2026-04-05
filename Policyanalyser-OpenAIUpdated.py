@@ -767,10 +767,7 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown("## ⭐ Key Highlights")
     st.markdown(highlights)
-    
-    st.markdown("---")
-
-st.markdown("## 🔎 Want Deeper Analysis?")
+    st.markdown("## 🔎 Want Deeper Analysis?")
 
 st.markdown("""
 The detailed report provides deeper insights into how your policy behaves in real claim situations.
@@ -791,9 +788,7 @@ This helps you understand **where your policy protects you — and where it may 
 
 if st.button("🔒 Generate Detailed Report"):
     st.session_state.show_detailed = True
-
-    if st.button("🔒 Generate Detailed Report"):
-        st.session_state.show_detailed = True
+    st.markdown("---")
 
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
