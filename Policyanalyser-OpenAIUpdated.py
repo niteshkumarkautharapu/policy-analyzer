@@ -944,7 +944,8 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown(basic_report)
     st.markdown("---")
-st.markdown("### 💬 Was this summary helpful?")
+
+        st.markdown("### 💬 Was this summary helpful?")
 
 col1, col2 = st.columns(2)
 
