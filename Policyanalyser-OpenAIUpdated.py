@@ -686,7 +686,17 @@ st.set_page_config(
     page_icon="🛡️",
     layout="wide"
 )
-
+st.markdown("""
+<style>
+table {
+    width: 100% !important;
+}
+th, td {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+</style>
+""", unsafe_allow_html=True)
 title_col, nav_col = st.columns([3, 2])
 
 with title_col:
