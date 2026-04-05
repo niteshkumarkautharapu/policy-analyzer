@@ -898,31 +898,26 @@ Members: {parsed_json.get('members_count')}
         fb_col1, fb_col2, fb_col3 = st.columns([1, 1, 5])
 
         with fb_col1:
-            if st.button("👍  Yes", key="basic_thumbs_up", use_container_width=True):
-                st.session_state.feedback_value_basic = "Helpful"
+    if st.button("👍  Yes", key="basic_thumbs_up", use_container_width=True):
+        save_feedback(
+            parsed_json.get("policy_name", "Unknown"),
+            "Basic Report",
+            "Helpful",
+            ""
+        )
+        st.session_state.feedback_submitted_basic = True
+        st.rerun()
 
-        with fb_col2:
-            if st.button("👎  No", key="basic_thumbs_down", use_container_width=True):
-                st.session_state.feedback_value_basic = "Not Helpful"
-
-        if st.session_state.feedback_value_basic:
-
-            st.session_state.feedback_comment_basic = st.text_area(
-                "Any comments? (optional)",
-                value=st.session_state.feedback_comment_basic,
-                placeholder="Tell us what was helpful or what could be better...",
-                key="basic_comment_box"
-            )
-
-            if st.button("Submit Feedback", key="basic_submit"):
-                save_feedback(
-                    parsed_json.get("policy_name", "Unknown"),
-                    "Basic Report",
-                    st.session_state.feedback_value_basic,
-                    st.session_state.feedback_comment_basic
-                )
-                st.session_state.feedback_submitted_basic = True
-                st.rerun()
+with fb_col2:
+    if st.button("👎  No", key="basic_thumbs_down", use_container_width=True):
+        save_feedback(
+            parsed_json.get("policy_name", "Unknown"),
+            "Basic Report",
+            "Not Helpful",
+            ""
+        )
+        st.session_state.feedback_submitted_basic = True
+        st.rerun()
 
     else:
         st.success("✅ Thank you for your feedback!")
