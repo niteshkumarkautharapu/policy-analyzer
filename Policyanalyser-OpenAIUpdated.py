@@ -89,7 +89,7 @@ def save_feedback(policy_name, report_type, feedback, comment):
             scopes=scope
         )
         client_gs = gspread.authorize(credentials)
-        sheet = client_gs.open("CheckYourPolicy Feedback").sheet1
+        sheet = client_gs.open("CheckYourPolicyFeedback").sheet1
         sheet.append_row([
             datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             policy_name,
