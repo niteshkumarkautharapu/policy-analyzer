@@ -3,13 +3,27 @@ import json
 import time
 import tempfile
 
-import gspread
 import pdfplumber
 import streamlit as st
 from openai import OpenAI
-from google.oauth2.service_account import Credentials
 from datetime import datetime
+import requests
 
+def save_feedback(policy_name, report_type, feedback, comment):
+
+    url = "https://script.google.com/macros/s/AKfycbwEDqw37ABCIPzDDkGLVXoMVRLwThqRcggxTSjw7mnZX5hmNx6zeeUQHH5jOqkt554e/exec"
+
+    data = {
+        "policy": policy,
+        "report": report,
+        "feedback": feedback,
+        "comment": comment
+    }
+
+    try:
+        requests.post(url, json=data)
+    except Exception as e:
+        st.warning("Feedback save failed")
 # ---------------------------
 # CONFIG
 # ---------------------------
@@ -73,32 +87,6 @@ if "feedback_comment_detailed" not in st.session_state:
     st.session_state.feedback_comment_detailed = ""
 
 
-# ---------------------------
-# Google Sheets Feedback
-# ---------------------------
-
-def save_feedback(policy_name, report_type, feedback, comment):
-    # FIX: wrap in try/except so a Sheets failure doesn't crash the UI
-    try:
-        scope = [
-            "https://spreadsheets.google.com/feeds",
-            "https://www.googleapis.com/auth/drive"
-        ]
-        credentials = Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"],
-            scopes=scope
-        )
-        client_gs = gspread.authorize(credentials)
-        sheet = client_gs.open("CheckYourPolicyFeedback").sheet1
-        sheet.append_row([
-            datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            policy_name,
-            report_type,
-            feedback,
-            comment
-        ])
-    except Exception:
-        st.warning("Feedback could not be saved. Please try again.")
 
 
 # ---------------------------
@@ -900,7 +888,7 @@ Members: {parsed_json.get('members_count')}
         with fb_col1:
             if st.button("👍 Yes", key="basic_thumbs_up", use_container_width=True):
                 save_feedback(
-                    parsed_json.get("policy_name", "Unknown"),
+                    parsed_json.get("policy", "Unknown"),
                     "Basic Report",
                     "Helpful",
                     ""
@@ -911,7 +899,7 @@ Members: {parsed_json.get('members_count')}
         with fb_col2:
             if st.button("👎 No", key="basic_thumbs_down", use_container_width=True):
                 save_feedback(
-                    parsed_json.get("policy_name", "Unknown"),
+                    parsed_json.get("policy", "Unknown"),
                     "Basic Report",
                     "Not Helpful",
                     ""
