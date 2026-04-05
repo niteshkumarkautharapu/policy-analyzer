@@ -211,14 +211,47 @@ def extract_with_retry(text):
             return parsed
     return None
 
-
 # ---------------------------
-# HIGHLIGHTS
+# Basic Report
 # ---------------------------
-def generate_highlights(json_data):
+def generate_basic_report(json_data):
 
     prompt = f"""
 You are an insurance policy transparency expert.
+
+Generate a Basic Policy Summary using the following structure:
+
+------------------------------------------------
+
+## 🧠 Quick Understanding
+
+Explain:
+
+• What type of policy this is
+• Who it protects
+• What kind of protection it provides
+
+------------------------------------------------
+
+## 📌 What This Policy Means For You
+
+Explain:
+
+• When this policy is useful
+• General behaviour of coverage
+
+------------------------------------------------
+
+## ⚠️ Key Financial Condition
+
+Explain:
+
+• Deductible / Copay / Floater behaviour
+• When insurance starts paying
+
+------------------------------------------------
+
+## ⭐ Key Highlights
 
 Generate:
 
@@ -227,70 +260,37 @@ Generate:
 • Coverage insight
 • Hidden cost insight
 
-Plain English
-Short bullets
-Financial impact only
+Plain English  
+Short bullets  
+Financial impact only  
 
-INPUT:
-{json.dumps(json_data)}
-"""
-
-    return call_gpt(prompt, ANALYSIS_MODEL)
-
-
-# ---------------------------
-# BASIC SUMMARY
-# ---------------------------
-def generate_basic_summary(json_data):
-
-    prompt = f"""
-You are an insurance policy summary expert.
-
-Create a structured Basic Summary using the following sections:
-
-## 🧠 Quick Understanding
-Explain in plain English:
-• What type of policy this is
-• Who it protects
-• What kind of coverage it provides
-
-## 📌 What This Policy Means For You
-Explain:
-• When this policy is useful
-• General behaviour of coverage
-
-## ⚠️ Key Financial Condition
-Explain:
-• Deductible / Copay / Floater behaviour
-• When insurance starts paying
+------------------------------------------------
 
 IMPORTANT RULES:
 
 • Use medium-level English
 • Avoid technical jargon
-• Avoid detailed coverage listing
-• Avoid repeating JSON data
-• Avoid financial calculations
-• Keep explanation practical and user-friendly
-• Avoid too-short summary
-• Avoid too detailed explanation
+• Avoid judgement words
+• Avoid recommendations
+• Avoid repeating JSON
+• Avoid long explanations
+• Avoid duplication
 
 Do NOT include:
 
-• Waiting periods
-• Sublimits
-• Full exclusions list
-• Detailed financial risks
+• Waiting periods details
+• Sublimits details
+• Detailed exclusions
 
 These belong to detailed report.
 
 INPUT:
 {json.dumps(json_data)}
+
+Return structured markdown output.
 """
 
     return call_gpt(prompt, ANALYSIS_MODEL)
-
-
 # ---------------------------
 # FULL DETAILED ANALYSIS
 # ---------------------------
@@ -840,6 +840,7 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
+
 if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
@@ -868,14 +869,11 @@ if st.session_state.show_basic and uploaded_file:
         st.session_state["policy_json"] = parsed_json
         time.sleep(0.2)
 
-        status.info("🧠 Generating policy summary, Please wait, This may take few seconds...")
+        status.info("🧠 Generating policy summary, Please wait...")
         progress.progress(60)
 
-        highlights = generate_highlights(parsed_json)
-        summary = generate_basic_summary(parsed_json)
-
-        st.session_state["highlights"] = highlights
-        st.session_state["summary"] = summary
+        basic_report = generate_basic_report(parsed_json)
+        st.session_state["basic_report"] = basic_report
 
         time.sleep(0.2)
 
@@ -893,8 +891,7 @@ if st.session_state.show_basic and uploaded_file:
         status.empty()
 
     parsed_json = st.session_state["policy_json"]
-    highlights = st.session_state["highlights"]
-    summary = st.session_state["summary"]
+    basic_report = st.session_state["basic_report"]
 
     st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
@@ -907,11 +904,9 @@ Room Rent: {parsed_json.get('room_rent_limit')}
 Members: {parsed_json.get('members_count')}
 """)
 
-    st.markdown("## 🧠 Quick Understanding")
-    st.markdown(summary)
+    st.markdown("---")
 
-    st.markdown("## ⭐ Key Highlights")
-    st.markdown(highlights)
+    st.markdown(basic_report)
 
     st.markdown("---")
     st.markdown("## 🔎 Want Deeper Analysis?")
