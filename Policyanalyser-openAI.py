@@ -732,7 +732,7 @@ INPUT JSON:
 # ---------------------------
 
 st.set_page_config(
-    page_title="Check Your Policy",
+    page_title="CheckYourPolicy",
     page_icon="🛡️",
     layout="wide"
 )
