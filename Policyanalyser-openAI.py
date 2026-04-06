@@ -546,6 +546,16 @@ Based on common claim settlement patterns observed in Indian health insurance an
 
 Use policy-specific information only.
 
+------------------------------------------------
+
+## 💰 Real-Life Claim Behaviour
+
+Add disclaimer:
+
+Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
+
+Use policy-specific information only.
+
 Analyze policy information:
 
 • Sum insured  
@@ -566,12 +576,6 @@ IMPORTANT REASONING RULE:
 • Avoid generic or repetitive scenarios  
 • Prioritize scenarios with financial impact  
 
-Prioritize scenarios based on:
-
-• Highest financial risk  
-• Most common claim rejection patterns  
-• Policy-specific constraints  
-
 ------------------------------------------------
 
 ### 🟢 Claims Typically Paid
@@ -580,9 +584,22 @@ Create table:
 
 Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
 
+Reasoning Examples:
+
+• Large hospitalization after waiting period  
+• Accident hospitalization  
+• Emergency hospitalization  
+• ICU admission  
+• Covered surgeries  
+• Network hospital admission  
+• Day-care procedures covered  
+• Critical illness hospitalization  
+• Covered inpatient treatment  
+• Post hospitalization claims  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Use policy-specific coverage  
 
 ------------------------------------------------
@@ -593,9 +610,22 @@ Create table:
 
 Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
 
+Reasoning Examples:
+
+• Deductible applicable  
+• Room rent limit exceeded  
+• Sublimit applicable  
+• Copay applicable  
+• Non-medical expenses excluded  
+• Floater sum insured sharing  
+• Procedure limits  
+• Consumable exclusions  
+• Day-care limit  
+• Network hospital differences  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Focus on financial impact  
 
 ------------------------------------------------
@@ -606,9 +636,22 @@ Create table:
 
 Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
 
+Reasoning Based on Indian Claim Trends:
+
+• Waiting period not completed  
+• Pre-existing disease waiting  
+• Non-disclosure risk  
+• Policy expired  
+• Non-covered treatment  
+• Non-medically necessary hospitalization  
+• Documentation issues  
+• Policy condition violation  
+• Coverage exhaustion  
+• Experimental treatment  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Avoid generic scenarios  
 • Focus on realistic claim rejection  
 
@@ -623,8 +666,8 @@ IMPORTANT RULES:
 • Avoid generic insurance explanations  
 • Use Indian healthcare cost examples  
 • If information missing → say "Depends on insurer claim policy"
-• Use structured tables for clarity
-• Provide short explanatory paragraphs before tables
+
+Return structured tables only
 
 ------------------------------------------------
 
