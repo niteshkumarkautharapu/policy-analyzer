@@ -340,7 +340,7 @@ Focus on practical understanding rather than policy terminology.
 
 ------------------------------------------------
 
-## ⚠️ Key Financial Condition
+## ⚠️ How Costs Are Shared
 
 Explain clearly:
 
@@ -354,7 +354,7 @@ Keep explanation simple and practical.
 
 ## ⭐ Key Highlights
 
-Generate 3-4 short bullets only:
+Generate 5-6 short bullets only:
 
 • Activation insight  
 • Risk insight  
