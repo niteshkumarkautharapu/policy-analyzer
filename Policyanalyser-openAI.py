@@ -776,26 +776,26 @@ menu_placeholder = st.container()
 with menu_placeholder:
 
     if st.session_state.menu == "vision":
-    st.markdown("### 🎯 Vision")
+        st.markdown("### 🎯 Vision")
 
-    st.info(
-        "CheckYourPolicy aims to make insurance transparent and easy to understand, "
-        "helping people clearly see how their policy behaves, where risks exist, "
-        "and what to expect in real claim situations."
-    )
+        st.info(
+            "CheckYourPolicy aims to make insurance transparent and easy to understand, "
+            "helping people clearly see how their policy behaves, where risks exist, "
+            "and what to expect in real claim situations."
+        )
 
-    st.success("Help people understand their insurance before they need it.")
+        st.success("Help people understand their insurance before they need it.")
 
     elif st.session_state.menu == "about":
-    st.markdown("### ℹ️ What is CheckYourPolicy")
+        st.markdown("### ℹ️ What is CheckYourPolicy")
 
-    st.info(
-        "CheckYourPolicy analyzes your insurance document using AI to explain "
-        "coverage behaviour, hidden clauses, financial risks, and real-world claim impact "
-        "in simple, structured insights."
-    )
+        st.info(
+            "CheckYourPolicy analyzes your insurance document using AI to explain "
+            "coverage behaviour, hidden clauses, financial risks, and real-world claim impact "
+            "in simple, structured insights."
+        )
 
-    st.markdown("""
+        st.markdown("""
 ### 🔎 What You Can Understand
 
 • What is covered — and what is not  
@@ -822,6 +822,7 @@ Instead of reading lengthy policy documents, you get **clear insights** into how
 • Personalized risk insights  
 • Financial risk explanation  
 """)
+
         st.markdown("### 🚀 More Features")
         st.caption("""
 • Motor and Life Insurance Category  
