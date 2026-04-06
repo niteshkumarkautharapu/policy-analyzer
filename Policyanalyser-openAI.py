@@ -751,7 +751,7 @@ title_col, nav_col = st.columns([3, 2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
-    st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
+    st.caption("Understand your insurance policy coverage, risks and limitations.")
 
 # FIX: nav_col was empty — no buttons existed to set st.session_state.menu
 with nav_col:
