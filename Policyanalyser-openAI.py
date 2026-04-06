@@ -1127,7 +1127,7 @@ with st.expander("📘 How To Use"):
 • Policy wording document  
 • Renewal document with coverage details  
 
-Avoid uploading: These may not contain full coverage details.
+🚫 Avoid uploading: These may not contain full coverage details.
 
 • Premium receipts  
 • Emails  
