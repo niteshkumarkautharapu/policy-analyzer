@@ -1121,7 +1121,13 @@ with st.expander("📘 How To Use"):
    st.markdown("""
 ### 📄 Upload The Right Document
 
-For best results, upload your **actual policy document** from your insurer.
+### ✅ Documents That Work Best
+
+• Policy schedule or certificate  
+• Policy wording document  
+• Renewal document with coverage details  
+
+Documents with **more coverage details** provide **better analysis and more accurate insights**.
 
 Avoid uploading:
 
@@ -1132,17 +1138,6 @@ Avoid uploading:
 
 These may not contain full coverage details.
 
----
-
-### ✅ Documents That Work Best
-
-• Policy schedule or certificate  
-• Policy wording document  
-• Renewal document with coverage details  
-
-Documents with **more coverage details** provide **better analysis and more accurate insights**.
-
----
 
 ### 🚀 How It Works
 
