@@ -914,8 +914,8 @@ Members: {parsed_json.get('members_count')}
 """)
 
    basic_report = basic_report.replace("```markdown", "").replace("```", "")
-    st.markdown(basic_report)
-    st.markdown("---")
+   st.markdown(basic_report)
+   st.markdown("---")
 
     # ---------------------------
     # FEEDBACK BLOCK — Basic Report
