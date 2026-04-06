@@ -1021,7 +1021,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     sections = report.split("## ")
 
-for section in sections:
+    for section in sections:
     if section.strip():
         st.markdown("## " + section)
         st.markdown("---")
