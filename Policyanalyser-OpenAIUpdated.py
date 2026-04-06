@@ -364,6 +364,15 @@ Generate 3-4 short bullets only:
 Focus only on meaningful insights. Avoid repetition.
 
 ------------------------------------------------
+WRITING STYLE:
+
+• Use 3–5 sentences per section  
+• Provide natural explanation before insights  
+• Maintain readability and clarity  
+• Avoid overly short explanations  
+• Use conversational but professional tone  
+
+------------------------------------------------
 
 IMPORTANT RULES:
 
@@ -371,8 +380,6 @@ IMPORTANT RULES:
 • Avoid technical jargon  
 • Avoid judgement words  
 • Avoid recommendations  
-• Avoid listing too many coverage features  
-• Prefer short paragraphs instead of long bullet lists  
 • Avoid repeating content across sections  
 • Focus on user understanding  
 • Avoid assumptions  
@@ -527,7 +534,7 @@ Members Covered |
 
 ## 🧠 What This Policy Really Means
 
-Write 2-4 lines explaining:
+Write 3-5 explanatory sentences:
 
 • What type of protection this policy provides
 • Whether useful for small or large claims
@@ -623,7 +630,7 @@ IMPORTANT RULES:
 • Use Indian healthcare cost examples  
 • If information missing → say "Depends on insurer claim policy"
 
-Return structured tables only
+Use structured tables with brief explanatory sentences where necessary
 
 ------------------------------------------------
 
@@ -667,9 +674,9 @@ Coverage Element | What Policy Says | What It Means
 
 ------------------------------------------------
 
-Keep explanations short, structured and clear.
-
-Avoid long narrative paragraphs.
+Keep explanations structured and readable.
+Include brief explanatory context before tables.
+Avoid overly long paragraphs but maintain clarity.
 
 INPUT JSON:
 {json.dumps(json_data)}
