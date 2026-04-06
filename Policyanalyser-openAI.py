@@ -811,18 +811,8 @@ with menu_placeholder:
 Instead of reading lengthy policy documents, you get **clear insights** into how your insurance actually behaves in real situations.
 """)
 
-    elif st.session_state.menu == "upcoming":
-        st.markdown("### 🔒 Premium Detailed Report")
-        st.caption("""
-• Clause-by-clause breakdown  
-• Hidden conditions detection  
-• Claim rejection risk analysis  
-• Coverage gap identification  
-• Sum insured adequacy analysis  
-• Personalized risk insights  
-• Financial risk explanation  
-""")
-
+    elif st.session_state.menu == "Upcoming":
+ 
         st.markdown("### 🚀 More Features")
         st.caption("""
 • Motor and Life Insurance Category  
