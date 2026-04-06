@@ -1019,13 +1019,12 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     report = st.session_state.detailed_report
 
-sections = report.split("\n## ")
+    sections = report.split("\n## ")
 
-for section in sections:
-    if section.strip():
-        st.markdown("## " + section)
-        st.markdown("---")
-    st.markdown("---")
+    for section in sections:
+        if section.strip():
+            st.markdown("## " + section)
+            st.markdown("---")
 
     # ---------------------------
     # FEEDBACK BLOCK — Detailed Report
