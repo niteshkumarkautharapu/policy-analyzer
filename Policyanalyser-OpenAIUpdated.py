@@ -340,7 +340,7 @@ Focus on practical understanding rather than policy terminology.
 
 ------------------------------------------------
 
-## ⚠️ Key Financial Condition
+## ⚠️ How Costs Are Shared
 
 Explain clearly:
 
@@ -354,7 +354,7 @@ Keep explanation simple and practical.
 
 ## ⭐ Key Highlights
 
-Generate 3-4 short bullets only:
+Generate 5-6 short bullets only:
 
 • Activation insight  
 • Risk insight  
@@ -542,6 +542,16 @@ Plain English only
 
 Add disclaimer:
 
+Based on common claim settlement patterns observed in Indian health insurance and publicly available insurance data, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
+
+Use policy-specific information only.
+
+------------------------------------------------
+
+## 💰 Real-Life Claim Behaviour
+
+Add disclaimer:
+
 Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
 
 Use policy-specific information only.
@@ -566,12 +576,6 @@ IMPORTANT REASONING RULE:
 • Avoid generic or repetitive scenarios  
 • Prioritize scenarios with financial impact  
 
-Prioritize scenarios based on:
-
-• Highest financial risk  
-• Most common claim rejection patterns  
-• Policy-specific constraints  
-
 ------------------------------------------------
 
 ### 🟢 Claims Typically Paid
@@ -580,9 +584,22 @@ Create table:
 
 Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
 
+Reasoning Examples:
+
+• Large hospitalization after waiting period  
+• Accident hospitalization  
+• Emergency hospitalization  
+• ICU admission  
+• Covered surgeries  
+• Network hospital admission  
+• Day-care procedures covered  
+• Critical illness hospitalization  
+• Covered inpatient treatment  
+• Post hospitalization claims  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Use policy-specific coverage  
 
 ------------------------------------------------
@@ -593,9 +610,22 @@ Create table:
 
 Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
 
+Reasoning Examples:
+
+• Deductible applicable  
+• Room rent limit exceeded  
+• Sublimit applicable  
+• Copay applicable  
+• Non-medical expenses excluded  
+• Floater sum insured sharing  
+• Procedure limits  
+• Consumable exclusions  
+• Day-care limit  
+• Network hospital differences  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Focus on financial impact  
 
 ------------------------------------------------
@@ -606,9 +636,22 @@ Create table:
 
 Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
 
+Reasoning Based on Indian Claim Trends:
+
+• Waiting period not completed  
+• Pre-existing disease waiting  
+• Non-disclosure risk  
+• Policy expired  
+• Non-covered treatment  
+• Non-medically necessary hospitalization  
+• Documentation issues  
+• Policy condition violation  
+• Coverage exhaustion  
+• Experimental treatment  
+
 Output:
 
-• Select Top 5-6 most relevant scenarios  
+• Select Top 5 most relevant scenarios  
 • Avoid generic scenarios  
 • Focus on realistic claim rejection  
 
@@ -623,8 +666,8 @@ IMPORTANT RULES:
 • Avoid generic insurance explanations  
 • Use Indian healthcare cost examples  
 • If information missing → say "Depends on insurer claim policy"
-• Use structured tables for clarity
-• Provide short explanatory paragraphs before tables
+
+Return structured tables only
 
 ------------------------------------------------
 
@@ -634,6 +677,9 @@ Create comparison table:
 
 Where This Policy Helps | Where This Policy Doesn't Help
 
+Output:
+
+List atleast top 10 relevant scenarios
 ------------------------------------------------
 
 ## ⚠️ Where You May Have To Pay From Your Pocket
@@ -666,6 +712,10 @@ Create table:
 
 Coverage Element | What Policy Says | What It Means
 
+Include:
+
+List atleast top 10 relevant scenarios
+
 ------------------------------------------------
 
 Provide short explanatory context where helpful
@@ -682,7 +732,7 @@ INPUT JSON:
 # ---------------------------
 
 st.set_page_config(
-    page_title="Check Your Policy",
+    page_title="CheckYourPolicy",
     page_icon="🛡️",
     layout="wide"
 )
@@ -701,7 +751,7 @@ title_col, nav_col = st.columns([3, 2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
-    st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
+    st.caption("Understand your insurance policy coverage, risks and limitations.")
 
 # FIX: nav_col was empty — no buttons existed to set st.session_state.menu
 with nav_col:
@@ -714,8 +764,8 @@ with nav_col:
         if st.button("About", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "about" else "about"
     with n3:
-        if st.button("Premium", use_container_width=True):
-            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
+        if st.button("Upcoming", use_container_width=True):
+            st.session_state.menu = None if st.session_state.menu == "Upcoming" else "Upcoming"
 
 # ---------------------------
 # NAVIGATION CONTENT
@@ -727,36 +777,42 @@ with menu_placeholder:
 
     if st.session_state.menu == "vision":
         st.markdown("### 🎯 Vision")
+
         st.info(
-            "Insurance policies are complex and difficult to understand. "
-            "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
-            "limitations, and real-world claim behaviour."
+            "CheckYourPolicy aims to make insurance transparent and easy to understand, "
+            "helping people clearly see how their policy behaves, where risks exist, "
+            "and what to expect in real claim situations."
+            "Help people understand their insurance before they need it."
         )
 
+       
     elif st.session_state.menu == "about":
         st.markdown("### ℹ️ What is CheckYourPolicy")
+
         st.info(
-            "CheckYourPolicy analyzes your insurance document using AI to identify coverage details, "
-            "hidden clauses, exclusions, financial risks, and real-world claim impact."
+            "CheckYourPolicy analyzes your insurance document using AI to explain "
+            "coverage behaviour, hidden clauses, financial risks, and real-world claim impact "
+            "in simple, structured insights."
         )
-        st.caption("""
-• Understand what is covered and what is not  
-• Identify hidden clauses  
-• Highlight financial risks  
-• Avoid claim surprises  
+
+        st.markdown("""
+### 🔎 What You Can Understand
+
+• What is covered — and what is not  
+• Hidden clauses that may affect claims  
+• Deductible and cost-sharing behaviour  
+• Financial exposure during hospitalization  
+• Real-life claim scenarios  
+• Common claim rejection risks  
+• Policy limitations that are easy to miss  
+
+---
+
+Instead of reading lengthy policy documents, you get **clear insights** into how your insurance actually behaves in real situations.
 """)
 
-    elif st.session_state.menu == "upcoming":
-        st.markdown("### 🔒 Premium Detailed Report")
-        st.caption("""
-• Clause-by-clause breakdown  
-• Hidden conditions detection  
-• Claim rejection risk analysis  
-• Coverage gap identification  
-• Sum insured adequacy analysis  
-• Personalized risk insights  
-• Financial risk explanation  
-""")
+    elif st.session_state.menu == "Upcoming":
+ 
         st.markdown("### 🚀 More Features")
         st.caption("""
 • Motor and Life Insurance Category  
@@ -777,7 +833,7 @@ col1, col2, spacer = st.columns([2, 1, 3])
 with col1:
     uploaded_file = st.file_uploader(
         "Upload policy",
-        type=["pdf", "docx"],
+        type=["pdf"],
         label_visibility="collapsed",
         key=f"policy_uploader_{st.session_state.uploader_key}"
     )
@@ -1022,6 +1078,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     st.markdown(report)
     st.markdown("---")
+
     # ---------------------------
     # FEEDBACK BLOCK — Detailed Report
     # ---------------------------
@@ -1033,34 +1090,30 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         fd_col1, fd_col2, fd_col3 = st.columns([1, 1, 5])
 
         with fd_col1:
-            if st.button("👍  Yes", key="detailed_thumbs_up", use_container_width=True):
-                st.session_state.feedback_value_detailed = "Helpful"
-
-        with fd_col2:
-            if st.button("👎  No", key="detailed_thumbs_down", use_container_width=True):
-                st.session_state.feedback_value_detailed = "Not Helpful"
-
-        if st.session_state.feedback_value_detailed:
-
-            st.session_state.feedback_comment_detailed = st.text_area(
-                "Any comments? (optional)",
-                value=st.session_state.feedback_comment_detailed,
-                placeholder="Tell us what was helpful or what could be better...",
-                key="detailed_comment_box"
-            )
-
-            if st.button("Submit Feedback", key="detailed_submit"):
+            if st.button("👍 Yes", key="detailed_thumbs_up", use_container_width=True):
                 save_feedback(
                     st.session_state["policy_json"].get("policy_name", "Unknown"),
                     "Detailed Report",
-                    st.session_state.feedback_value_detailed,
-                    st.session_state.feedback_comment_detailed
+                    "Helpful",
+                    ""
+                )
+                st.session_state.feedback_submitted_detailed = True
+                st.rerun()
+
+        with fd_col2:
+            if st.button("👎 No", key="detailed_thumbs_down", use_container_width=True):
+                save_feedback(
+                    st.session_state["policy_json"].get("policy_name", "Unknown"),
+                    "Detailed Report",
+                    "Not Helpful",
+                    ""
                 )
                 st.session_state.feedback_submitted_detailed = True
                 st.rerun()
 
     else:
         st.success("✅ Thank you for your feedback!")
+
 
 # ---------------------------
 # Footer
@@ -1070,18 +1123,39 @@ st.caption("Supports Health Insurance Policies")
 st.markdown("---")
 
 with st.expander("📘 How To Use"):
-    st.info(
-        "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
-    )
-    st.caption("""
-Upload your policy document from your insurer for best results, Please avoid policy reciepts,emails,incomplete documents.
 
-This works best with:
-• Policy schedule or certificate
-• Policy wording document
-• Renewal document with coverage details
+   st.markdown("""
+### 📄 Upload The Right Document
 
-Documents with more coverage details provide better analysis and more accurate insights.
+✅ That Work Best - Documents with **more coverage details** provide **better analysis and more accurate insights**.
+
+• Policy schedule or certificate  
+• Policy wording document  
+• Renewal document with coverage details  
+
+🚫 Avoid uploading: These may not contain full coverage details.
+
+• Premium receipts  
+• Emails  
+• Incomplete screenshots  
+• Payment confirmations  
+
+### 🚀 How It Works
+
+1. Upload your policy document  
+2. Generate **Basic Summary**  
+3. Review key coverage behaviour  
+4. Generate **Detailed Report** (optional)  
+5. Understand risks, exclusions and claim scenarios
+
+---
+
+### 🔒 Your Data Privacy
+
+• Your document is used only for analysis  
+• No policy data is stored permanently  
+• No personal information is shared  
+
 """)
 
 if "footer" not in st.session_state:
