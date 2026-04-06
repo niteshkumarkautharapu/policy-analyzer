@@ -636,7 +636,7 @@ Where This Policy Helps | Where This Policy Doesn't Help
 
 ------------------------------------------------
 
-## ⚠️ Your Financial Exposure
+## ⚠️ Where You May Have To Pay From Your Pocket
 
 Create table:
 
