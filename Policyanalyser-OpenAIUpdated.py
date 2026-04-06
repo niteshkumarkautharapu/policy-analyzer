@@ -1018,10 +1018,10 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         status.empty()
 
     report = st.session_state.detailed_report
+    report = report.replace("```markdown", "").replace("```", "")
 
     st.markdown(report)
     st.markdown("---")
-
     # ---------------------------
     # FEEDBACK BLOCK — Detailed Report
     # ---------------------------
