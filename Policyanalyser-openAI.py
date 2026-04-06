@@ -634,6 +634,9 @@ Create comparison table:
 
 Where This Policy Helps | Where This Policy Doesn't Help
 
+Output:
+
+List atleast top 10 relevant scenarios
 ------------------------------------------------
 
 ## ⚠️ Where You May Have To Pay From Your Pocket
@@ -665,6 +668,10 @@ Eligibility conditions
 Create table:
 
 Coverage Element | What Policy Says | What It Means
+
+Include:
+
+List atleast top 10 relevant scenarios
 
 ------------------------------------------------
 
