@@ -782,6 +782,7 @@ with menu_placeholder:
             "CheckYourPolicy aims to make insurance transparent and easy to understand, "
             "helping people clearly see how their policy behaves, where risks exist, "
             "and what to expect in real claim situations."
+            "Help people understand their insurance before they need it."
         )
 
         st.info("Help people understand their insurance before they need it.")
