@@ -776,24 +776,39 @@ menu_placeholder = st.container()
 with menu_placeholder:
 
     if st.session_state.menu == "vision":
-        st.markdown("### 🎯 Vision")
-        st.info(
-            "Insurance policies are complex and difficult to understand. "
-            "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
-            "limitations, and real-world claim behaviour."
-        )
+    st.markdown("### 🎯 Vision")
+
+    st.info(
+        "CheckYourPolicy aims to make insurance transparent and easy to understand, "
+        "helping people clearly see how their policy behaves, where risks exist, "
+        "and what to expect in real claim situations."
+    )
+
+    st.success("Help people understand their insurance before they need it.")
 
     elif st.session_state.menu == "about":
-        st.markdown("### ℹ️ What is CheckYourPolicy")
-        st.info(
-            "CheckYourPolicy analyzes your insurance document using AI to identify coverage details, "
-            "hidden clauses, exclusions, financial risks, and real-world claim impact."
-        )
-        st.caption("""
-• Understand what is covered and what is not  
-• Identify hidden clauses  
-• Highlight financial risks  
-• Avoid claim surprises  
+    st.markdown("### ℹ️ What is CheckYourPolicy")
+
+    st.info(
+        "CheckYourPolicy analyzes your insurance document using AI to explain "
+        "coverage behaviour, hidden clauses, financial risks, and real-world claim impact "
+        "in simple, structured insights."
+    )
+
+    st.markdown("""
+### 🔎 What You Can Understand
+
+• What is covered — and what is not  
+• Hidden clauses that may affect claims  
+• Deductible and cost-sharing behaviour  
+• Financial exposure during hospitalization  
+• Real-life claim scenarios  
+• Common claim rejection risks  
+• Policy limitations that are easy to miss  
+
+---
+
+Instead of reading lengthy policy documents, you get **clear insights** into how your insurance actually behaves in real situations.
 """)
 
     elif st.session_state.menu == "upcoming":
