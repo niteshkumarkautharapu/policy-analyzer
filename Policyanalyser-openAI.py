@@ -9,6 +9,23 @@ from openai import OpenAI
 from datetime import datetime
 from notion_client import Client
 
+
+# Google Analytics
+GA_ID = "G-0D8JEGK5JK"
+
+st.markdown(
+    f"""
+    <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{GA_ID}');
+    </script>
+    """,
+    unsafe_allow_html=True
+)
+
 def save_feedback(policy, report, feedback, comment):
 
     try:
