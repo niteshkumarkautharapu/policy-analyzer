@@ -9,57 +9,42 @@ from openai import OpenAI
 from datetime import datetime
 from notion_client import Client
 
-def save_feedback(policy, report, feedback, comment):
 
+# ---------------------------
+# NOTION FEEDBACK
+# ---------------------------
+
+def save_feedback(policy, report, feedback, comment):
     try:
         notion = Client(auth=st.secrets["NOTION_TOKEN"])
-
         notion.pages.create(
             parent={"database_id": st.secrets["NOTION_DATABASE_ID"]},
             properties={
                 "Title": {
-                    "title": [
-                        {
-                            "text": {
-                                "content": str(policy)
-                            }
-                        }
-                    ]
+                    "title": [{"text": {"content": str(policy)}}]
                 },
                 "Report": {
-                    "select": {
-                        "name": str(report)
-                    }
+                    "select": {"name": str(report)}
                 },
                 "Feedback": {
-                    "select": {
-                        "name": str(feedback)
-                    }
+                    "select": {"name": str(feedback)}
                 },
                 "Comment": {
-                    "rich_text": [
-                        {
-                            "text": {
-                                "content": str(comment)
-                            }
-                        }
-                    ]
+                    "rich_text": [{"text": {"content": str(comment)}}]
                 },
                 "Date": {
-                    "date": {
-                        "start": datetime.now().isoformat()
-                    }
+                    "date": {"start": datetime.now().isoformat()}
                 }
             }
         )
-
     except Exception as e:
         st.error(f"Notion Error: {e}")
+
+
 # ---------------------------
 # CONFIG
 # ---------------------------
 
-# FIX: validate API key at startup instead of silently passing None
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     st.error("OPENAI_API_KEY environment variable is not set.")
@@ -67,9 +52,9 @@ if not api_key:
 
 client = OpenAI(api_key=api_key)
 
-# FIX: gpt-5-mini does not exist — use gpt-4o for analysis
 EXTRACTION_MODEL = "gpt-4o-mini"
 ANALYSIS_MODEL = "gpt-4o"
+
 
 # ---------------------------
 # Session State Initialization
@@ -93,7 +78,6 @@ if "highlights" not in st.session_state:
 if "summary" not in st.session_state:
     st.session_state.summary = None
 
-# FIX: basic_report was used but never initialised in session state
 if "basic_report" not in st.session_state:
     st.session_state.basic_report = None
 
@@ -118,14 +102,11 @@ if "feedback_comment_detailed" not in st.session_state:
     st.session_state.feedback_comment_detailed = ""
 
 
-
-
 # ---------------------------
 # Extract text from PDF
 # ---------------------------
 
 def extract_text(file):
-    # FIX: seek(0) so re-runs don't read from EOF
     file.seek(0)
     text = ""
     tmp_path = None
@@ -137,7 +118,6 @@ def extract_text(file):
             for page in pdf.pages:
                 text += page.extract_text() or ""
     finally:
-        # FIX: always delete the temp file to avoid accumulation
         if tmp_path and os.path.exists(tmp_path):
             os.unlink(tmp_path)
     return text
@@ -156,7 +136,6 @@ def clean_json(text):
 # ---------------------------
 
 def validate_json(json_str):
-    # FIX: catch only JSONDecodeError, not every possible exception
     try:
         json_str = clean_json(json_str)
         return json.loads(json_str)
@@ -169,7 +148,6 @@ def validate_json(json_str):
 # ---------------------------
 
 def call_gpt(prompt, model):
-    # FIX: use client.chat.completions.create — client.responses does not exist
     response = client.chat.completions.create(
         model=model,
         messages=[{"role": "user", "content": prompt}],
@@ -686,24 +664,28 @@ st.set_page_config(
     page_icon="🛡️",
     layout="wide"
 )
+
+# Table CSS — prevents horizontal scroll, wraps text naturally
 st.markdown("""
 <style>
 table {
     width: 100% !important;
+    table-layout: fixed !important;
 }
 th, td {
     white-space: normal !important;
     word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
 }
 </style>
 """, unsafe_allow_html=True)
+
 title_col, nav_col = st.columns([3, 2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
     st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
 
-# FIX: nav_col was empty — no buttons existed to set st.session_state.menu
 with nav_col:
     st.markdown("<div style='padding-top:1.2rem'></div>", unsafe_allow_html=True)
     n1, n2, n3 = st.columns(3)
@@ -812,7 +794,7 @@ with col2:
         st.rerun()
 
 # ---------------------------
-# FIX: single upload/removal detection block (was duplicated)
+# Upload / Removal Detection
 # ---------------------------
 
 if uploaded_file is not None:
@@ -853,7 +835,6 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
-# FIX: single show_basic block (was split into two misaligned blocks causing IndentationError)
 if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
@@ -973,8 +954,11 @@ This helps you understand **where your policy protects you — and where it may 
 
     if st.button("🔒 Generate Detailed Report"):
         st.session_state.show_detailed = True
+
 # ---------------------------
 # Detailed Report
+# FIX: entire block — sections loop and feedback were outside the if block,
+# causing NameError on 'report' and feedback rendering on every section
 # ---------------------------
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
@@ -1017,19 +1001,20 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
         progress.empty()
         status.empty()
 
+    # FIX: render each section with a divider for readability —
+    # mirrors the original section-by-section display style.
+    # Loop and feedback are correctly inside this if block.
     report = st.session_state.detailed_report
+    sections = report.split("## ")
 
-sections = report.split("## ")
-
-for section in sections:
-    if section.strip():
-        st.markdown("## " + section)
-        st.markdown("---")
-
-    st.markdown("---")
+    for section in sections:
+        if section.strip():
+            st.markdown("## " + section)
+            st.markdown("---")
 
     # ---------------------------
     # FEEDBACK BLOCK — Detailed Report
+    # FIX: moved outside the for loop — renders once after all sections
     # ---------------------------
 
     st.markdown("#### Was this detailed report helpful?")
