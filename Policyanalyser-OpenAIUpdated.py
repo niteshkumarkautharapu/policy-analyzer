@@ -1019,7 +1019,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     report = st.session_state.detailed_report
 
-sections = report.split("## ")
+    sections = report.split("## ")
 
 for section in sections:
     if section.strip():
