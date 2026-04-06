@@ -1124,6 +1124,7 @@ with st.expander("📘 How To Use"):
 For best results, upload your **actual policy document** from your insurer.
 
 Avoid uploading:
+
 • Premium receipts  
 • Emails  
 • Incomplete screenshots  
