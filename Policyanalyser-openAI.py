@@ -1118,11 +1118,7 @@ st.markdown("---")
 
 with st.expander("📘 How To Use"):
 
-    st.info(
-        "Upload your insurance policy document to get an AI-powered summary of coverage, risks, and financial behaviour."
-    )
-
-    st.markdown("""
+   st.markdown("""
 ### 📄 Upload The Right Document
 
 For best results, upload your **actual policy document** from your insurer.
