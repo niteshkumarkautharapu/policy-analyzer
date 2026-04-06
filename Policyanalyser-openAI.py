@@ -542,7 +542,7 @@ Plain English only
 
 Add disclaimer:
 
-Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
+Based on common claim settlement patterns observed in Indian health insurance and publicly available insurance data, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
 
 Use policy-specific information only.
 
