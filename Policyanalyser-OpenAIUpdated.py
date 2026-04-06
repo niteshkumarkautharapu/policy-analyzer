@@ -495,6 +495,9 @@ OUTPUT RULES:
 - Do not include suggestions
 - Do not repeat sections
 - End report cleanly
+- Short explanatory paragraph
+- Structured table where applicable
+- Optional interpretation sentence
 
 Return STRICT MARKDOWN FORMAT
 ------------------------------------------------
@@ -526,11 +529,10 @@ Members Covered |
 
 ## 🧠 What This Policy Really Means
 
-Write 2-4 lines explaining:
-
-• What type of protection this policy provides
-• Whether useful for small or large claims
-• Overall behaviour
+What This Policy Really Means  
+- 4-6 explanatory sentences  
+- Explain real-world behaviour  
+- Avoid bullet format
 
 Plain English only
 
@@ -621,8 +623,8 @@ IMPORTANT RULES:
 • Avoid generic insurance explanations  
 • Use Indian healthcare cost examples  
 • If information missing → say "Depends on insurer claim policy"
-
-Return structured tables only
+• Use structured tables for clarity
+• Provide short explanatory paragraphs before tables
 
 ------------------------------------------------
 
@@ -666,9 +668,9 @@ Coverage Element | What Policy Says | What It Means
 
 ------------------------------------------------
 
-Keep explanations short, structured and clear.
-
-Avoid long narrative paragraphs.
+Provide short explanatory context where helpful
+Avoid overly long paragraphs
+Maintain readability and clarity
 
 INPUT JSON:
 {json.dumps(json_data)}
