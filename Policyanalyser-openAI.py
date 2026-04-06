@@ -833,7 +833,7 @@ col1, col2, spacer = st.columns([2, 1, 3])
 with col1:
     uploaded_file = st.file_uploader(
         "Upload policy",
-        type=["pdf", "docx"],
+        type=["pdf"],
         label_visibility="collapsed",
         key=f"policy_uploader_{st.session_state.uploader_key}"
     )
