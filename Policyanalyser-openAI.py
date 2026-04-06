@@ -784,7 +784,7 @@ with menu_placeholder:
             "and what to expect in real claim situations."
         )
 
-        st.success("Help people understand their insurance before they need it.")
+        st.info("Help people understand their insurance before they need it.")
 
     elif st.session_state.menu == "about":
         st.markdown("### ℹ️ What is CheckYourPolicy")
