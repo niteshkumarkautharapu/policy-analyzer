@@ -1074,10 +1074,14 @@ with st.expander("📘 How To Use"):
         "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
     )
     st.caption("""
-1. Upload your policy document (PDF)  
-2. AI analyzes coverage, exclusions and risks  
-3. Basic Report: Key highlights and findings  
-4. Generate detailed report  
+Upload your policy document from your insurer for best results, Please avoid policy reciepts,emails,incomplete documents.
+
+This works best with:
+• Policy schedule or certificate
+• Policy wording document
+• Renewal document with coverage details
+
+Documents with more coverage details provide better analysis and more accurate insights.
 """)
 
 if "footer" not in st.session_state:
