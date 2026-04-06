@@ -582,7 +582,7 @@ Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
 
 Output:
 
-• Select Top 5 most relevant scenarios  
+• Select Top 5-6 most relevant scenarios  
 • Use policy-specific coverage  
 
 ------------------------------------------------
@@ -595,7 +595,7 @@ Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
 
 Output:
 
-• Select Top 5 most relevant scenarios  
+• Select Top 5-6 most relevant scenarios  
 • Focus on financial impact  
 
 ------------------------------------------------
@@ -608,7 +608,7 @@ Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
 
 Output:
 
-• Select Top 5 most relevant scenarios  
+• Select Top 5-6 most relevant scenarios  
 • Avoid generic scenarios  
 • Focus on realistic claim rejection  
 
