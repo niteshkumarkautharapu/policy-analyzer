@@ -1121,7 +1121,7 @@ with st.expander("📘 How To Use"):
    st.markdown("""
 ### 📄 Upload The Right Document
 
-✅ Documents That Work Best - Documents with **more coverage details** provide **better analysis and more accurate insights**.
+✅ That Work Best - Documents with **more coverage details** provide **better analysis and more accurate insights**.
 
 • Policy schedule or certificate  
 • Policy wording document  
