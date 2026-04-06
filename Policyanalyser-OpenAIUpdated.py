@@ -364,15 +364,6 @@ Generate 3-4 short bullets only:
 Focus only on meaningful insights. Avoid repetition.
 
 ------------------------------------------------
-WRITING STYLE:
-
-• Use 3–5 sentences per section  
-• Provide natural explanation before insights  
-• Maintain readability and clarity  
-• Avoid overly short explanations  
-• Use conversational but professional tone  
-
-------------------------------------------------
 
 IMPORTANT RULES:
 
@@ -380,6 +371,8 @@ IMPORTANT RULES:
 • Avoid technical jargon  
 • Avoid judgement words  
 • Avoid recommendations  
+• Avoid listing too many coverage features  
+• Prefer short paragraphs instead of long bullet lists  
 • Avoid repeating content across sections  
 • Focus on user understanding  
 • Avoid assumptions  
@@ -400,7 +393,6 @@ INPUT:
 Return structured markdown output.
 """
     return call_gpt(prompt, ANALYSIS_MODEL)
-
 
 # ---------------------------
 # FULL DETAILED ANALYSIS
@@ -534,7 +526,7 @@ Members Covered |
 
 ## 🧠 What This Policy Really Means
 
-Write 3-5 explanatory sentences:
+Write 2-4 lines explaining:
 
 • What type of protection this policy provides
 • Whether useful for small or large claims
@@ -630,7 +622,7 @@ IMPORTANT RULES:
 • Use Indian healthcare cost examples  
 • If information missing → say "Depends on insurer claim policy"
 
-Use structured tables with brief explanatory sentences where necessary
+Return structured tables only
 
 ------------------------------------------------
 
@@ -674,15 +666,14 @@ Coverage Element | What Policy Says | What It Means
 
 ------------------------------------------------
 
-Keep explanations structured and readable.
-Include brief explanatory context before tables.
-Avoid overly long paragraphs but maintain clarity.
+Keep explanations short, structured and clear.
+
+Avoid long narrative paragraphs.
 
 INPUT JSON:
 {json.dumps(json_data)}
 """
     return call_gpt(prompt, ANALYSIS_MODEL)
-
 
 # ---------------------------
 # STREAMLIT UI
