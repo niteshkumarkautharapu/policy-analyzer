@@ -1127,15 +1127,12 @@ with st.expander("📘 How To Use"):
 • Policy wording document  
 • Renewal document with coverage details  
 
-Avoid uploading:
+Avoid uploading: These may not contain full coverage details.
 
 • Premium receipts  
 • Emails  
 • Incomplete screenshots  
 • Payment confirmations  
-
-These may not contain full coverage details.
-
 
 ### 🚀 How It Works
 
