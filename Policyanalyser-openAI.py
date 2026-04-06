@@ -765,7 +765,7 @@ with nav_col:
             st.session_state.menu = None if st.session_state.menu == "about" else "about"
     with n3:
         if st.button("Upcoming", use_container_width=True):
-            st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
+            st.session_state.menu = None if st.session_state.menu == "Upcoming" else "Upcoming"
 
 # ---------------------------
 # NAVIGATION CONTENT
