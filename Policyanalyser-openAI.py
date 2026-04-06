@@ -8,21 +8,6 @@ import streamlit as st
 from openai import OpenAI
 from datetime import datetime
 from notion_client import Client
-import streamlit.components.v1 as components
-
-components.html(
-"""
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0D8JEGK5JK"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-0D8JEGK5JK');
-</script>
-""",
-height=0,
-)
 
 def save_feedback(policy, report, feedback, comment):
 
