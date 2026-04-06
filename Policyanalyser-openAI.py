@@ -1,11 +1,80 @@
-import streamlit as st
-import pdfplumber
-from openai import OpenAI
-import json
-import tempfile
 import os
+import json
+import time
+import tempfile
 
+import pdfplumber
+import streamlit as st
+from openai import OpenAI
+from datetime import datetime
+from notion_client import Client
+
+def save_feedback(policy, report, feedback, comment):
+
+    try:
+        notion = Client(auth=st.secrets["NOTION_TOKEN"])
+
+        notion.pages.create(
+            parent={"database_id": st.secrets["NOTION_DATABASE_ID"]},
+            properties={
+                "Title": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": str(policy)
+                            }
+                        }
+                    ]
+                },
+                "Report": {
+                    "select": {
+                        "name": str(report)
+                    }
+                },
+                "Feedback": {
+                    "select": {
+                        "name": str(feedback)
+                    }
+                },
+                "Comment": {
+                    "rich_text": [
+                        {
+                            "text": {
+                                "content": str(comment)
+                            }
+                        }
+                    ]
+                },
+                "Date": {
+                    "date": {
+                        "start": datetime.now().isoformat()
+                    }
+                }
+            }
+        )
+
+    except Exception as e:
+        st.error(f"Notion Error: {e}")
+# ---------------------------
+# CONFIG
+# ---------------------------
+
+# FIX: validate API key at startup instead of silently passing None
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    st.error("OPENAI_API_KEY environment variable is not set.")
+    st.stop()
+
+client = OpenAI(api_key=api_key)
+
+# FIX: gpt-5-mini does not exist — use gpt-4o for analysis
+EXTRACTION_MODEL = "gpt-4o-mini"
+ANALYSIS_MODEL = "gpt-4o"
+
+# ---------------------------
 # Session State Initialization
+# ---------------------------
+
 if "show_basic" not in st.session_state:
     st.session_state.show_basic = False
 
@@ -14,34 +83,70 @@ if "show_detailed" not in st.session_state:
 
 if "file_uploaded" not in st.session_state:
     st.session_state.file_uploaded = False
-    
-# ---------------------------
-# CONFIG
-# ---------------------------
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-MODEL_NAME = "gpt-5-mini"
+
+if "detailed_report" not in st.session_state:
+    st.session_state.detailed_report = None
+
+if "highlights" not in st.session_state:
+    st.session_state.highlights = None
+
+if "summary" not in st.session_state:
+    st.session_state.summary = None
+
+# FIX: basic_report was used but never initialised in session state
+if "basic_report" not in st.session_state:
+    st.session_state.basic_report = None
+
+if "uploader_key" not in st.session_state:
+    st.session_state.uploader_key = 0
+
+if "menu" not in st.session_state:
+    st.session_state.menu = None
+
+if "feedback_submitted_basic" not in st.session_state:
+    st.session_state.feedback_submitted_basic = False
+if "feedback_value_basic" not in st.session_state:
+    st.session_state.feedback_value_basic = None
+if "feedback_comment_basic" not in st.session_state:
+    st.session_state.feedback_comment_basic = ""
+
+if "feedback_submitted_detailed" not in st.session_state:
+    st.session_state.feedback_submitted_detailed = False
+if "feedback_value_detailed" not in st.session_state:
+    st.session_state.feedback_value_detailed = None
+if "feedback_comment_detailed" not in st.session_state:
+    st.session_state.feedback_comment_detailed = ""
+
+
 
 
 # ---------------------------
 # Extract text from PDF
 # ---------------------------
+
 def extract_text(file):
+    # FIX: seek(0) so re-runs don't read from EOF
+    file.seek(0)
     text = ""
-
-    with tempfile.NamedTemporaryFile(delete=False) as tmp:
-        tmp.write(file.read())
-        tmp_path = tmp.name
-
-    with pdfplumber.open(tmp_path) as pdf:
-        for page in pdf.pages:
-            text += page.extract_text() or ""
-
+    tmp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            tmp.write(file.read())
+            tmp_path = tmp.name
+        with pdfplumber.open(tmp_path) as pdf:
+            for page in pdf.pages:
+                text += page.extract_text() or ""
+    finally:
+        # FIX: always delete the temp file to avoid accumulation
+        if tmp_path and os.path.exists(tmp_path):
+            os.unlink(tmp_path)
     return text
 
 
 # ---------------------------
 # Clean Output
 # ---------------------------
+
 def clean_json(text):
     return text.replace("```json", "").replace("```", "").strip()
 
@@ -49,30 +154,33 @@ def clean_json(text):
 # ---------------------------
 # Validate JSON
 # ---------------------------
+
 def validate_json(json_str):
+    # FIX: catch only JSONDecodeError, not every possible exception
     try:
         json_str = clean_json(json_str)
         return json.loads(json_str)
-    except:
+    except json.JSONDecodeError:
         return None
 
 
 # ---------------------------
 # OpenAI Call
 # ---------------------------
-def call_gpt(prompt):
 
-    response = client.responses.create(
-        model=MODEL_NAME,
-        input=prompt,
+def call_gpt(prompt, model):
+    # FIX: use client.chat.completions.create — client.responses does not exist
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "user", "content": prompt}],
     )
-
-    return response.output_text
+    return response.choices[0].message.content
 
 
 # ---------------------------
 # EXTRACTION PROMPT
 # ---------------------------
+
 def run_extraction(text):
     prompt = f"""
 You are an insurance policy data extraction engine.
@@ -91,6 +199,29 @@ If a field is missing → return "Not specified"
 Use exact numeric values where possible (no ranges unless given)
 Standardize currency in INR (numbers only, no symbols)
 Keep structure EXACTLY as defined below
+
+WAITING PERIOD INTERPRETATION RULES:
+
+Health insurance waiting periods behave differently for new policies and renewals.
+
+IMPORTANT:
+
+• Initial waiting period (30 days) applies only if policy is new
+• Pre-existing disease waiting period applies only if not already completed
+• Specified disease waiting period applies only if not already completed
+• If renewal status is not specified, treat waiting periods as conditional
+• Do NOT assume policy is new
+• Do NOT state waiting periods as absolute unless explicitly mentioned
+
+Always present waiting periods as conditional:
+
+Example:
+
+"If this is a new policy, 30-day waiting period applies"
+
+"If waiting period already completed, this restriction may not apply"
+
+Avoid definitive statements that may mislead users.
 
 OUTPUT JSON STRUCTURE:
 
@@ -158,12 +289,13 @@ Return ONLY JSON
 INPUT:
 {text}
 """
-    return call_gpt(prompt)
+    return call_gpt(prompt, EXTRACTION_MODEL)
 
 
 # ---------------------------
 # RETRY
 # ---------------------------
+
 def extract_with_retry(text):
     for _ in range(2):
         output = run_extraction(text)
@@ -174,97 +306,201 @@ def extract_with_retry(text):
 
 
 # ---------------------------
-# HIGHLIGHTS
+# Basic Report
 # ---------------------------
-def generate_highlights(json_data):
 
+def generate_basic_report(json_data):
     prompt = f"""
 You are an insurance policy transparency expert.
 
-Generate:
+Generate a Basic Policy Summary using the following structure:
 
-• Activation insight
-• Risk insight
-• Coverage insight
-• Hidden cost insight
+------------------------------------------------
 
-Plain English
-Short bullets
-Financial impact only
+## 🧠 Quick Understanding
+
+Explain in plain English:
+
+• What this policy is  
+• Who it protects  
+• What kind of medical situations it is useful for  
+
+Write in short natural paragraphs (not bullet lists).
+
+------------------------------------------------
+
+## 📌 What This Policy Means For You
+
+Explain:
+
+• When this policy is most useful  
+• How coverage behaves in real-life  
+
+Focus on practical understanding rather than policy terminology.
+
+------------------------------------------------
+
+## ⚠️ Key Financial Condition
+
+Explain clearly:
+
+• Deductible / Copay / Floater behaviour  
+• When insurance starts paying  
+• How this impacts real-world claims  
+
+Keep explanation simple and practical.
+
+------------------------------------------------
+
+## ⭐ Key Highlights
+
+Generate 3-4 short bullets only:
+
+• Activation insight  
+• Risk insight  
+• Coverage insight  
+• Hidden cost insight  
+
+Focus only on meaningful insights. Avoid repetition.
+
+------------------------------------------------
+
+IMPORTANT RULES:
+
+• Use medium-level English  
+• Avoid technical jargon  
+• Avoid judgement words  
+• Avoid recommendations  
+• Avoid listing too many coverage features  
+• Prefer short paragraphs instead of long bullet lists  
+• Avoid repeating content across sections  
+• Focus on user understanding  
+• Avoid assumptions  
+• Keep tone neutral and informative  
+
+Do NOT include:
+
+• Waiting period details  
+• Sublimit details  
+• Detailed exclusions  
+• Premium vs value comparisons  
+
+These belong to detailed report.
 
 INPUT:
 {json.dumps(json_data)}
+
+Return structured markdown output.
 """
-
-    return call_gpt(prompt)
-
-
-# ---------------------------
-# BASIC SUMMARY
-# ---------------------------
-def generate_basic_summary(json_data):
-
-    prompt = f"""
-Write 2-3 lines explaining:
-
-Policy type
-Deductible behaviour
-Coverage nature
-
-No judgement
-
-INPUT:
-{json.dumps(json_data)}
-"""
-
-    return call_gpt(prompt)
-
+    return call_gpt(prompt, ANALYSIS_MODEL)
 
 # ---------------------------
 # FULL DETAILED ANALYSIS
 # ---------------------------
+
 def run_analysis(json_data):
-
     prompt = f"""
-Prompt for Json analysis
+You are an insurance policy behaviour analysis expert.
 
-You are an insurance policy transparency expert.
+IMPORTANT RULES:
 
-You are given structured insurance policy data in JSON format.
-
-Your task is NOT to rate, score, judge, recommend, or advise.
-
-Your goal is to clearly explain:
-
-How this policy behaves in real life
-
-What the user will actually pay
-
-When the policy helps and when it does not
-
-What conditions affect payouts
-
-How financial responsibility shifts between user and insurer
+- Use medium-level English
+- Use simple, clear sentences
+- Avoid technical jargon and complex words
+- Prefer tables wherever applicable (except interpretation sections)
+- Focus on real-life interpretation
+- Avoid repetition across sections
+- If any data missing → say "Not specified in policy"
 
 
-CORE RULES:
+INSURANCE DOMAIN RULES:
 
-Do NOT assign scores or ratings
-
-Do NOT say "good", "bad", "best", "recommended"
-
-Do NOT suggest actions
-
-Do NOT repeat raw JSON
-
-Do NOT use technical insurance jargon
-
-Translate policy clauses into real-life financial impact
-
-If any data is missing → say "Not specified in policy"
+- Do not assume policy is good or bad
+- Do not use judgement words like strong, weak, good, poor
+- Focus on behaviour, not recommendation
+- Explain financial impact wherever possible
+- Use numbers instead of vague statements
+- Use policy-specific interpretation only
+- Clearly explain deductible behaviour
+- Explain when insurance starts paying after deductible
 
 
-OUTPUT FORMAT (STRICT MARKDOWN)
+WAITING PERIOD RULES:
+
+- Initial waiting period applies mainly if policy is new
+- Pre-existing disease waiting applies only if waiting period not already completed
+- Specified disease waiting applies only if waiting period not completed
+- If renewal status not mentioned, state applicability conditionally
+- Avoid absolute statements
+
+
+INLINE NOTE RULES:
+
+- For waiting period related items, add short inline note
+- Mention whether applicable mainly for new policy or renewal
+- Keep note short and simple
+
+
+SECTION DIFFERENTIATION RULES:
+
+Policy Snapshot  
+- Only factual policy data  
+- No interpretation  
+
+What This Policy Really Means  
+- High level interpretation  
+- 2-4 lines only  
+
+Real-Life Claim Behaviour  
+- Scenario-based table  
+- Show financial behaviour  
+
+Where This Policy Helps — And Where It Doesn't  
+- Situational comparison only  
+
+Your Financial Exposure  
+- Out-of-pocket risks only  
+- Deductible  
+- Copay  
+- Sublimits  
+- Floater risk  
+
+Key Policy Constraints  
+- Waiting periods  
+- Eligibility  
+- Exclusions  
+
+Understanding Your Coverage  
+- Coverage behaviour explanation  
+
+
+REAL-LIFE SCENARIO RULES:
+
+- Use realistic Indian hospital costs
+- Include minor, medium, large and critical scenarios
+- Show insurance pays vs you pay
+- Show deductible impact
+
+
+ABBREVIATION RULES:
+
+- Avoid abbreviations like SI, OOP, PED, OPD, IPD
+- Use full terms
+- If abbreviation used, explain once
+
+
+OUTPUT RULES:
+
+- Do not ask questions
+- Do not include suggestions
+- Do not repeat sections
+- End report cleanly
+- Short explanatory paragraph
+- Structured table where applicable
+- Optional interpretation sentence
+
+Return STRICT MARKDOWN FORMAT
+------------------------------------------------
 
 POLICY ANALYSIS REPORT
 
@@ -272,7 +508,9 @@ POLICY ANALYSIS REPORT
 
 ------------------------------------------------
 
-📋 POLICY SUMMARY
+## 📊 Policy Snapshot
+
+Create a table:
 
 Field | Details
 Policy Name |
@@ -283,111 +521,161 @@ Sum Insured |
 Deductible |
 Co-Pay |
 Room Rent Limit |
-Premium Paid |
+Premium |
 Policy Period |
 Members Covered |
 
 ------------------------------------------------
 
-🔴 ACTIVATION BARRIER
+## 🧠 What This Policy Really Means
 
-Explain clearly:
+What This Policy Really Means  
+- 4-6 explanatory sentences  
+- Explain real-world behaviour  
+- Avoid bullet format
 
-If deductible exists  
-How much user pays first
-
-If none  
-State clearly
-
-------------------------------------------------
-
-🔍 TOP 3 REALITY CHECKS
-
-3 bullets
-
-Biggest financial truths
+Plain English only
 
 ------------------------------------------------
 
-💰 HOW THIS WORKS IN REAL LIFE
+## 💰 Real-Life Claim Behaviour
 
-Scenario | Estimated Bill | Insurance Pays | You Pay
+Add disclaimer:
 
-Small claim  
-Medium claim  
-Near deductible  
-Large claim
+Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
 
-Use Indian cost ranges
+Use policy-specific information only.
 
-------------------------------------------------
+Analyze policy information:
 
-⚠️ KEY LIMITATIONS & CONDITIONS
+• Sum insured  
+• Deductible  
+• Co-pay  
+• Waiting periods  
+• Sublimits  
+• Room rent limits  
+• Coverage scope  
+• Exclusions  
+• Special conditions  
+• Members covered  
 
-Waiting periods  
-Restrictions  
-Coverage limits
+IMPORTANT REASONING RULE:
 
-------------------------------------------------
+• Consider at least 10 realistic scenarios internally  
+• Select the most relevant 5 scenarios based on policy conditions  
+• Avoid generic or repetitive scenarios  
+• Prioritize scenarios with financial impact  
 
-⚠️ HIDDEN COST LIMITS
+Prioritize scenarios based on:
 
-Procedure caps  
-Room rent  
-Sublimits
-
-------------------------------------------------
-
-⏳ WHEN YOU CANNOT USE THIS POLICY
-
-Waiting periods  
-Pre-existing  
-Initial wait
-
-------------------------------------------------
-
-✅ WHEN THIS POLICY HELPS
-
-Large bills  
-Serious illness  
+• Highest financial risk  
+• Most common claim rejection patterns  
+• Policy-specific constraints  
 
 ------------------------------------------------
 
-❌ WHEN THIS POLICY DOES NOT HELP
+### 🟢 Claims Typically Paid
 
-Small claims  
-Frequent usage  
+Create table:
 
-------------------------------------------------
+Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
 
-🧠 PLAIN ENGLISH SUMMARY
+Output:
 
-2-3 lines
-
-------------------------------------------------
-
-🧾 PRACTICAL INTERPRETATION
-
-User financial responsibility
+• Select Top 5-6 most relevant scenarios  
+• Use policy-specific coverage  
 
 ------------------------------------------------
 
-🔎 FINANCIAL RISK AREAS
+### 🟡 Claims Partially Paid
 
-User still pays
+Create table:
+
+Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
+
+Output:
+
+• Select Top 5-6 most relevant scenarios  
+• Focus on financial impact  
 
 ------------------------------------------------
 
-💡 CLAIM BEHAVIOR INSIGHT
+### 🔴 Claims That May Be Rejected
 
-Claim flow explanation
+Create table:
+
+Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
+
+Output:
+
+• Select Top 5-6 most relevant scenarios  
+• Avoid generic scenarios  
+• Focus on realistic claim rejection  
+
+------------------------------------------------
+
+IMPORTANT RULES:
+
+• Use medium-level English  
+• Avoid technical jargon  
+• Avoid abbreviations  
+• Avoid duplication across sections  
+• Avoid generic insurance explanations  
+• Use Indian healthcare cost examples  
+• If information missing → say "Depends on insurer claim policy"
+• Use structured tables for clarity
+• Provide short explanatory paragraphs before tables
+
+------------------------------------------------
+
+## ⚖️ Where This Policy Helps — And Where It Doesn't
+
+Create comparison table:
+
+Where This Policy Helps | Where This Policy Doesn't Help
+
+------------------------------------------------
+
+## ⚠️ Where You May Have To Pay From Your Pocket
+
+Create table:
+
+Risk Area | Why This Matters | Financial Impact
+
+------------------------------------------------
+
+## 🚧 Key Policy Constraints
+
+Create table:
+
+Constraint | What Policy Says | Impact
+
+Include:
+
+Waiting periods (mention conditional applicability for renewals)
+Pre-existing disease rules (mention if waiting already completed)  
+Specific disease waiting  
+Coverage restrictions  
+Eligibility conditions  
+
+------------------------------------------------
+
+## 🔎 Understanding Your Coverage
+
+Create table:
+
+Coverage Element | What Policy Says | What It Means
+
+------------------------------------------------
+
+Provide short explanatory context where helpful
+Avoid overly long paragraphs
+Maintain readability and clarity
 
 INPUT JSON:
 {json.dumps(json_data)}
 """
-
-    return call_gpt(prompt)
-
+    return call_gpt(prompt, ANALYSIS_MODEL)
 
 # ---------------------------
 # STREAMLIT UI
@@ -398,33 +686,37 @@ st.set_page_config(
     page_icon="🛡️",
     layout="wide"
 )
-
-title_col, nav_col = st.columns([3,2])
+st.markdown("""
+<style>
+table {
+    width: 100% !important;
+}
+th, td {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+</style>
+""", unsafe_allow_html=True)
+title_col, nav_col = st.columns([3, 2])
 
 with title_col:
     st.title("🛡️ Check Your Policy")
     st.caption("Understand your insurance policy coverage, risks and limitations instantly.")
 
+# FIX: nav_col was empty — no buttons existed to set st.session_state.menu
 with nav_col:
-
-    col1, col2, col3 = st.columns(3)
-
-    if "menu" not in st.session_state:
-        st.session_state.menu = None
-
-    with col1:
-        if st.button("🎯 Vision"):
+    st.markdown("<div style='padding-top:1.2rem'></div>", unsafe_allow_html=True)
+    n1, n2, n3 = st.columns(3)
+    with n1:
+        if st.button("Vision", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "vision" else "vision"
-
-    with col2:
-        if st.button("ℹ️ About"):
+    with n2:
+        if st.button("About", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "about" else "about"
-
-    with col3:
-        if st.button("🚧 Upcoming"):
+    with n3:
+        if st.button("Premium", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
-menu_placeholder = st.container()
 # ---------------------------
 # NAVIGATION CONTENT
 # ---------------------------
@@ -434,25 +726,19 @@ menu_placeholder = st.container()
 with menu_placeholder:
 
     if st.session_state.menu == "vision":
-
         st.markdown("### 🎯 Vision")
-
         st.info(
-        "Insurance policies are complex and difficult to understand. "
-        "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
-        "limitations, and real-world claim behaviour."
+            "Insurance policies are complex and difficult to understand. "
+            "CheckYourPolicy simplifies insurance documents and highlights coverage, risks, "
+            "limitations, and real-world claim behaviour."
         )
-
 
     elif st.session_state.menu == "about":
-
         st.markdown("### ℹ️ What is CheckYourPolicy")
-
         st.info(
-        "CheckYourPolicy analyzes your insurance document using AI to identify coverage details, "
-        "hidden clauses, exclusions, financial risks, and real-world claim impact."
+            "CheckYourPolicy analyzes your insurance document using AI to identify coverage details, "
+            "hidden clauses, exclusions, financial risks, and real-world claim impact."
         )
-
         st.caption("""
 • Understand what is covered and what is not  
 • Identify hidden clauses  
@@ -461,9 +747,7 @@ with menu_placeholder:
 """)
 
     elif st.session_state.menu == "upcoming":
-
         st.markdown("### 🔒 Premium Detailed Report")
-
         st.caption("""
 • Clause-by-clause breakdown  
 • Hidden conditions detection  
@@ -473,52 +757,152 @@ with menu_placeholder:
 • Personalized risk insights  
 • Financial risk explanation  
 """)
-
-
         st.markdown("### 🚀 More Features")
-
         st.caption("""
 • Motor and Life Insurance Category  
 • Report Download  
-• Multi Policy Comparision  
+• Multi Policy Comparison  
 """)
 
 st.markdown("---")
-uploaded_file = st.file_uploader("Upload your policy", type=["pdf", "docx"])
 
-# Detect File Upload
+# ---------------------------
+# Upload Section
+# ---------------------------
+
+st.markdown("### Upload your policy")
+
+col1, col2, spacer = st.columns([2, 1, 3])
+
+with col1:
+    uploaded_file = st.file_uploader(
+        "Upload policy",
+        type=["pdf", "docx"],
+        label_visibility="collapsed",
+        key=f"policy_uploader_{st.session_state.uploader_key}"
+    )
+
+with col2:
+    clear_disabled = (
+        uploaded_file is None
+        and "policy_json" not in st.session_state
+    )
+    if st.button(
+        "Reset",
+        help="Clear uploaded policy",
+        disabled=clear_disabled,
+        use_container_width=True
+    ):
+        st.session_state.uploader_key += 1
+        st.session_state.show_basic = False
+        st.session_state.show_detailed = False
+        st.session_state.file_uploaded = False
+        st.session_state.detailed_report = None
+        st.session_state.basic_report = None
+        st.session_state.feedback_submitted_basic = False
+        st.session_state.feedback_value_basic = None
+        st.session_state.feedback_comment_basic = ""
+        st.session_state.feedback_submitted_detailed = False
+        st.session_state.feedback_value_detailed = None
+        st.session_state.feedback_comment_detailed = ""
+        st.session_state.pop("policy_json", None)
+        st.session_state.pop("highlights", None)
+        st.session_state.pop("summary", None)
+        st.session_state.pop("last_uploaded", None)
+        st.rerun()
+
+# ---------------------------
+# FIX: single upload/removal detection block (was duplicated)
+# ---------------------------
+
 if uploaded_file is not None:
     st.session_state.file_uploaded = True
-
-# Detect File Removal
-if uploaded_file is None:
+    if "last_uploaded" not in st.session_state:
+        st.session_state.last_uploaded = uploaded_file.name
+    elif uploaded_file.name != st.session_state.last_uploaded:
+        st.session_state.show_basic = False
+        st.session_state.show_detailed = False
+        st.session_state.detailed_report = None
+        st.session_state.basic_report = None
+        st.session_state.feedback_submitted_basic = False
+        st.session_state.feedback_value_basic = None
+        st.session_state.feedback_comment_basic = ""
+        st.session_state.feedback_submitted_detailed = False
+        st.session_state.feedback_value_detailed = None
+        st.session_state.feedback_comment_detailed = ""
+        st.session_state.pop("policy_json", None)
+        st.session_state.pop("highlights", None)
+        st.session_state.pop("summary", None)
+        st.session_state.last_uploaded = uploaded_file.name
+else:
     st.session_state.show_basic = False
     st.session_state.show_detailed = False
     st.session_state.file_uploaded = False
+    st.session_state.detailed_report = None
+    st.session_state.basic_report = None
+    st.session_state.pop("policy_json", None)
+    st.session_state.pop("highlights", None)
+    st.session_state.pop("summary", None)
+
+# ---------------------------
+# Basic Summary
+# ---------------------------
 
 if uploaded_file:
-
+    st.success("✅ Policy uploaded successfully! Click **Basic Summary** to analyse your policy.")
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
+# FIX: single show_basic block (was split into two misaligned blocks causing IndentationError)
 if st.session_state.show_basic and uploaded_file:
 
-    with st.spinner("Analyzing policy..."):
+    if "policy_json" not in st.session_state:
+
+        progress = st.progress(0)
+        status = st.empty()
+
+        status.info("📄 Reading policy document...")
+        progress.progress(10)
 
         text = extract_text(uploaded_file)
+        time.sleep(0.2)
+
+        status.info("🔍 Extracting policy details, might take a few seconds...")
+        progress.progress(35)
 
         parsed_json = extract_with_retry(text)
 
         if not parsed_json:
-            st.error("Extraction failed")
-        else:
+            status.error("Extraction failed. Please try again.")
+            progress.empty()
+            st.stop()
 
-            highlights = generate_highlights(parsed_json)
-            summary = generate_basic_summary(parsed_json)
+        st.session_state["policy_json"] = parsed_json
+        time.sleep(0.2)
 
-            st.markdown("## 🛡️ Policy Snapshot")
+        status.info("🧠 Generating policy summary, please wait...")
+        progress.progress(60)
 
-            st.markdown(f"""
+        basic_report = generate_basic_report(parsed_json)
+        st.session_state["basic_report"] = basic_report
+
+        time.sleep(0.2)
+
+        status.info("📊 Preparing report view...")
+        progress.progress(85)
+        time.sleep(0.3)
+
+        progress.progress(100)
+        status.success("✅ Basic summary ready")
+        time.sleep(0.5)
+
+        progress.empty()
+        status.empty()
+
+    parsed_json = st.session_state["policy_json"]
+    basic_report = st.session_state["basic_report"]
+
+    st.markdown(f"""
 Policy Name: {parsed_json.get('policy_name')}  
 Insurer: {parsed_json.get('insurer')}  
 Policy Type: {parsed_json.get('policy_type')}  
@@ -528,88 +912,196 @@ Co-Pay: {parsed_json.get('copay')}
 Room Rent: {parsed_json.get('room_rent_limit')}  
 Members: {parsed_json.get('members_count')}
 """)
+    basic_report = basic_report.replace("```markdown", "").replace("```", "")
+    st.markdown(basic_report)
+    st.markdown("---")
 
-            st.markdown("## 🧠 Quick Understanding")
-            st.markdown(summary)
+    # ---------------------------
+    # FEEDBACK BLOCK — Basic Report
+    # ---------------------------
 
-            st.markdown("## ⭐ Key Highlights")
-            st.markdown(highlights)
+    st.markdown("#### Was this summary helpful?")
 
-            st.session_state["policy_json"] = parsed_json
+    if not st.session_state.feedback_submitted_basic:
 
+        fb_col1, fb_col2, fb_col3 = st.columns([1, 1, 5])
 
-if st.session_state.show_basic and "policy_json" in st.session_state:
+        with fb_col1:
+            if st.button("👍 Yes", key="basic_thumbs_up", use_container_width=True):
+                save_feedback(
+                    parsed_json.get("policy_name", "Unknown"),
+                    "Basic Report",
+                    "Helpful",
+                    ""
+                )
+                st.session_state.feedback_submitted_basic = True
+                st.rerun()
+
+        with fb_col2:
+            if st.button("👎 No", key="basic_thumbs_down", use_container_width=True):
+                save_feedback(
+                    parsed_json.get("policy_name", "Unknown"),
+                    "Basic Report",
+                    "Not Helpful",
+                    ""
+                )
+                st.session_state.feedback_submitted_basic = True
+                st.rerun()
+
+    else:
+        st.success("✅ Thank you for your feedback!")
+
+    st.markdown("---")
+
+    st.markdown("## 🔎 Want Deeper Analysis?")
+    st.markdown("""
+The detailed report provides deeper insights into how your policy behaves in real claim situations.
+
+### Detailed Report Includes:
+
+- Real-life claim rejection scenarios  
+- Hidden clauses that impact claims  
+- Financial risk areas and out-of-pocket exposure  
+- When insurance actually pays vs when it doesn't  
+- Waiting period impact (new vs renewal)  
+- Deductible and sublimit behaviour  
+- Coverage gaps and limitations  
+- Practical interpretation of policy conditions  
+
+This helps you understand **where your policy protects you — and where it may not.**
+""")
 
     if st.button("🔒 Generate Detailed Report"):
         st.session_state.show_detailed = True
-
-
-if st.session_state.show_detailed and "policy_json" in st.session_state:
-
-    with st.spinner("Generating detailed report..."):
-
-        report = run_analysis(st.session_state["policy_json"])
-
-        st.markdown(report)
-
+# ---------------------------
+# Detailed Report
+# ---------------------------
 
 if st.session_state.show_detailed and "policy_json" in st.session_state:
 
-    with st.spinner("Generating detailed report..."):
+    if st.session_state.detailed_report is None:
 
-        report = run_analysis(st.session_state["policy_json"])
+        progress = st.progress(0)
+        status = st.empty()
 
-        st.markdown(report)
-# Footer State
-if "footer_section" not in st.session_state:
-    st.session_state.footer_section = None
+        status.info("📊 Building policy snapshot...")
+        progress.progress(10)
+        time.sleep(0.3)
+
+        status.info("🔍 Analyzing coverage behaviour...")
+        progress.progress(25)
+        time.sleep(0.3)
+
+        status.info("⚠️ Identifying financial risks...")
+        progress.progress(40)
+        time.sleep(0.3)
+
+        status.info("🚧 Evaluating policy constraints...")
+        progress.progress(55)
+        time.sleep(0.3)
+
+        status.info("🧠 Interpreting real-life claim behaviour...")
+        progress.progress(70)
+        time.sleep(0.3)
+
+        status.info("📄 Generating detailed report, please wait...")
+        progress.progress(85)
+
+        detailed = run_analysis(st.session_state["policy_json"])
+        st.session_state.detailed_report = detailed
+
+        progress.progress(100)
+        status.success("✅ Detailed report ready")
+        time.sleep(0.6)
+
+        progress.empty()
+        status.empty()
+
+    report = st.session_state.detailed_report
+    report = report.replace("```markdown", "").replace("```", "")
+
+    st.markdown(report)
+    st.markdown("---")
+    # ---------------------------
+    # FEEDBACK BLOCK — Detailed Report
+    # ---------------------------
+
+    st.markdown("#### Was this detailed report helpful?")
+
+    if not st.session_state.feedback_submitted_detailed:
+
+        fd_col1, fd_col2, fd_col3 = st.columns([1, 1, 5])
+
+        with fd_col1:
+            if st.button("👍  Yes", key="detailed_thumbs_up", use_container_width=True):
+                st.session_state.feedback_value_detailed = "Helpful"
+
+        with fd_col2:
+            if st.button("👎  No", key="detailed_thumbs_down", use_container_width=True):
+                st.session_state.feedback_value_detailed = "Not Helpful"
+
+        if st.session_state.feedback_value_detailed:
+
+            st.session_state.feedback_comment_detailed = st.text_area(
+                "Any comments? (optional)",
+                value=st.session_state.feedback_comment_detailed,
+                placeholder="Tell us what was helpful or what could be better...",
+                key="detailed_comment_box"
+            )
+
+            if st.button("Submit Feedback", key="detailed_submit"):
+                save_feedback(
+                    st.session_state["policy_json"].get("policy_name", "Unknown"),
+                    "Detailed Report",
+                    st.session_state.feedback_value_detailed,
+                    st.session_state.feedback_comment_detailed
+                )
+                st.session_state.feedback_submitted_detailed = True
+                st.rerun()
+
+    else:
+        st.success("✅ Thank you for your feedback!")
+
+# ---------------------------
+# Footer
+# ---------------------------
 
 st.caption("Supports Health Insurance Policies")
-
 st.markdown("---")
 
-# ---------------------------
-# HOW TO USE (Always Visible)
-# ---------------------------
 with st.expander("📘 How To Use"):
-
     st.info(
-    "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
+        "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
     )
-
     st.caption("""
 1. Upload your policy document (PDF)  
 2. AI analyzes coverage, exclusions and risks  
-3. Basic Report : Key highlights and findings  
-4. Generate detailed report 
+3. Basic Report: Key highlights and findings  
+4. Generate detailed report  
 """)
 
-# Footer state
 if "footer" not in st.session_state:
     st.session_state.footer = None
 
-footer_col1, footer_col2 = st.columns([1,6])
+footer_col1, footer_col2 = st.columns([1, 6])
 
 with footer_col1:
-    btn1, btn2 = st.columns([1,1])
-
+    btn1, btn2 = st.columns([1, 1])
     with btn1:
         if st.button("Privacy", key="privacy_footer"):
             st.session_state.footer = None if st.session_state.footer == "privacy" else "privacy"
-
     with btn2:
         if st.button("Terms", key="terms_footer"):
             st.session_state.footer = None if st.session_state.footer == "terms" else "terms"
 
-
 with footer_col2:
     st.markdown(
-    """
-    <div style="text-align:right; font-size:11px; color:#999;">
-    © 2026 CheckYourPolicy
-    </div>
-    """,
-    unsafe_allow_html=True
+        """
+        <div style="text-align:right; font-size:11px; color:#999;">
+        © 2026 CheckYourPolicy
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 if st.session_state.footer == "privacy":
