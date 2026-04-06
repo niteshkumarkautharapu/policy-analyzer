@@ -1117,24 +1117,52 @@ st.caption("Supports Health Insurance Policies")
 st.markdown("---")
 
 with st.expander("📘 How To Use"):
+
     st.info(
-        "Upload your insurance policy PDF to get an AI-powered summary of coverage, exclusions, risks, and key highlights."
+        "Upload your insurance policy document to get an AI-powered summary of coverage, risks, and financial behaviour."
     )
-    st.caption("""
-Upload your policy document from your insurer for best results, Please avoid policy reciepts,emails,incomplete documents.
 
-This works best with:
-• Policy schedule or certificate
-• Policy wording document
-• Renewal document with coverage details
+    st.markdown("""
+### 📄 Upload The Right Document
 
-Documents with more coverage details provide better analysis and more accurate insights.
+For best results, upload your **actual policy document** from your insurer.
 
-How it works:
+Avoid uploading:
+• Premium receipts  
+• Emails  
+• Incomplete screenshots  
+• Payment confirmations  
 
-Upload policy document
-Get Basic Summary
-Generate Detailed Report 
+These may not contain full coverage details.
+
+---
+
+### ✅ Documents That Work Best
+
+• Policy schedule or certificate  
+• Policy wording document  
+• Renewal document with coverage details  
+
+Documents with **more coverage details** provide **better analysis and more accurate insights**.
+
+---
+
+### 🚀 How It Works
+
+1. Upload your policy document  
+2. Generate **Basic Summary**  
+3. Review key coverage behaviour  
+4. Generate **Detailed Report** (optional)  
+5. Understand risks, exclusions and claim scenarios
+
+---
+
+### 🔒 Your Data Privacy
+
+• Your document is used only for analysis  
+• No policy data is stored permanently  
+• No personal information is shared  
+
 """)
 
 if "footer" not in st.session_state:
