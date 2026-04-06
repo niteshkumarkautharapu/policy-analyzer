@@ -764,7 +764,7 @@ with nav_col:
         if st.button("About", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "about" else "about"
     with n3:
-        if st.button("Premium", use_container_width=True):
+        if st.button("Upcoming", use_container_width=True):
             st.session_state.menu = None if st.session_state.menu == "upcoming" else "upcoming"
 
 # ---------------------------
