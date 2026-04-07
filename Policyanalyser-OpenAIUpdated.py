@@ -243,7 +243,7 @@ OUTPUT JSON STRUCTURE:
 "proportionate_deduction": "",
 "network_hospital_count": "",
 "continuity_benefit": "",
-"premium_loading": ""
+"premium_loading": "",
 "is_super_topup": "",
 "is_critical_illness": "",
 "is_personal_accident": "",
