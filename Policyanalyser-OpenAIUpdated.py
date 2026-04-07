@@ -229,8 +229,19 @@ OUTPUT JSON STRUCTURE:
 "policy_name": "",
 "insurer": "",
 "policy_number": "",
+
 "policy_type": "",
+"policy_category": "",
 "policy_classification_hint": "",
+
+"is_individual_policy": "",
+"is_family_floater": "",
+"is_group_policy": "",
+"is_topup": "",
+"is_super_topup": "",
+"is_critical_illness": "",
+"is_personal_accident": "",
+"is_senior_citizen_policy": "",
 
 "sum_insured": "",
 "sum_insured_type": "",
@@ -246,14 +257,14 @@ OUTPUT JSON STRUCTURE:
 
 "members_count": "",
 "members": [
-{{
+{
 "name": "",
 "age": "",
 "relation": ""
-}}
+}
 ],
 
-"coverage": {{
+"coverage": {
 "inpatient": "",
 "pre_hospitalization_days": "",
 "post_hospitalization_days": "",
@@ -262,26 +273,48 @@ OUTPUT JSON STRUCTURE:
 "domiciliary": "",
 "ambulance_limit": "",
 "donor_expense": ""
-}},
+},
 
-"exclusions": {{
+"coverage_features": {
+"restoration_benefit": "",
+"no_claim_bonus": "",
+"cashless_network": "",
+"network_hospitals": "",
+"modern_treatment": "",
+"organ_donor": "",
+"home_care": ""
+},
+
+"exclusions": {
 "maternity": "",
 "opd": "",
+"cosmetic": "",
+"non_medical": "",
 "permanent_exclusions": []
-}},
+},
 
-"waiting_periods": {{
+"waiting_periods": {
 "initial_days": "",
 "specified_disease_months": "",
-"pre_existing_months": ""
-}},
+"pre_existing_months": "",
+"maternity_waiting": ""
+},
 
-"sublimits": {{
-"cataract_per_eye": ""
-}},
+"sublimits": {
+"room_rent": "",
+"icu_limit": "",
+"cataract_per_eye": "",
+"maternity_limit": "",
+"ambulance_limit": ""
+},
 
-"special_conditions": [
-]
+"financial_conditions": {
+"copay_conditions": "",
+"deductible_conditions": "",
+"floater_risk": ""
+},
+
+"special_conditions": []
 }}
 
 Return ONLY JSON
