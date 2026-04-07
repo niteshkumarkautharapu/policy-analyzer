@@ -245,10 +245,13 @@ OUTPUT JSON STRUCTURE:
 
 "sum_insured": "",
 "sum_insured_type": "",
+
 "deductible": "",
 "deductible_type": "",
 "copay": "",
+
 "room_rent_limit": "",
+"room_rent_type": "",
 
 "premium": "",
 "policy_start_date": "",
@@ -268,6 +271,7 @@ OUTPUT JSON STRUCTURE:
 "inpatient": "",
 "pre_hospitalization_days": "",
 "post_hospitalization_days": "",
+"pre_post_conditions": "",
 "day_care": "",
 "ayush": "",
 "domiciliary": "",
@@ -277,17 +281,38 @@ OUTPUT JSON STRUCTURE:
 
 "coverage_features": {{
 "restoration_benefit": "",
-"no_claim_bonus": "",
+"restoration_conditions": "",
+"no_claim_bonus": {{
+"available": "",
+"bonus_percent": "",
+"max_bonus": "",
+"reset_conditions": ""
+}},
 "cashless_network": "",
 "network_hospitals": "",
-"modern_treatment": "",
+"tpa": "",
+"cashless_scope": "",
+"modern_treatment": {{
+"covered": "",
+"sublimit": "",
+"conditions": ""
+}},
 "organ_donor": "",
 "home_care": ""
 }},
 
 "exclusions": {{
-"maternity": "",
-"opd": "",
+"maternity": {{
+"covered": "",
+"waiting_period": "",
+"limit": "",
+"newborn_cover": ""
+}},
+"opd": {{
+"covered": "",
+"limit": "",
+"conditions": ""
+}},
 "cosmetic": "",
 "non_medical": "",
 "permanent_exclusions": []
@@ -312,6 +337,19 @@ OUTPUT JSON STRUCTURE:
 "copay_conditions": "",
 "deductible_conditions": "",
 "floater_risk": ""
+}},
+
+"age_conditions": {{
+"entry_age": "",
+"exit_age": "",
+"renewability": ""
+}},
+
+"renewal_conditions": "",
+
+"insurer_metrics": {{
+"claim_settlement_ratio": "",
+"grievance_ratio": ""
 }},
 
 "special_conditions": []
