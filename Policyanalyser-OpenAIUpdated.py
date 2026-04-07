@@ -238,6 +238,12 @@ OUTPUT JSON STRUCTURE:
 "is_family_floater": "",
 "is_group_policy": "",
 "is_topup": "",
+"restoration_type": "",
+"specified_diseases": [],
+"proportionate_deduction": "",
+"network_hospital_count": "",
+"continuity_benefit": "",
+"premium_loading": ""
 "is_super_topup": "",
 "is_critical_illness": "",
 "is_personal_accident": "",
