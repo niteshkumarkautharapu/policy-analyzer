@@ -428,14 +428,17 @@ Each bullet must be short and practical.
 Avoid paragraphs.
 
 ------------------------------------------------
-
 ## ⚠️ How Costs Are Shared
+
+Create table:
+
+Condition | What It Means | Financial Impact
 
 Explain clearly:
 
 • Deductible / Copay / Floater behaviour  
 • When insurance starts paying  
-• How this impacts real-world claims  
+• How this impacts real-world claims 
 
 Keep explanation simple and practical.Use short and clear explanations.
 
@@ -443,7 +446,7 @@ Keep explanation simple and practical.Use short and clear explanations.
 
 ## ⭐ Key Highlights
 
-Generate 5–6 short bullets only:
+Generate 5–6 short bullets only with below titles:
 
 • Activation insight  
 • Risk insight  
