@@ -389,97 +389,99 @@ def generate_basic_report(json_data):
     prompt = f"""
 You are an insurance policy transparency expert.
 
-Generate a Basic Policy Summary using the following structure:
+Generate a **Basic Policy Summary** focused on:
+
+• Where user is covered  
+• Where user has risks  
+• When insurance becomes useful  
+
+Use the following structure:
 
 ------------------------------------------------
+
 ## 🧠 Quick Understanding
 
 Create a simple table:
 
 Item | Summary
-Policy Type (Describe in one sentence) |
-Who Covered |
+Coverage Type |
+Who is Covered |
 Total Coverage |
-Best Use Case |
-Key Financial Trigger |
+Insurance Starts |
+Best For |
 
-Use short, clear phrases (not paragraphs).
+Rules:
 
-Policy Type must:
-
-• Be 1 short sentence  
-• Avoid insurance jargon  
-• Focus on when insurance becomes useful  
-• Mention family sharing if floater  
+• Use simple, non-technical language  
+• Convert insurance terms into plain English  
+• Policy type must describe behaviour, not classification  
 • Mention deductible if present  
-------------------------------------------------
-
-## 📌 What This Policy Means For You
-
-Create 3–5 short bullet points explaining:
-
-• When this policy is most useful  
-• How coverage behaves in real-life  
-• When insurance starts paying  
-• Key behaviour users should know  
-
-Each bullet must be short and practical.
-
-Avoid paragraphs.
-
-------------------------------------------------
-## ⚠️ How Costs Are Shared
-
-Create table:
-
-Condition | What It Means | Financial Impact
-
-Explain clearly - How this impacts real-world claims 
-
-Keep explanation simple and practical.Use short and clear explanations.
+• Mention family sharing if applicable  
+• Use short phrases only  
 
 ------------------------------------------------
 
-## ⭐ Key Highlights
+## 🟢 What Is Covered
 
-Generate 5–6 short bullets only with below titles:
+List 7-10 short bullet points:
 
-• Activation insight  
-• Risk insight  
-• Coverage insight  
-• Hidden cost insight  
+• Hospitalization scenarios  
+• Coverage strengths  
+• Situations where policy typically helps  
 
-Focus only on meaningful insights.
+Rules:
 
-Avoid repetition.
+• Keep bullets short  
+• Avoid technical jargon  
+• Avoid waiting period details  
+• Avoid long explanations  
+
 ------------------------------------------------
-SIMPLIFICATION RULES:
 
-• Convert technical insurance terms into plain English  
-• Avoid words like indemnity, benefit, floater unless explained  
-• Explain what the policy actually does  
-• Focus on user understanding instead of insurance classification  
+## 🔴 What Are Your Risks
+
+List 5–7 short bullet points:
+
+• Deductible exposure  
+• Coverage limitations  
+• Shared coverage risks  
+• High-level exclusions  
+• Financial exposure  
+
+Rules:
+
+• Avoid deep exclusions  
+• Avoid waiting period details  
+• Focus on financial risk  
+
 ------------------------------------------------
 
 READABILITY RULES:
 
-• Use tables wherever helpful  
-• Use bullet points instead of paragraphs  
-• Avoid long explanations  
+• Use tables where helpful  
+• Use short bullet points  
+• Avoid paragraphs  
 • Maximum 1–2 lines per bullet  
-• Make content easy to scan  
-• Avoid dense blocks of text  
+• Avoid dense text  
+• Make output easy to scan  
+
+------------------------------------------------
+
+SIMPLIFICATION RULES:
+
+• Convert technical insurance terms into plain English  
+• Avoid words like indemnity, floater, benefit unless explained  
+• Focus on user understanding  
+• Focus on real-world behaviour  
 
 ------------------------------------------------
 
 IMPORTANT RULES:
 
 • Use medium-level English  
-• Avoid technical jargon  
 • Avoid judgement words  
 • Avoid recommendations  
-• Avoid repeating content across sections  
-• Focus on user understanding  
+• Avoid repeating content  
 • Avoid assumptions  
 • Keep tone neutral  
 
@@ -488,7 +490,7 @@ IMPORTANT RULES:
 Do NOT include:
 
 • Waiting period details  
-• Sublimit details  
+• Sublimits  
 • Detailed exclusions  
 • Premium vs value comparisons  
 
