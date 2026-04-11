@@ -410,7 +410,7 @@ Members |
 Create a simple table:
 
 Item | Summary
-Policy Type |
+Policy Type (Explain in simple terms, not technical classification) |
 Who Covered |
 Total Coverage |
 Best Use Case |
@@ -464,7 +464,13 @@ Generate 5–6 short bullets only:
 Focus only on meaningful insights.
 
 Avoid repetition.
+------------------------------------------------
+SIMPLIFICATION RULES:
 
+• Convert technical insurance terms into plain English  
+• Avoid words like indemnity, benefit, floater unless explained  
+• Explain what the policy actually does  
+• Focus on user understanding instead of insurance classification  
 ------------------------------------------------
 
 READABILITY RULES:
