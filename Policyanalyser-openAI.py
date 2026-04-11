@@ -397,7 +397,12 @@ Generate a Basic Policy Summary using the following structure:
 Create a simple table:
 
 Item | Summary
-Policy Type (Explain in simple terms, not technical classification) |
+Policy Type (Describe in one sentence):
+
+• What kind of expenses it covers  
+• When it becomes useful  
+• Who shares the coverage  
+• Avoid technical classification |
 Who Covered |
 Total Coverage |
 Best Use Case |
