@@ -397,12 +397,7 @@ Generate a Basic Policy Summary using the following structure:
 Create a simple table:
 
 Item | Summary
-Policy Type (Describe in one sentence):
-
-• What kind of expenses it covers  
-• When it becomes useful  
-• Who shares the coverage  
-• Avoid technical classification |
+Policy Type (Describe in one sentence) |
 Who Covered |
 Total Coverage |
 Best Use Case |
@@ -410,6 +405,13 @@ Key Financial Trigger |
 
 Use short, clear phrases (not paragraphs).
 
+Policy Type must:
+
+• Be 1 short sentence  
+• Avoid insurance jargon  
+• Focus on when insurance becomes useful  
+• Mention family sharing if floater  
+• Mention deductible if present  
 ------------------------------------------------
 
 ## 📌 What This Policy Means For You
