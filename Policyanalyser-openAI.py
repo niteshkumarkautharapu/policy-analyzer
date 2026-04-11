@@ -395,49 +395,74 @@ Generate a Basic Policy Summary using the following structure:
 
 ## 🧠 Quick Understanding
 
-Explain in plain English:
+Create a simple table:
 
-• What this policy is  
-• Who it protects  
-• What kind of medical situations it is useful for  
+Item | Summary
+Policy Type |
+Who Covered |
+Total Coverage |
+Best Use Case |
+Key Financial Trigger |
 
-Write in short natural paragraphs (not bullet lists).
+Use short, clear phrases (not paragraphs).
 
 ------------------------------------------------
 
 ## 📌 What This Policy Means For You
 
-Explain:
+Create 3–5 short bullet points explaining:
 
 • When this policy is most useful  
 • How coverage behaves in real-life  
+• When insurance starts paying  
+• Key behaviour users should know  
 
-Focus on practical understanding rather than policy terminology.
+Each bullet must be short and practical.
+
+Avoid paragraphs.
 
 ------------------------------------------------
 
 ## ⚠️ How Costs Are Shared
 
-Explain clearly:
+Create table:
 
-• Deductible / Copay / Floater behaviour  
+Condition | What It Means | Financial Impact
+
+Include:
+
+• Deductible  
+• Copay  
+• Floater behaviour  
 • When insurance starts paying  
-• How this impacts real-world claims  
 
-Keep explanation simple and practical.
+Use short and clear explanations.
 
 ------------------------------------------------
 
 ## ⭐ Key Highlights
 
-Generate 5-6 short bullets only:
+Generate 5–6 short bullets only:
 
 • Activation insight  
 • Risk insight  
 • Coverage insight  
 • Hidden cost insight  
 
-Focus only on meaningful insights. Avoid repetition.
+Focus only on meaningful insights.
+
+Avoid repetition.
+
+------------------------------------------------
+
+READABILITY RULES:
+
+• Use tables wherever helpful  
+• Use bullet points instead of paragraphs  
+• Avoid long explanations  
+• Maximum 1–2 lines per bullet  
+• Make content easy to scan  
+• Avoid dense blocks of text  
 
 ------------------------------------------------
 
@@ -447,12 +472,12 @@ IMPORTANT RULES:
 • Avoid technical jargon  
 • Avoid judgement words  
 • Avoid recommendations  
-• Avoid listing too many coverage features  
-• Prefer short paragraphs instead of long bullet lists  
 • Avoid repeating content across sections  
 • Focus on user understanding  
 • Avoid assumptions  
-• Keep tone neutral and informative  
+• Keep tone neutral  
+
+------------------------------------------------
 
 Do NOT include:
 
@@ -462,6 +487,8 @@ Do NOT include:
 • Premium vs value comparisons  
 
 These belong to detailed report.
+
+------------------------------------------------
 
 INPUT:
 {json.dumps(json_data)}
