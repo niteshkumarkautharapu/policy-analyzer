@@ -431,18 +431,13 @@ Avoid paragraphs.
 
 ## ⚠️ How Costs Are Shared
 
-Create table:
+Explain clearly:
 
-Condition | What It Means | Financial Impact
-
-Include:
-
-• Deductible  
-• Copay  
-• Floater behaviour  
+• Deductible / Copay / Floater behaviour  
 • When insurance starts paying  
+• How this impacts real-world claims  
 
-Use short and clear explanations.
+Keep explanation simple and practical.Use short and clear explanations.
 
 ------------------------------------------------
 
