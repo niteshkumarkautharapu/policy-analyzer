@@ -392,6 +392,18 @@ You are an insurance policy transparency expert.
 Generate a Basic Policy Summary using the following structure:
 
 ------------------------------------------------
+## 📄 Policy Snapshot
+
+Create table:
+
+Field | Details
+Policy Name |
+Insurer |
+Policy Type |
+Sum Insured |
+Deductible |
+Members |
+
 
 ## 🧠 Quick Understanding
 
@@ -1061,16 +1073,6 @@ if st.session_state.show_basic and uploaded_file:
     parsed_json = st.session_state["policy_json"]
     basic_report = st.session_state["basic_report"]
 
-    st.markdown(f"""
-Policy Name: {parsed_json.get('policy_name')}  
-Insurer: {parsed_json.get('insurer')}  
-Policy Type: {parsed_json.get('policy_type')}  
-Sum Insured: {parsed_json.get('sum_insured')}  
-Deductible: {parsed_json.get('deductible')}  
-Co-Pay: {parsed_json.get('copay')}  
-Room Rent: {parsed_json.get('room_rent_limit')}  
-Members: {parsed_json.get('members_count')}
-""")
     basic_report = basic_report.replace("```markdown", "").replace("```", "")
     st.markdown(basic_report)
     st.markdown("---")
