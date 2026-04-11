@@ -434,11 +434,7 @@ Create table:
 
 Condition | What It Means | Financial Impact
 
-Explain clearly:
-
-• Deductible / Copay / Floater behaviour  
-• When insurance starts paying  
-• How this impacts real-world claims 
+Explain clearly - How this impacts real-world claims 
 
 Keep explanation simple and practical.Use short and clear explanations.
 
