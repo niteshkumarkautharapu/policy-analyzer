@@ -392,8 +392,6 @@ You are an insurance policy transparency expert.
 Generate a Basic Policy Summary using the following structure:
 
 ------------------------------------------------
-## 📄 Policy Snapshot
-
 ## 🧠 Quick Understanding
 
 Create a simple table:
