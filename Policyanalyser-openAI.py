@@ -394,17 +394,6 @@ Generate a Basic Policy Summary using the following structure:
 ------------------------------------------------
 ## 📄 Policy Snapshot
 
-Create table:
-
-Field | Details
-Policy Name |
-Insurer |
-Policy Type |
-Sum Insured |
-Deductible |
-Members |
-
-
 ## 🧠 Quick Understanding
 
 Create a simple table:
