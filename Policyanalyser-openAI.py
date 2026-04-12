@@ -591,64 +591,6 @@ INLINE NOTE RULES:
 - Keep note short and simple
 
 
-SECTION DIFFERENTIATION RULES:
-
-Policy Snapshot  
-- Only factual policy data  
-- No interpretation  
-
-What This Policy Really Means  
-- High level interpretation  
-- 2-4 lines only  
-
-Real-Life Claim Behaviour  
-- Scenario-based table  
-- Show financial behaviour  
-
-Where This Policy Helps — And Where It Doesn't  
-- Situational comparison only  
-
-Your Financial Exposure  
-- Out-of-pocket risks only  
-- Deductible  
-- Copay  
-- Sublimits  
-- Floater risk  
-
-Key Policy Constraints  
-- Waiting periods  
-- Eligibility  
-- Exclusions  
-
-Understanding Your Coverage  
-- Coverage behaviour explanation  
-
-
-REAL-LIFE SCENARIO RULES:
-
-- Use realistic Indian hospital costs
-- Include minor, medium, large and critical scenarios
-- Show insurance pays vs you pay
-- Show deductible impact
-
-
-ABBREVIATION RULES:
-
-- Avoid abbreviations like SI, OOP, PED, OPD, IPD
-- Use full terms
-- If abbreviation used, explain once
-
-
-OUTPUT RULES:
-
-- Do not ask questions
-- Do not include suggestions
-- Do not repeat sections
-- End report cleanly
-- Short explanatory paragraph
-- Structured table where applicable
-- Optional interpretation sentence
-
 Return STRICT MARKDOWN FORMAT
 ------------------------------------------------
 
@@ -677,64 +619,48 @@ Members Covered |
 
 ------------------------------------------------
 
-## 🧠 What This Policy Really Means
-
-What This Policy Really Means  
-- 4-6 explanatory sentences  
-- Explain real-world behaviour  
-- Avoid bullet format
-
-Plain English only
-
-------------------------------------------------
-
-## 💰 Real-Life Claim Behaviour
-
-Add disclaimer:
-
-Based on common claim settlement patterns observed in Indian health insurance and publicly available insurance data, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
-
-Use policy-specific information only.
-
-------------------------------------------------
-
-## 💰 Real-Life Claim Behaviour
+## 🟢 How much Insurance will pay - 💰 Real-Life Claim Behaviour
 
 Add disclaimer:
 
 Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
 
-Use policy-specific information only.
+Create one combined table:
 
-Analyze policy information:
+Scenario | Claim Outcome | What Happens | Why | Financial Impact
 
-• Sum insured  
-• Deductible  
-• Co-pay  
-• Waiting periods  
-• Sublimits  
-• Room rent limits  
-• Coverage scope  
-• Exclusions  
-• Special conditions  
-• Members covered  
+Claim Outcome must be:
 
-IMPORTANT REASONING RULE:
+• Approved 
+• Partially Approved 
+• May Be Rejected 
 
-• Consider at least 10 realistic scenarios internally  
-• Select the most relevant 5 scenarios based on policy conditions  
-• Avoid generic or repetitive scenarios  
-• Prioritize scenarios with financial impact  
+SCENARIO DERIVATION RULE
 
-------------------------------------------------
+Derive scenarios dynamically from policy data.
 
-### 🟢 Claims Typically Paid
+Analyze:
 
-Create table:
+• Deductible 
+• Copay 
+• Waiting periods 
+• Coverage scope 
+• Sublimits 
+• Room rent limits 
+• Coverage type 
+• Floater structure 
+• Sum insured 
+• Exclusions 
+• Eligibility rules 
+• Restoration rules 
+• Network rules 
+• Member structure 
+• Policy tenure 
+• Special conditions 
 
-Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
+REAL-WORLD CLAIM SCENARIO CATEGORIES TO CONSIDER
 
-Reasoning Examples:
+Based on IRDAI and insurer claim behaviour:
 
 • Large hospitalization after waiting period  
 • Accident hospitalization  
@@ -746,22 +672,6 @@ Reasoning Examples:
 • Critical illness hospitalization  
 • Covered inpatient treatment  
 • Post hospitalization claims  
-
-Output:
-
-• Select Top 5 most relevant scenarios  
-• Use policy-specific coverage  
-
-------------------------------------------------
-
-### 🟡 Claims Partially Paid
-
-Create table:
-
-Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
-
-Reasoning Examples:
-
 • Deductible applicable  
 • Room rent limit exceeded  
 • Sublimit applicable  
@@ -772,22 +682,6 @@ Reasoning Examples:
 • Consumable exclusions  
 • Day-care limit  
 • Network hospital differences  
-
-Output:
-
-• Select Top 5 most relevant scenarios  
-• Focus on financial impact  
-
-------------------------------------------------
-
-### 🔴 Claims That May Be Rejected
-
-Create table:
-
-Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
-
-Reasoning Based on Indian Claim Trends:
-
 • Waiting period not completed  
 • Pre-existing disease waiting  
 • Non-disclosure risk  
@@ -799,78 +693,251 @@ Reasoning Based on Indian Claim Trends:
 • Coverage exhaustion  
 • Experimental treatment  
 
-Output:
-
-• Select Top 5 most relevant scenarios  
-• Avoid generic scenarios  
-• Focus on realistic claim rejection  
-
-------------------------------------------------
 
 IMPORTANT RULES:
 
-• Use medium-level English  
-• Avoid technical jargon  
-• Avoid abbreviations  
-• Avoid duplication across sections  
+• Consider at least 10 scenarios internally 
+• Output top 8 most relevant scenarios 
+• Prioritize highest financial impact scenarios 
+• Use policy-specific reasoning only 
+• Do not use predefined list only 
+• Avoid generic scenarios 
+• Avoid repetition 
+• Use realistic Indian healthcare costs 
+• Clearly classify claim outcome 
+
+------------------------------------------------
+
+## ⚠️ How Much You May Still Pay
+
+Analyze the policy and identify financial risks based ONLY on policy data.
+
+Create table:
+
+Risk Category | Risk Scenario | When It Happens | Financial Impact | Policy Reference
+
+------------------------------------------------
+
+RISK DERIVATION RULE
+
+Derive financial risks dynamically from policy JSON.
+
+Analyze the entire policy including:
+
+• Coverage details  
+• Financial conditions  
+• Waiting periods  
+• Exclusions  
+• Sublimits  
+• Room rent limits  
+• Deductible  
+• Copay  
+• Sum insured structure  
+• Floater structure  
+• Eligibility rules  
+• Restoration conditions  
+• Network hospital rules  
+• Special conditions  
+• Any other coverage limitations  
+
+------------------------------------------------
+
+RISK IDENTIFICATION LOGIC
+
+Identify risks that may:
+
+• Delay claim payment  
+• Reduce claim payment  
+• Reject claim  
+• Limit coverage  
+• Create out-of-pocket exposure  
+
+Generate risks only if supported by policy data.
+
+------------------------------------------------
+
+STRICT GUARDRAILS
+
+Do NOT:
+
+• Assume risks not mentioned in policy  
+• Generate generic insurance risks  
+• Use industry assumptions  
+• Create hypothetical risks  
+• Provide advice or recommendations  
+• Use judgement words (good, bad, weak, strong)
+
+If information not available:
+Do not generate that risk
+
+------------------------------------------------
+
+POLICY-ONLY RULE
+
+Each risk must:
+
+• Be derived directly from policy JSON  
+• Reference policy condition  
 • Avoid generic insurance explanations  
-• Use Indian healthcare cost examples  
-• If information missing → say "Depends on insurer claim policy"
+• Avoid assumptions  
 
-Return structured tables only
+Bad Example:
+"Consumables may not be covered"
+
+Good Example:
+"Non-medical expenses excluded — Consumables paid by user"
 
 ------------------------------------------------
 
-## ⚖️ Where This Policy Helps — And Where It Doesn't
+FINANCIAL IMPACT RULE
 
-Create comparison table:
+Each risk must include:
 
-Where This Policy Helps | Where This Policy Doesn't Help
+• When risk happens  
+• Financial impact  
+• Real-world behaviour  
 
-Output:
+Avoid vague statements.
 
-List atleast top 10 relevant scenarios
+Bad:
+"Partial payment possible"
+
+Good:
+"Room rent limit ₹5,000 — Higher room leads to proportionate deduction"
+
 ------------------------------------------------
 
-## ⚠️ Where You May Have To Pay From Your Pocket
+LIMIT RULE
+
+Generate:
+
+• Maximum 6–8 risks only  
+• Prioritize highest financial impact  
+• Avoid minor risks  
+• Avoid duplicate risks  
+
+------------------------------------------------
+
+STYLE RULES
+
+• Use plain English  
+• Avoid technical jargon  
+• Avoid long explanations  
+• Keep content concise  
+• Focus on financial exposure  
+
+------------------------------------------------
+
+IMPORTANT
+
+• Use policy-specific information only  
+• Avoid repeating risks already explained in Real-Life Claim Behaviour  
+• Avoid general insurance education  
+• Focus on meaningful financial risks  
+
+————————————————————————
+
+------------------------------------------------
+
+##⚠️ Hidden Surprises / Risks In Your Policy
 
 Create table:
 
-Risk Area | Why This Matters | Financial Impact
+Hidden Risk | Why It Matters | Possible Impact
+
+Focus on:
+
+• Hidden clauses 
+• Coverage gaps 
+• Financial exposure 
+• Lesser-known limitations 
+
+Examples to consider:
+
+• Deductible behaviour 
+• Family floater impact 
+• Restoration conditions 
+• Policy activation timing 
+• Coverage exhaustion 
+• Non-covered items 
+• Documentation conditions 
+• Eligibility conditions 
+• Subtle exclusions 
+
+RULES:
+
+• Must be policy-specific 
+• Avoid repeating Financial Risk section 
+• Avoid generic insurance explanations 
+• Focus on surprises users may miss 
 
 ------------------------------------------------
 
-## 🚧 Key Policy Constraints
+## 5. 🧠 Overall Summary
 
-Create table:
+Write 4-6 short sentences explaining:
 
-Constraint | What Policy Says | Impact
+• When this policy helps most 
+• When it may not help 
+• Key financial behaviour 
+• Overall protection behaviour 
 
-Include:
+RULES:
 
-Waiting periods (mention conditional applicability for renewals)
-Pre-existing disease rules (mention if waiting already completed)  
-Specific disease waiting  
-Coverage restrictions  
-Eligibility conditions  
-
-------------------------------------------------
-
-## 🔎 Understanding Your Coverage
-
-Create table:
-
-Coverage Element | What Policy Says | What It Means
-
-Include:
-
-List atleast top 10 relevant scenarios
+• Plain English 
+• No bullet points 
+• No recommendations 
+• No judgement words 
+• No advisory language 
 
 ------------------------------------------------
 
-Provide short explanatory context where helpful
-Avoid overly long paragraphs
-Maintain readability and clarity
+IMPORTANT GUARDRAILS
+
+• Use medium-level English 
+• Avoid technical jargon 
+• Avoid abbreviations 
+• Avoid recommendations 
+• Avoid advisory tone 
+• Avoid judgement words 
+• Avoid assumptions 
+• Avoid generic insurance explanations 
+• Use policy-specific reasoning only 
+
+If information missing:
+
+Write:
+"Depends on insurer claim assessment"
+or
+"Not specified in policy"
+
+------------------------------------------------
+
+READABILITY RULES
+
+• Use tables wherever possible 
+• Avoid long paragraphs 
+• Use short sentences 
+• Make content scannable 
+• Avoid dense blocks of text 
+
+------------------------------------------------
+
+ABBREVIATION RULES
+
+Avoid abbreviations:
+
+Do not use:
+
+• SI 
+• OOP 
+• PED 
+• IPD 
+• OPD 
+
+Use full forms instead.
+
+------------------------------------------------
 
 INPUT JSON:
 {json.dumps(json_data)}
