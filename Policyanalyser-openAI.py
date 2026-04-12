@@ -389,13 +389,14 @@ def generate_basic_report(json_data):
     prompt = f"""
 You are an insurance policy transparency expert.
 
-Generate a **Basic Policy Summary** focused on:
+Your goal:
+Help users quickly understand:
 
-• Where user is covered  
-• Where user has risks  
+• Where they are covered  
+• Where they have risks  
 • When insurance becomes useful  
 
-Use the following structure:
+Avoid technical insurance terminology and Use the following structure:
 
 ------------------------------------------------
 
@@ -412,22 +413,30 @@ Best For |
 
 Rules:
 
-• Use simple, non-technical language  
+• Use simple plain english, non-technical language  
 • Convert insurance terms into plain English  
 • Policy type must describe behaviour, not classification  
 • Mention deductible if present  
 • Mention family sharing if applicable  
-• Use short phrases only  
+• Focus on real-world meaning  
+• Keep summaries short and intuitive  
 
 ------------------------------------------------
 
 ## 🟢 You are covered for
 
-List 7-10 short bullet points:
+List 7-8 short bullets:
 
-• Hospitalization scenarios  
-• Coverage strengths  
-• Situations where policy typically helps  
+Each bullet must follow:
+
+Scenario — What it means for user
+
+Examples:
+
+• Large hospitalization — Insurance becomes useful after deductible  
+• Surgeries — Major procedures covered within total coverage  
+• Emergency admission — Covered within policy limits  
+• ICU treatment — High-cost care covered after deductible  
 
 Rules:
 
@@ -438,7 +447,7 @@ Rules:
 
 ------------------------------------------------
 
-## 🔴 You will still pay for
+## 🔴 Be Careful when
 
 List 5–7 short bullet points:
 
@@ -448,11 +457,32 @@ List 5–7 short bullet points:
 • High-level exclusions  
 • Financial exposure  
 
+Examples:
+
+• Small hospitalization — First expenses paid by you  
+• Multiple family claims — Shared coverage reduces faster  
+• Limited ambulance — Small portion covered  
+
 Rules:
 
 • Avoid deep exclusions  
 • Avoid waiting period details  
 • Focus on financial risk  
+
+------------------------------------------------
+
+## 💡 What This Means
+
+Write 2-3 short sentences:
+
+Explain:
+
+• When policy helps most  
+• Where user may still pay  
+
+Plain English only  
+No recommendations  
+No judgement  
 
 ------------------------------------------------
 CONTENT STYLE RULES:
@@ -1121,20 +1151,15 @@ if st.session_state.show_basic and uploaded_file:
 
     st.markdown("## 🔎 Want Deeper Analysis?")
     st.markdown("""
-The detailed report provides deeper insights into how your policy behaves in real claim situations.
+Based on your policy details, the **Detailed Report** helps you understand:
 
-### Detailed Report Includes:
+• How your policy behaves in real-life claim situations  
+• Claim rejection scenarios based on policy conditions
+• When insurance actually pays vs when you may still pay  
+• Hidden costs and financial exposure areas    
+• Coverage gaps that are not obvious in summary  
 
-- Real-life claim rejection scenarios  
-- Hidden clauses that impact claims  
-- Financial risk areas and out-of-pocket exposure  
-- When insurance actually pays vs when it doesn't  
-- Waiting period impact (new vs renewal)  
-- Deductible and sublimit behaviour  
-- Coverage gaps and limitations  
-- Practical interpretation of policy conditions  
-
-This helps you understand **where your policy protects you — and where it may not.**
+This helps you understand **how your policy may perform when you actually need it.**
 """)
 
     if st.button("🔒 Generate Detailed Report"):
