@@ -551,17 +551,64 @@ Return structured markdown output.
 def run_analysis(json_data):
     prompt = f"""
 You are an insurance policy behaviour analysis expert.
+Your task is to analyze the insurance policy JSON and generate a clear, decision-focused report.
+
+The report must help users understand:
+
+• Will insurance actually pay
+• How much user may still pay
+• Hidden risks
+• Overall protection behaviour
+
+Use policy-specific reasoning only.
 
 IMPORTANT RULES:
 
-- Use medium-level English
-- Use simple, clear sentences
-- Avoid technical jargon and complex words
-- Prefer tables wherever applicable (except interpretation sections)
-- Focus on real-life interpretation
-- Avoid repetition across sections
-- If any data missing → say "Not specified in policy"
+• Use medium-level English
+• Use simple, clear sentences
+• Avoid technical jargon
+• Avoid generic insurance education
+• Avoid advisory language
+• Avoid judgement words
+• Avoid assumptions
+• Use policy-specific reasoning only
+• Focus on financial impact
 
+If information missing:
+
+Write:
+
+"Not specified in policy"
+or
+"Depends on insurer claim assessment"
+
+------------------------------------------------
+
+UNCERTAINTY RULE
+
+If policy data is unclear:
+
+Do NOT assume risk
+
+Instead say:
+
+"Depends on policy wording"
+
+Avoid speculative risks.
+
+-----------------------------------------------------
+
+NON-DUPLICATION RULE
+
+Do not repeat:
+
+• Scenario risks in financial risks
+• Financial risks in hidden risks
+• Hidden risks already explained
+
+Each section must provide new insights.
+
+------------------------------------------------------
 
 INSURANCE DOMAIN RULES:
 
@@ -590,7 +637,6 @@ INLINE NOTE RULES:
 - Mention whether applicable mainly for new policy or renewal
 - Keep note short and simple
 
-
 Return STRICT MARKDOWN FORMAT
 ------------------------------------------------
 
@@ -617,9 +663,14 @@ Premium |
 Policy Period |
 Members Covered |
 
+Rules:
+
+• Convert technical terms to plain English
+• Avoid insurance jargon
+• Keep explanations short
 ------------------------------------------------
 
-## 🟢 How much Insurance will pay - 💰 Real-Life Claim Behaviour
+## 🟢 How much Insurance will pay
 
 Add disclaimer:
 
@@ -658,6 +709,7 @@ Analyze:
 • Policy tenure 
 • Special conditions 
 
+
 REAL-WORLD CLAIM SCENARIO CATEGORIES TO CONSIDER
 
 Based on IRDAI and insurer claim behaviour:
@@ -693,18 +745,52 @@ Based on IRDAI and insurer claim behaviour:
 • Coverage exhaustion  
 • Experimental treatment  
 
+SCENARIO PRIORITIZATION RULE
 
-IMPORTANT RULES:
+Consider at least 10 internally
 
-• Consider at least 10 scenarios internally 
-• Output top 8 most relevant scenarios 
-• Prioritize highest financial impact scenarios 
-• Use policy-specific reasoning only 
-• Do not use predefined list only 
-• Avoid generic scenarios 
-• Avoid repetition 
-• Use realistic Indian healthcare costs 
+Output Top 8 scenarios
+
+Prioritize:
+
+• Highest financial impact
+• Most realistic scenarios
+• Most likely situations
 • Clearly classify claim outcome 
+• Use realistic Indian healthcare costs 
+• Use policy-specific reasoning only 
+
+Avoid:
+
+• Generic scenarios
+• Minor scenarios
+• Duplicate scenarios
+
+--------------------------------------------------
+
+CLAIM OUTCOME CLASSIFICATION RULE
+
+Use "Approved" only when:
+• Covered treatment
+• No deductible impact
+• No major limitations
+
+Use "Partially Approved" when:
+• Deductible applies
+• Room rent limits apply
+• Sublimits apply
+• Coverage shared (floater)
+• Non-medical exclusions apply
+• Copay applies
+
+Use "May Be Rejected" only when:
+• Explicit exclusion in policy
+• Waiting period not completed
+• Policy expired or invalid
+• Non-covered treatment
+• Eligibility conditions not met
+
+Do not classify as "Rejected" unless supported by policy data.
 
 ------------------------------------------------
 
@@ -807,35 +893,23 @@ Good:
 
 ------------------------------------------------
 
-LIMIT RULE
+RISK PRIORITY RULE
 
 Generate:
 
-• Maximum 6–8 risks only  
-• Prioritize highest financial impact  
-• Avoid minor risks  
-• Avoid duplicate risks  
+Maximum 6-8 risks
 
-------------------------------------------------
+Prioritize:
 
-STYLE RULES
+• Highest financial exposure
+• Most realistic risks
+• User decision-impact risks
 
-• Use plain English  
-• Avoid technical jargon  
-• Avoid long explanations  
-• Keep content concise  
-• Focus on financial exposure  
+Avoid:
 
-------------------------------------------------
-
-IMPORTANT
-
-• Use policy-specific information only  
-• Avoid repeating risks already explained in Real-Life Claim Behaviour  
-• Avoid general insurance education  
-• Focus on meaningful financial risks  
-
-————————————————————————
+• Minor risks
+• Generic risks
+• Duplicate risks
 
 ------------------------------------------------
 
@@ -855,7 +929,7 @@ Focus on:
 Examples to consider:
 
 • Deductible behaviour 
-• Family floater impact 
+• Family floater impact or sharing
 • Restoration conditions 
 • Policy activation timing 
 • Coverage exhaustion 
@@ -863,6 +937,7 @@ Examples to consider:
 • Documentation conditions 
 • Eligibility conditions 
 • Subtle exclusions 
+• High deductible vs sum insured
 
 RULES:
 
@@ -870,6 +945,28 @@ RULES:
 • Avoid repeating Financial Risk section 
 • Avoid generic insurance explanations 
 • Focus on surprises users may miss 
+
+HIDDEN RISK IDENTIFICATION RULE
+
+Hidden risks should identify:
+
+• Policy behaviour users may not expect
+• Financial exposure not obvious
+• Coverage gaps created by structure
+• Interaction between policy conditions
+• Non-obvious risks
+
+Examples:
+
+• High deductible vs sum insured
+• Family floater sharing risk
+• Coverage exhaustion risk
+• Deductible across family members
+• Deductible resets annually
+• Restoration limitations
+• Coverage activation behaviour
+
+Avoid obvious risks already covered in previous section.
 
 ------------------------------------------------
 
