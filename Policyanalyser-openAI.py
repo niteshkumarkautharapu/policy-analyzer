@@ -926,7 +926,7 @@ Focus on:
 • Financial exposure 
 • Lesser-known limitations 
 
-Examples to consider:
+Examples :
 
 • Deductible behaviour 
 • Family floater impact or sharing
@@ -955,16 +955,6 @@ Hidden risks should identify:
 • Coverage gaps created by structure
 • Interaction between policy conditions
 • Non-obvious risks
-
-Examples:
-
-• High deductible vs sum insured
-• Family floater sharing risk
-• Coverage exhaustion risk
-• Deductible across family members
-• Deductible resets annually
-• Restoration limitations
-• Coverage activation behaviour
 
 Avoid obvious risks already covered in previous section.
 
