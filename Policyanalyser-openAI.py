@@ -421,7 +421,7 @@ Rules:
 
 ------------------------------------------------
 
-## 🟢 What Is Covered
+## 🟢 You are covered for
 
 List 7-10 short bullet points:
 
@@ -438,7 +438,7 @@ Rules:
 
 ------------------------------------------------
 
-## 🔴 What Are Your Risks
+## 🔴 You will still pay for
 
 List 5–7 short bullet points:
 
@@ -453,6 +453,15 @@ Rules:
 • Avoid deep exclusions  
 • Avoid waiting period details  
 • Focus on financial risk  
+
+------------------------------------------------
+CONTENT STYLE RULES:
+
+• Each bullet should have short explanation  
+• Use format: bullet — short explanation  
+• Avoid long paragraphs  
+• Avoid single-word bullets  
+• Keep explanation under one line  
 
 ------------------------------------------------
 
