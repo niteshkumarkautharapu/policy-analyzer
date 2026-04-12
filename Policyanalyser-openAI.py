@@ -1154,7 +1154,7 @@ if st.session_state.show_basic and uploaded_file:
 Based on your policy details, the **Detailed Report** helps you understand:
 
 • How your policy behaves in real-life claim situations  
-• Claim rejection scenarios based on policy conditions
+• Claim rejection scenarios based on policy conditions  
 • When insurance actually pays vs when you may still pay  
 • Hidden costs and financial exposure areas    
 • Coverage gaps that are not obvious in summary  
