@@ -1372,41 +1372,46 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
     st.markdown(report)
     st.markdown("---")
 
-    # ---------------------------
-    # FEEDBACK BLOCK — Detailed Report
-    # ---------------------------
+# ---------------------------
+# FEEDBACK BLOCK — Detailed Report
+# ---------------------------
 
-    st.markdown("#### Was this detailed report helpful?")
+st.markdown("#### Was this detailed report helpful?")
 
-    if not st.session_state.feedback_submitted_detailed:
+if not st.session_state.feedback_submitted_detailed:
 
-        fd_col1, fd_col2, fd_col3 = st.columns([1, 1, 5])
+    col1, col2 = st.columns(2)
 
-        with fd_col1:
-            if st.button("👍 Yes", key="detailed_thumbs_up", use_container_width=True):
-                save_feedback(
-                    st.session_state["policy_json"].get("policy_name", "Unknown"),
-                    "Detailed Report",
-                    "Helpful",
-                    ""
-                )
-                st.session_state.feedback_submitted_detailed = True
-                st.rerun()
+    with col1:
+        if st.button("👍 Yes", key="detailed_yes"):
+            st.session_state.feedback_value_detailed = "Helpful"
 
-        with fd_col2:
-            if st.button("👎 No", key="detailed_thumbs_down", use_container_width=True):
-                save_feedback(
-                    st.session_state["policy_json"].get("policy_name", "Unknown"),
-                    "Detailed Report",
-                    "Not Helpful",
-                    ""
-                )
-                st.session_state.feedback_submitted_detailed = True
-                st.rerun()
+    with col2:
+        if st.button("👎 No", key="detailed_no"):
+            st.session_state.feedback_value_detailed = "Not Helpful"
 
-    else:
-        st.success("✅ Thank you for your feedback!")
 
+if st.session_state.feedback_value_detailed:
+
+    comment = st.text_area(
+        "Tell us more (optional)",
+        placeholder="What can be improved or what was useful?",
+        key="detailed_comment_box"
+    )
+
+    if st.button("Submit Feedback", key="detailed_submit"):
+
+        save_feedback(
+            st.session_state["policy_json"].get("policy_name", "Unknown"),
+            "Detailed Report",
+            st.session_state.feedback_value_detailed,
+            comment
+        )
+
+        st.session_state.feedback_submitted_detailed = True
+        st.success("Thanks for your feedback!")
+
+st.markdown("---")
 
 # ---------------------------
 # Footer
