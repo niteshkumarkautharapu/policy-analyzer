@@ -1317,25 +1317,6 @@ if st.session_state.show_basic and uploaded_file:
 
 
     # ---------------------------
-    # Detailed Report Nudge
-    # ---------------------------
-
-    st.markdown("## 🔎 Want Deeper Analysis?")
-    st.markdown("""
-Based on your policy details, the **Detailed Report** helps you understand:
-
-• How your policy behaves in real-life claim situations  
-• Claim rejection scenarios based on policy conditions  
-• When insurance actually pays vs when you may still pay  
-• Hidden costs and financial exposure areas  
-• Coverage gaps that are not obvious in summary  
-
-This helps you understand **how your policy may perform when you actually need it.**
-""")
-
-    if st.button("🔒 Generate Detailed Report"):
-        st.session_state.show_detailed = True
-# ---------------------------
 # Detailed Report
 # ---------------------------
 
@@ -1385,23 +1366,30 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
     st.markdown(report)
     st.markdown("---")
 
+
     # ---------------------------
     # FEEDBACK BLOCK — Detailed Report
     # ---------------------------
 
     st.markdown("#### Was this detailed report helpful?")
 
-    if not st.session_state.feedback_submitted_detailed:
+    col1, col2 = st.columns(2)
 
-        col1, col2 = st.columns(2)
+    with col1:
+        if st.button(
+            "👍 Yes",
+            key="detailed_yes",
+            type="primary" if st.session_state.feedback_value_detailed == "Helpful" else "secondary"
+        ):
+            st.session_state.feedback_value_detailed = "Helpful"
 
-        with col1:
-            if st.button("👍 Yes", key="detailed_yes"):
-                st.session_state.feedback_value_detailed = "Helpful"
-
-        with col2:
-            if st.button("👎 No", key="detailed_no"):
-                st.session_state.feedback_value_detailed = "Not Helpful"
+    with col2:
+        if st.button(
+            "👎 No",
+            key="detailed_no",
+            type="primary" if st.session_state.feedback_value_detailed == "Not Helpful" else "secondary"
+        ):
+            st.session_state.feedback_value_detailed = "Not Helpful"
 
 
     if st.session_state.feedback_value_detailed:
@@ -1422,7 +1410,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
             )
 
             st.session_state.feedback_submitted_detailed = True
-            st.success("Thanks for your feedback!")
+            st.success("✅ Thanks for your feedback!")
 
     st.markdown("---")
 # ---------------------------
