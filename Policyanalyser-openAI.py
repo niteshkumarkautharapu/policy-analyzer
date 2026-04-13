@@ -1267,10 +1267,10 @@ if st.session_state.show_basic and uploaded_file:
     st.markdown("---")
 
     # ---------------------------
-    # FEEDBACK BLOCK — Basic Report
-    # ---------------------------
+# FEEDBACK BLOCK — Basic Report
+# ---------------------------
 
-    st.markdown("#### Was this summary helpful?")
+st.markdown("#### Was this summary helpful?")
 
 if not st.session_state.feedback_submitted_basic:
 
@@ -1305,10 +1305,10 @@ if st.session_state.feedback_value_basic:
         st.session_state.feedback_submitted_basic = True
         st.success("Thanks for your feedback!")
 
-    st.markdown("---")
+st.markdown("---")
 
-    st.markdown("## 🔎 Want Deeper Analysis?")
-    st.markdown("""
+st.markdown("## 🔎 Want Deeper Analysis?")
+st.markdown("""
 Based on your policy details, the **Detailed Report** helps you understand:
 
 • How your policy behaves in real-life claim situations  
