@@ -1404,6 +1404,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
             type="primary" if st.session_state.feedback_value_detailed == "Helpful" else "secondary"
         ):
             st.session_state.feedback_value_detailed = "Helpful"
+            st.rerun()
 
     with col2:
         if st.button(
@@ -1412,6 +1413,7 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
             type="primary" if st.session_state.feedback_value_detailed == "Not Helpful" else "secondary"
         ):
             st.session_state.feedback_value_detailed = "Not Helpful"
+            st.rerun()
 
 
     if st.session_state.feedback_value_detailed:
