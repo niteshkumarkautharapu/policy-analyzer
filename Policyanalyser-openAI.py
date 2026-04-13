@@ -1315,8 +1315,28 @@ if st.session_state.show_basic and uploaded_file:
 
     st.markdown("---")
 
+# ---------------------------
+# Detailed Report Nudge
+# ---------------------------
 
-    # ---------------------------
+st.markdown("## 🔎 Want Deeper Analysis?")
+st.markdown("""
+Based on your policy details, the **Detailed Report** helps you understand:
+
+• How your policy behaves in real-life claim situations  
+• Claim rejection scenarios based on policy conditions  
+• When insurance actually pays vs when you may still pay  
+• Hidden costs and financial exposure areas  
+• Coverage gaps that are not obvious in summary  
+
+This helps you understand **how your policy may perform when you actually need it.**
+""")
+
+if st.button("🔒 Generate Detailed Report"):
+    st.session_state.show_detailed = True
+
+st.markdown("---")
+# ---------------------------
 # Detailed Report
 # ---------------------------
 
