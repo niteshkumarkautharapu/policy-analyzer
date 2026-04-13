@@ -389,79 +389,153 @@ def generate_basic_report(json_data):
     prompt = f"""
 You are an insurance policy transparency expert.
 
-Generate a Basic Policy Summary using the following structure:
+Your goal:
+Help users quickly understand:
+
+• Where they are covered  
+• Where they have risks  
+• When insurance becomes useful  
+
+Avoid technical insurance terminology and Use the following structure:
 
 ------------------------------------------------
 
 ## 🧠 Quick Understanding
 
-Explain in plain English:
+Create a simple table:
 
-• What this policy is  
-• Who it protects  
-• What kind of medical situations it is useful for  
+Item | Summary
+Coverage Type |
+Who is Covered |
+Total Coverage |
+Insurance Starts |
+Best For |
 
-Write in short natural paragraphs (not bullet lists).
+Rules:
+
+• Use simple plain english, non-technical language  
+• Convert insurance terms into plain English  
+• Policy type must describe behaviour, not classification  
+• Mention deductible if present  
+• Mention family sharing if applicable  
+• Focus on real-world meaning  
+• Keep summaries short and intuitive  
 
 ------------------------------------------------
 
-## 📌 What This Policy Means For You
+## 🟢 You are covered for
+
+List 7-8 short bullets:
+
+Each bullet must follow:
+
+Scenario — What it means for user
+
+Examples:
+
+• Large hospitalization — Insurance becomes useful after deductible  
+• Surgeries — Major procedures covered within total coverage  
+• Emergency admission — Covered within policy limits  
+• ICU treatment — High-cost care covered after deductible  
+
+Rules:
+
+• Keep bullets short  
+• Avoid technical jargon  
+• Avoid waiting period details  
+• Avoid long explanations  
+
+------------------------------------------------
+
+## 🔴 Be Careful when
+
+List 5–7 short bullet points:
+
+• Deductible exposure  
+• Coverage limitations  
+• Shared coverage risks  
+• High-level exclusions  
+• Financial exposure  
+
+Examples:
+
+• Small hospitalization — First expenses paid by you  
+• Multiple family claims — Shared coverage reduces faster  
+• Limited ambulance — Small portion covered  
+
+Rules:
+
+• Avoid deep exclusions  
+• Avoid waiting period details  
+• Focus on financial risk  
+
+------------------------------------------------
+
+## 💡 What This Means
+
+Write 2-3 short sentences:
 
 Explain:
 
-• When this policy is most useful  
-• How coverage behaves in real-life  
+• When policy helps most  
+• Where user may still pay  
 
-Focus on practical understanding rather than policy terminology.
+Plain English only  
+No recommendations  
+No judgement  
+
+------------------------------------------------
+CONTENT STYLE RULES:
+
+• Each bullet should have short explanation  
+• Use format: bullet — short explanation  
+• Avoid long paragraphs  
+• Avoid single-word bullets  
+• Keep explanation under one line  
 
 ------------------------------------------------
 
-## ⚠️ How Costs Are Shared
+READABILITY RULES:
 
-Explain clearly:
-
-• Deductible / Copay / Floater behaviour  
-• When insurance starts paying  
-• How this impacts real-world claims  
-
-Keep explanation simple and practical.
+• Use tables where helpful  
+• Use short bullet points  
+• Avoid paragraphs  
+• Maximum 1–2 lines per bullet  
+• Avoid dense text  
+• Make output easy to scan  
 
 ------------------------------------------------
 
-## ⭐ Key Highlights
+SIMPLIFICATION RULES:
 
-Generate 5-6 short bullets only:
-
-• Activation insight  
-• Risk insight  
-• Coverage insight  
-• Hidden cost insight  
-
-Focus only on meaningful insights. Avoid repetition.
+• Convert technical insurance terms into plain English  
+• Avoid words like indemnity, floater, benefit unless explained  
+• Focus on user understanding  
+• Focus on real-world behaviour  
 
 ------------------------------------------------
 
 IMPORTANT RULES:
 
 • Use medium-level English  
-• Avoid technical jargon  
 • Avoid judgement words  
 • Avoid recommendations  
-• Avoid listing too many coverage features  
-• Prefer short paragraphs instead of long bullet lists  
-• Avoid repeating content across sections  
-• Focus on user understanding  
+• Avoid repeating content  
 • Avoid assumptions  
-• Keep tone neutral and informative  
+• Keep tone neutral  
+
+------------------------------------------------
 
 Do NOT include:
 
 • Waiting period details  
-• Sublimit details  
+• Sublimits  
 • Detailed exclusions  
 • Premium vs value comparisons  
 
 These belong to detailed report.
+
+------------------------------------------------
 
 INPUT:
 {json.dumps(json_data)}
@@ -477,17 +551,64 @@ Return structured markdown output.
 def run_analysis(json_data):
     prompt = f"""
 You are an insurance policy behaviour analysis expert.
+Your task is to analyze the insurance policy JSON and generate a clear, decision-focused report.
+
+The report must help users understand:
+
+• Will insurance actually pay
+• How much user may still pay
+• Hidden risks
+• Overall protection behaviour
+
+Use policy-specific reasoning only.
 
 IMPORTANT RULES:
 
-- Use medium-level English
-- Use simple, clear sentences
-- Avoid technical jargon and complex words
-- Prefer tables wherever applicable (except interpretation sections)
-- Focus on real-life interpretation
-- Avoid repetition across sections
-- If any data missing → say "Not specified in policy"
+• Use medium-level English
+• Use simple, clear sentences
+• Avoid technical jargon
+• Avoid generic insurance education
+• Avoid advisory language
+• Avoid judgement words
+• Avoid assumptions
+• Use policy-specific reasoning only
+• Focus on financial impact
 
+If information missing:
+
+Write:
+
+"Not specified in policy"
+or
+"Depends on insurer claim assessment"
+
+------------------------------------------------
+
+UNCERTAINTY RULE
+
+If policy data is unclear:
+
+Do NOT assume risk
+
+Instead say:
+
+"Depends on policy wording"
+
+Avoid speculative risks.
+
+-----------------------------------------------------
+
+NON-DUPLICATION RULE
+
+Do not repeat:
+
+• Scenario risks in financial risks
+• Financial risks in hidden risks
+• Hidden risks already explained
+
+Each section must provide new insights.
+
+------------------------------------------------------
 
 INSURANCE DOMAIN RULES:
 
@@ -516,65 +637,6 @@ INLINE NOTE RULES:
 - Mention whether applicable mainly for new policy or renewal
 - Keep note short and simple
 
-
-SECTION DIFFERENTIATION RULES:
-
-Policy Snapshot  
-- Only factual policy data  
-- No interpretation  
-
-What This Policy Really Means  
-- High level interpretation  
-- 2-4 lines only  
-
-Real-Life Claim Behaviour  
-- Scenario-based table  
-- Show financial behaviour  
-
-Where This Policy Helps — And Where It Doesn't  
-- Situational comparison only  
-
-Your Financial Exposure  
-- Out-of-pocket risks only  
-- Deductible  
-- Copay  
-- Sublimits  
-- Floater risk  
-
-Key Policy Constraints  
-- Waiting periods  
-- Eligibility  
-- Exclusions  
-
-Understanding Your Coverage  
-- Coverage behaviour explanation  
-
-
-REAL-LIFE SCENARIO RULES:
-
-- Use realistic Indian hospital costs
-- Include minor, medium, large and critical scenarios
-- Show insurance pays vs you pay
-- Show deductible impact
-
-
-ABBREVIATION RULES:
-
-- Avoid abbreviations like SI, OOP, PED, OPD, IPD
-- Use full terms
-- If abbreviation used, explain once
-
-
-OUTPUT RULES:
-
-- Do not ask questions
-- Do not include suggestions
-- Do not repeat sections
-- End report cleanly
-- Short explanatory paragraph
-- Structured table where applicable
-- Optional interpretation sentence
-
 Return STRICT MARKDOWN FORMAT
 ------------------------------------------------
 
@@ -601,66 +663,56 @@ Premium |
 Policy Period |
 Members Covered |
 
+Rules:
+
+• Convert technical terms to plain English
+• Avoid insurance jargon
+• Keep explanations short
 ------------------------------------------------
 
-## 🧠 What This Policy Really Means
-
-What This Policy Really Means  
-- 4-6 explanatory sentences  
-- Explain real-world behaviour  
-- Avoid bullet format
-
-Plain English only
-
-------------------------------------------------
-
-## 💰 Real-Life Claim Behaviour
-
-Add disclaimer:
-
-Based on common claim settlement patterns observed in Indian health insurance and publicly available insurance data, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
-
-Use policy-specific information only.
-
-------------------------------------------------
-
-## 💰 Real-Life Claim Behaviour
+## 🟢 How much Insurance will pay
 
 Add disclaimer:
 
 Based on common claim settlement patterns observed in Indian health insurance and IRDAI-reported claim behaviours, the following scenarios illustrate how claims may typically be paid, partially paid, or rejected depending on policy conditions. Actual claim outcomes depend on insurer assessment and policy terms.
 
-Use policy-specific information only.
+Create one combined table:
 
-Analyze policy information:
+Scenario | Claim Outcome | What Happens | Why | Financial Impact
 
-• Sum insured  
-• Deductible  
-• Co-pay  
-• Waiting periods  
-• Sublimits  
-• Room rent limits  
-• Coverage scope  
-• Exclusions  
-• Special conditions  
-• Members covered  
+Claim Outcome must be:
 
-IMPORTANT REASONING RULE:
+• Approved 
+• Partially Approved 
+• May Be Rejected 
 
-• Consider at least 10 realistic scenarios internally  
-• Select the most relevant 5 scenarios based on policy conditions  
-• Avoid generic or repetitive scenarios  
-• Prioritize scenarios with financial impact  
+SCENARIO DERIVATION RULE
 
-------------------------------------------------
+Derive scenarios dynamically from policy data.
 
-### 🟢 Claims Typically Paid
+Analyze:
 
-Create table:
+• Deductible 
+• Copay 
+• Waiting periods 
+• Coverage scope 
+• Sublimits 
+• Room rent limits 
+• Coverage type 
+• Floater structure 
+• Sum insured 
+• Exclusions 
+• Eligibility rules 
+• Restoration rules 
+• Network rules 
+• Member structure 
+• Policy tenure 
+• Special conditions 
 
-Scenario | Why Claim Usually Paid | Real-Life Example | Financial Outcome
 
-Reasoning Examples:
+REAL-WORLD CLAIM SCENARIO CATEGORIES TO CONSIDER
+
+Based on IRDAI and insurer claim behaviour:
 
 • Large hospitalization after waiting period  
 • Accident hospitalization  
@@ -672,22 +724,6 @@ Reasoning Examples:
 • Critical illness hospitalization  
 • Covered inpatient treatment  
 • Post hospitalization claims  
-
-Output:
-
-• Select Top 5 most relevant scenarios  
-• Use policy-specific coverage  
-
-------------------------------------------------
-
-### 🟡 Claims Partially Paid
-
-Create table:
-
-Scenario | Why Partially Paid | Real-Life Example | Financial Outcome
-
-Reasoning Examples:
-
 • Deductible applicable  
 • Room rent limit exceeded  
 • Sublimit applicable  
@@ -698,22 +734,6 @@ Reasoning Examples:
 • Consumable exclusions  
 • Day-care limit  
 • Network hospital differences  
-
-Output:
-
-• Select Top 5 most relevant scenarios  
-• Focus on financial impact  
-
-------------------------------------------------
-
-### 🔴 Claims That May Be Rejected
-
-Create table:
-
-Scenario | Why Claim May Be Rejected | Real-Life Example | Financial Outcome
-
-Reasoning Based on Indian Claim Trends:
-
 • Waiting period not completed  
 • Pre-existing disease waiting  
 • Non-disclosure risk  
@@ -725,78 +745,286 @@ Reasoning Based on Indian Claim Trends:
 • Coverage exhaustion  
 • Experimental treatment  
 
-Output:
+SCENARIO PRIORITIZATION RULE
 
-• Select Top 5 most relevant scenarios  
-• Avoid generic scenarios  
-• Focus on realistic claim rejection  
+Consider at least 10 internally
+
+Output Top 8 scenarios
+
+Prioritize:
+
+• Highest financial impact
+• Most realistic scenarios
+• Most likely situations
+• Clearly classify claim outcome 
+• Use realistic Indian healthcare costs 
+• Use policy-specific reasoning only 
+
+Avoid:
+
+• Generic scenarios
+• Minor scenarios
+• Duplicate scenarios
+
+--------------------------------------------------
+
+CLAIM OUTCOME CLASSIFICATION RULE
+
+Use "Approved" only when:
+• Covered treatment
+• No deductible impact
+• No major limitations
+
+Use "Partially Approved" when:
+• Deductible applies
+• Room rent limits apply
+• Sublimits apply
+• Coverage shared (floater)
+• Non-medical exclusions apply
+• Copay applies
+
+Use "May Be Rejected" only when:
+• Explicit exclusion in policy
+• Waiting period not completed
+• Policy expired or invalid
+• Non-covered treatment
+• Eligibility conditions not met
+
+Do not classify as "Rejected" unless supported by policy data.
 
 ------------------------------------------------
 
-IMPORTANT RULES:
+## ⚠️ How Much You May Still Pay
 
-• Use medium-level English  
-• Avoid technical jargon  
-• Avoid abbreviations  
-• Avoid duplication across sections  
+Analyze the policy and identify financial risks based ONLY on policy data.
+
+Create table:
+
+Risk Category | Risk Scenario | When It Happens | Financial Impact | Policy Reference
+
+------------------------------------------------
+
+RISK DERIVATION RULE
+
+Derive financial risks dynamically from policy JSON.
+
+Analyze the entire policy including:
+
+• Coverage details  
+• Financial conditions  
+• Waiting periods  
+• Exclusions  
+• Sublimits  
+• Room rent limits  
+• Deductible  
+• Copay  
+• Sum insured structure  
+• Floater structure  
+• Eligibility rules  
+• Restoration conditions  
+• Network hospital rules  
+• Special conditions  
+• Any other coverage limitations  
+
+------------------------------------------------
+
+RISK IDENTIFICATION LOGIC
+
+Identify risks that may:
+
+• Delay claim payment  
+• Reduce claim payment  
+• Reject claim  
+• Limit coverage  
+• Create out-of-pocket exposure  
+
+Generate risks only if supported by policy data.
+
+------------------------------------------------
+
+STRICT GUARDRAILS
+
+Do NOT:
+
+• Assume risks not mentioned in policy  
+• Generate generic insurance risks  
+• Use industry assumptions  
+• Create hypothetical risks  
+• Provide advice or recommendations  
+• Use judgement words (good, bad, weak, strong)
+
+If information not available:
+Do not generate that risk
+
+------------------------------------------------
+
+POLICY-ONLY RULE
+
+Each risk must:
+
+• Be derived directly from policy JSON  
+• Reference policy condition  
 • Avoid generic insurance explanations  
-• Use Indian healthcare cost examples  
-• If information missing → say "Depends on insurer claim policy"
+• Avoid assumptions  
 
-Return structured tables only
+Bad Example:
+"Consumables may not be covered"
+
+Good Example:
+"Non-medical expenses excluded — Consumables paid by user"
 
 ------------------------------------------------
 
-## ⚖️ Where This Policy Helps — And Where It Doesn't
+FINANCIAL IMPACT RULE
 
-Create comparison table:
+Each risk must include:
 
-Where This Policy Helps | Where This Policy Doesn't Help
+• When risk happens  
+• Financial impact  
+• Real-world behaviour  
 
-Output:
+Avoid vague statements.
 
-List atleast top 10 relevant scenarios
+Bad:
+"Partial payment possible"
+
+Good:
+"Room rent limit ₹5,000 — Higher room leads to proportionate deduction"
+
 ------------------------------------------------
 
-## ⚠️ Where You May Have To Pay From Your Pocket
+RISK PRIORITY RULE
+
+Generate:
+
+Maximum 6-8 risks
+
+Prioritize:
+
+• Highest financial exposure
+• Most realistic risks
+• User decision-impact risks
+
+Avoid:
+
+• Minor risks
+• Generic risks
+• Duplicate risks
+
+------------------------------------------------
+
+##⚠️ Hidden Surprises / Risks In Your Policy
 
 Create table:
 
-Risk Area | Why This Matters | Financial Impact
+Hidden Risk | Why It Matters | Possible Impact
+
+Focus on:
+
+• Hidden clauses 
+• Coverage gaps 
+• Financial exposure 
+• Lesser-known limitations 
+
+Examples :
+
+• Deductible behaviour 
+• Family floater impact or sharing
+• Restoration conditions 
+• Policy activation timing 
+• Coverage exhaustion 
+• Non-covered items 
+• Documentation conditions 
+• Eligibility conditions 
+• Subtle exclusions 
+• High deductible vs sum insured
+
+RULES:
+
+• Must be policy-specific 
+• Avoid repeating Financial Risk section 
+• Avoid generic insurance explanations 
+• Focus on surprises users may miss 
+
+HIDDEN RISK IDENTIFICATION RULE
+
+Hidden risks should identify:
+
+• Policy behaviour users may not expect
+• Financial exposure not obvious
+• Coverage gaps created by structure
+• Interaction between policy conditions
+• Non-obvious risks
+
+Avoid obvious risks already covered in previous section.
 
 ------------------------------------------------
 
-## 🚧 Key Policy Constraints
+## 5. 🧠 Overall Summary
 
-Create table:
+Write 4-6 short sentences explaining:
 
-Constraint | What Policy Says | Impact
+• When this policy helps most 
+• When it may not help 
+• Key financial behaviour 
+• Overall protection behaviour 
 
-Include:
+RULES:
 
-Waiting periods (mention conditional applicability for renewals)
-Pre-existing disease rules (mention if waiting already completed)  
-Specific disease waiting  
-Coverage restrictions  
-Eligibility conditions  
-
-------------------------------------------------
-
-## 🔎 Understanding Your Coverage
-
-Create table:
-
-Coverage Element | What Policy Says | What It Means
-
-Include:
-
-List atleast top 10 relevant scenarios
+• Plain English 
+• No bullet points 
+• No recommendations 
+• No judgement words 
+• No advisory language 
 
 ------------------------------------------------
 
-Provide short explanatory context where helpful
-Avoid overly long paragraphs
-Maintain readability and clarity
+IMPORTANT GUARDRAILS
+
+• Use medium-level English 
+• Avoid technical jargon 
+• Avoid abbreviations 
+• Avoid recommendations 
+• Avoid advisory tone 
+• Avoid judgement words 
+• Avoid assumptions 
+• Avoid generic insurance explanations 
+• Use policy-specific reasoning only 
+
+If information missing:
+
+Write:
+"Depends on insurer claim assessment"
+or
+"Not specified in policy"
+
+------------------------------------------------
+
+READABILITY RULES
+
+• Use tables wherever possible 
+• Avoid long paragraphs 
+• Use short sentences 
+• Make content scannable 
+• Avoid dense blocks of text 
+
+------------------------------------------------
+
+ABBREVIATION RULES
+
+Avoid abbreviations:
+
+Do not use:
+
+• SI 
+• OOP 
+• PED 
+• IPD 
+• OPD 
+
+Use full forms instead.
+
+------------------------------------------------
 
 INPUT JSON:
 {json.dumps(json_data)}
@@ -1034,16 +1262,6 @@ if st.session_state.show_basic and uploaded_file:
     parsed_json = st.session_state["policy_json"]
     basic_report = st.session_state["basic_report"]
 
-    st.markdown(f"""
-Policy Name: {parsed_json.get('policy_name')}  
-Insurer: {parsed_json.get('insurer')}  
-Policy Type: {parsed_json.get('policy_type')}  
-Sum Insured: {parsed_json.get('sum_insured')}  
-Deductible: {parsed_json.get('deductible')}  
-Co-Pay: {parsed_json.get('copay')}  
-Room Rent: {parsed_json.get('room_rent_limit')}  
-Members: {parsed_json.get('members_count')}
-""")
     basic_report = basic_report.replace("```markdown", "").replace("```", "")
     st.markdown(basic_report)
     st.markdown("---")
@@ -1087,20 +1305,15 @@ Members: {parsed_json.get('members_count')}
 
     st.markdown("## 🔎 Want Deeper Analysis?")
     st.markdown("""
-The detailed report provides deeper insights into how your policy behaves in real claim situations.
+Based on your policy details, the **Detailed Report** helps you understand:
 
-### Detailed Report Includes:
+• How your policy behaves in real-life claim situations  
+• Claim rejection scenarios based on policy conditions  
+• When insurance actually pays vs when you may still pay  
+• Hidden costs and financial exposure areas    
+• Coverage gaps that are not obvious in summary  
 
-- Real-life claim rejection scenarios  
-- Hidden clauses that impact claims  
-- Financial risk areas and out-of-pocket exposure  
-- When insurance actually pays vs when it doesn't  
-- Waiting period impact (new vs renewal)  
-- Deductible and sublimit behaviour  
-- Coverage gaps and limitations  
-- Practical interpretation of policy conditions  
-
-This helps you understand **where your policy protects you — and where it may not.**
+This helps you understand **how your policy may perform when you actually need it.**
 """)
 
     if st.button("🔒 Generate Detailed Report"):
