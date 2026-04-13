@@ -1371,7 +1371,6 @@ if st.session_state.show_detailed and "policy_json" in st.session_state:
 
     st.markdown(report)
     st.markdown("---")
-
 # ---------------------------
 # FEEDBACK BLOCK — Detailed Report
 # ---------------------------
