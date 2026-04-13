@@ -1282,6 +1282,7 @@ if st.session_state.show_basic and uploaded_file:
             type="primary" if st.session_state.feedback_value_basic == "Helpful" else "secondary"
         ):
             st.session_state.feedback_value_basic = "Helpful"
+            st.rerun()
 
     with col2:
         if st.button(
@@ -1290,6 +1291,7 @@ if st.session_state.show_basic and uploaded_file:
             type="primary" if st.session_state.feedback_value_basic == "Not Helpful" else "secondary"
         ):
             st.session_state.feedback_value_basic = "Not Helpful"
+            st.rerun()
 
 
     if st.session_state.feedback_value_basic:
