@@ -1227,17 +1227,58 @@ if st.session_state.show_basic and uploaded_file:
         text = extract_text(uploaded_file)
         time.sleep(0.2)
 
+        # ---------------------------
+        # Document Validation Guardrail
+        # ---------------------------
+
+        if not text or len(text.strip()) < 800:
+            status.error("⚠️ This document appears incomplete or unsupported. Please upload full policy document.")
+            progress.empty()
+            st.stop()
+
         status.info("🔍 Extracting policy details, might take a few seconds...")
         progress.progress(35)
 
         parsed_json = extract_with_retry(text)
 
+        # ---------------------------
+        # Extraction Guardrail
+        # ---------------------------
+
         if not parsed_json:
-            status.error("Extraction failed. Please try again.")
+            status.error("⚠️ Unable to extract policy details. Please upload policy schedule or wording document.")
             progress.empty()
             st.stop()
 
         st.session_state["policy_json"] = parsed_json
+
+        # ---------------------------
+        # Policy Type Guardrail
+        # ---------------------------
+
+        policy_name = str(parsed_json.get("policy_name", "")).lower()
+        policy_type = str(parsed_json.get("policy_type", "")).lower()
+
+        non_health_keywords = [
+            "motor",
+            "vehicle",
+            "car",
+            "bike",
+            "life",
+            "term",
+            "ulip",
+            "travel",
+            "accident"
+        ]
+
+        if any(word in policy_name for word in non_health_keywords) or \
+           any(word in policy_type for word in non_health_keywords):
+
+            status.error("⚠️ This appears to be a non-health insurance policy. Currently CheckYourPolicy supports health insurance only.")
+            progress.empty()
+            st.stop()
+
+
         time.sleep(0.2)
 
         status.info("🧠 Generating policy summary, please wait...")
