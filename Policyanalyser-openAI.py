@@ -1231,7 +1231,7 @@ if st.session_state.show_basic and uploaded_file:
         # Document Validation Guardrail
         # ---------------------------
 
-        if not text or len(text.strip()) < 800:
+        if not text or len(text.split()) < 300:
             status.error("⚠️ This document appears incomplete or unsupported. Please upload full policy document.")
             progress.empty()
             st.stop()
@@ -1253,6 +1253,16 @@ if st.session_state.show_basic and uploaded_file:
         st.session_state["policy_json"] = parsed_json
 
         # ---------------------------
+        # Coverage Validation Guardrail
+        # ---------------------------
+
+        sum_insured = parsed_json.get("sum_insured", "")
+        coverage = parsed_json.get("coverage", {})
+
+        if sum_insured in ["", "Not specified"] and not coverage:
+            status.warning("⚠️ Limited coverage details detected. Report accuracy may be reduced.")
+
+        # ---------------------------
         # Policy Type Guardrail
         # ---------------------------
 
@@ -1264,20 +1274,26 @@ if st.session_state.show_basic and uploaded_file:
             "vehicle",
             "car",
             "bike",
+            "two wheeler",
+            "four wheeler",
             "life",
             "term",
             "ulip",
+            "investment",
             "travel",
-            "accident"
+            "accident",
+            "personal accident"
         ]
 
         if any(word in policy_name for word in non_health_keywords) or \
            any(word in policy_type for word in non_health_keywords):
 
-            status.error("⚠️ This appears to be a non-health insurance policy. Currently CheckYourPolicy supports health insurance only.")
+            status.error(
+                "⚠️ This appears to be a non-health insurance policy. "
+                "Currently CheckYourPolicy supports health insurance only."
+            )
             progress.empty()
             st.stop()
-
 
         time.sleep(0.2)
 
@@ -1355,15 +1371,15 @@ if st.session_state.show_basic and uploaded_file:
             st.session_state.feedback_submitted_basic = True
             st.success("✅ Thanks for your feedback!")
 
-
     st.markdown("---")
 
-# ---------------------------
-# Detailed Report Nudge
-# ---------------------------
 
-st.markdown("## 🔎 Want Deeper Analysis?")
-st.markdown("""
+    # ---------------------------
+    # Detailed Report Nudge
+    # ---------------------------
+
+    st.markdown("## 🔎 Want Deeper Analysis?")
+    st.markdown("""
 Based on your policy details, the **Detailed Report** helps you understand:
 
 • How your policy behaves in real-life claim situations  
@@ -1375,10 +1391,10 @@ Based on your policy details, the **Detailed Report** helps you understand:
 This helps you understand **how your policy may perform when you actually need it.**
 """)
 
-if st.button("🔒 Generate Detailed Report"):
-    st.session_state.show_detailed = True
+    if st.button("🔒 Generate Detailed Report"):
+        st.session_state.show_detailed = True
 
-st.markdown("---")
+    st.markdown("---")
 # ---------------------------
 # Detailed Report
 # ---------------------------
