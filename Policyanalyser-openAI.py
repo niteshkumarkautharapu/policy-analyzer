@@ -1213,7 +1213,7 @@ if uploaded_file:
     if st.button("Basic Summary"):
         st.session_state.show_basic = True
 
-# FIX: single show_basic block (was split into two misaligned blocks causing IndentationError)
+
 if st.session_state.show_basic and uploaded_file:
 
     if "policy_json" not in st.session_state:
@@ -1266,51 +1266,59 @@ if st.session_state.show_basic and uploaded_file:
     st.markdown(basic_report)
     st.markdown("---")
 
+
     # ---------------------------
-# FEEDBACK BLOCK — Basic Report
-# ---------------------------
-st.markdown("#### Was this summary helpful?")
+    # FEEDBACK BLOCK — Basic Report
+    # ---------------------------
 
-col1, col2 = st.columns(2)
+    st.markdown("#### Was this summary helpful?")
 
-with col1:
-    if st.button(
-        "👍 Yes",
-        key="basic_yes",
-        type="primary" if st.session_state.feedback_value_basic == "Helpful" else "secondary"
-    ):
-        st.session_state.feedback_value_basic = "Helpful"
+    col1, col2 = st.columns(2)
 
-with col2:
-    if st.button(
-        "👎 No",
-        key="basic_no",
-        type="primary" if st.session_state.feedback_value_basic == "Not Helpful" else "secondary"
-    ):
-        st.session_state.feedback_value_basic = "Not Helpful"
+    with col1:
+        if st.button(
+            "👍 Yes",
+            key="basic_yes",
+            type="primary" if st.session_state.feedback_value_basic == "Helpful" else "secondary"
+        ):
+            st.session_state.feedback_value_basic = "Helpful"
+
+    with col2:
+        if st.button(
+            "👎 No",
+            key="basic_no",
+            type="primary" if st.session_state.feedback_value_basic == "Not Helpful" else "secondary"
+        ):
+            st.session_state.feedback_value_basic = "Not Helpful"
 
 
-if st.session_state.feedback_value_basic:
+    if st.session_state.feedback_value_basic:
 
-    comment = st.text_area(
-        "Tell us more (optional)",
-        placeholder="What worked well or what can be improved?",
-        key="basic_comment_box"
-    )
-
-    if st.button("Submit Feedback", key="basic_submit"):
-
-        save_feedback(
-            parsed_json.get("policy_name", "Unknown"),
-            "Basic Report",
-            st.session_state.feedback_value_basic,
-            comment
+        comment = st.text_area(
+            "Tell us more (optional)",
+            placeholder="What worked well or what can be improved?",
+            key="basic_comment_box"
         )
 
-        st.session_state.feedback_submitted_basic = True
-        st.success("Thanks for your feedback!")
+        if st.button("Submit Feedback", key="basic_submit"):
+
+            save_feedback(
+                parsed_json.get("policy_name", "Unknown"),
+                "Basic Report",
+                st.session_state.feedback_value_basic,
+                comment
+            )
+
+            st.session_state.feedback_submitted_basic = True
+            st.success("✅ Thanks for your feedback!")
+
 
     st.markdown("---")
+
+
+    # ---------------------------
+    # Detailed Report Nudge
+    # ---------------------------
 
     st.markdown("## 🔎 Want Deeper Analysis?")
     st.markdown("""
@@ -1319,7 +1327,7 @@ Based on your policy details, the **Detailed Report** helps you understand:
 • How your policy behaves in real-life claim situations  
 • Claim rejection scenarios based on policy conditions  
 • When insurance actually pays vs when you may still pay  
-• Hidden costs and financial exposure areas    
+• Hidden costs and financial exposure areas  
 • Coverage gaps that are not obvious in summary  
 
 This helps you understand **how your policy may perform when you actually need it.**
