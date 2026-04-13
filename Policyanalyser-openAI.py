@@ -1267,43 +1267,48 @@ if st.session_state.show_basic and uploaded_file:
     st.markdown("---")
 
     # ---------------------------
-    # FEEDBACK BLOCK — Basic Report
-    # ---------------------------
+# FEEDBACK BLOCK — Basic Report
+# ---------------------------
+st.markdown("#### Was this summary helpful?")
 
-    st.markdown("#### Was this summary helpful?")
+col1, col2 = st.columns(2)
 
-    if not st.session_state.feedback_submitted_basic:
+with col1:
+    if st.button(
+        "👍 Yes",
+        key="basic_yes",
+        type="primary" if st.session_state.feedback_value_basic == "Helpful" else "secondary"
+    ):
+        st.session_state.feedback_value_basic = "Helpful"
 
-        col1, col2 = st.columns(2)
-
-        with col1:
-            if st.button("👍 Yes", key="basic_yes"):
-                st.session_state.feedback_value_basic = "Helpful"
-
-        with col2:
-            if st.button("👎 No", key="basic_no"):
-                st.session_state.feedback_value_basic = "Not Helpful"
+with col2:
+    if st.button(
+        "👎 No",
+        key="basic_no",
+        type="primary" if st.session_state.feedback_value_basic == "Not Helpful" else "secondary"
+    ):
+        st.session_state.feedback_value_basic = "Not Helpful"
 
 
-    if st.session_state.feedback_value_basic:
+if st.session_state.feedback_value_basic:
 
-        comment = st.text_area(
-            "Tell us more (optional)",
-            placeholder="What worked well or what can be improved?",
-            key="basic_comment_box"
+    comment = st.text_area(
+        "Tell us more (optional)",
+        placeholder="What worked well or what can be improved?",
+        key="basic_comment_box"
+    )
+
+    if st.button("Submit Feedback", key="basic_submit"):
+
+        save_feedback(
+            parsed_json.get("policy_name", "Unknown"),
+            "Basic Report",
+            st.session_state.feedback_value_basic,
+            comment
         )
 
-        if st.button("Submit Feedback", key="basic_submit"):
-
-            save_feedback(
-                parsed_json.get("policy_name", "Unknown"),
-                "Basic Report",
-                st.session_state.feedback_value_basic,
-                comment
-            )
-
-            st.session_state.feedback_submitted_basic = True
-            st.success("Thanks for your feedback!")
+        st.session_state.feedback_submitted_basic = True
+        st.success("Thanks for your feedback!")
 
     st.markdown("---")
 
